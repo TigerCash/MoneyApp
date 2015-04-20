@@ -1,17 +1,27 @@
 package comp3710.csse.eng.auburn.edu.moneyapp;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class HomeActivity extends ActionBarActivity {
+public class HomeActivity extends ActionBarActivity implements RecentTransactionsFragment.OnFragmentInteractionListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+
+		FragmentManager fragmentManager = getFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+		RecentTransactionsFragment fragment = new RecentTransactionsFragment();
+		fragmentTransaction.add(R.id.widget_fragment_container, fragment);
+		fragmentTransaction.commit();
 	}
 
 
@@ -35,5 +45,9 @@ public class HomeActivity extends ActionBarActivity {
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	public void onFragmentInteraction(Uri uri) {
+
 	}
 }
