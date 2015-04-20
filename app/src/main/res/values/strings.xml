@@ -13,6 +13,7 @@
     <string name="name">Name</string>
     <string name="amount">Amount</string>
     <string name="category">Category</string>
-    <string name="all_transactions">All Transactions...</string>
+    <string name="type">Type</string>
+    <string name="all_transactions">All Transactions…</string>
 
 </resources>

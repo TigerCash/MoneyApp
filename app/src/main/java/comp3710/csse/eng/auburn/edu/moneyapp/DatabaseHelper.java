@@ -28,6 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String KEY_NAME = "name";
 	private static final String KEY_AMOUNT = "amount";
 	private static final String KEY_CATEGORY = "category";
+	private static final String KEY_TYPE = "type";
 
 
 	public DatabaseHelper(Context context) {
@@ -40,7 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		String CREATE_DBTRANSACTIONS_TABLE = "CREATE TABLE" + TABLE_TRANSACTIONS + "("
 				+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_DATE + " TEXT,"
 				+ KEY_NAME + " TEXT," + KEY_AMOUNT + " INTEGER,"
-				+ KEY_CATEGORY + " TEXT" + ")";
+				+ KEY_CATEGORY + " TEXT," + KEY_TYPE + " TEXT" + ")";
 		db.execSQL(CREATE_DBTRANSACTIONS_TABLE);
 	}
 
@@ -62,6 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		values.put(KEY_NAME, transaction.getName());
 		values.put(KEY_AMOUNT, transaction.getAmount());
 		values.put(KEY_CATEGORY, transaction.getCategory());
+		values.put(KEY_TYPE, transaction.getType());
 
 		db.insert(TABLE_TRANSACTIONS, null, values);
 		db.close();
@@ -71,7 +73,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 
 		Cursor cursor = db.query(TABLE_TRANSACTIONS, new String[] { KEY_ID,
-						KEY_DATE, KEY_NAME, KEY_AMOUNT, KEY_CATEGORY } , KEY_ID + "=?",
+						KEY_DATE, KEY_NAME, KEY_AMOUNT, KEY_CATEGORY, KEY_TYPE } , KEY_ID + "=?",
 				new String[] { String.valueOf(id) }, null, null, null, null);
 
 		Transaction transaction = null;
@@ -80,7 +82,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			cursor.moveToFirst();
 
 			transaction = new Transaction((Integer.parseInt(cursor.getString(0))),
-					cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4));
+					cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4),
+					cursor.getString(5));
 		}
 
 		return transaction;
@@ -102,6 +105,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				transaction.setName(cursor.getString(2));
 				transaction.setAmount(cursor.getInt(3));
 				transaction.setCategory(cursor.getString(4));
+				transaction.setType(cursor.getString(5));
 
 				transactionList.add(transaction);
 			} while (cursor.moveToNext());

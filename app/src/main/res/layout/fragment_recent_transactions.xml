@@ -46,6 +46,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="@string/type"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/category"/>
 
         </TableRow>
@@ -58,12 +64,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"/>
-
-    <!--<GridView
-        android:id="@+id/recent_transactions"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
-
-        </GridView>-->
 
 </LinearLayout>

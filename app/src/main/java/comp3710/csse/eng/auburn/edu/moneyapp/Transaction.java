@@ -9,24 +9,27 @@ public class Transaction {
 	String _name;
 	int _amount;
 	String _category;
+	String _type;
 
 	// Empty constructor
 	public Transaction(){
 	}
 
-	public Transaction(int id, String date, String name, int amount, String _category) {
+	public Transaction(int id, String date, String name, int amount, String category, String type) {
 		this._id = id;
 		this._date = date;
 		this._name = name;
 		this._amount = amount;
-		this._category = _category;
+		this._category = category;
+		this._type = type;
 	}
 
-	public Transaction(String date, String name, int amount, String _category) {
+	public Transaction(String date, String name, int amount, String category, String type) {
 		this._date = date;
 		this._name = name;
 		this._amount = amount;
-		this._category = _category;
+		this._category = category;
+		this._type = type;
 	}
 
 	public int getId() { return this._id; }
@@ -43,4 +46,7 @@ public class Transaction {
 
 	public String getCategory() { return this._category; }
 	public void setCategory(String category) { this._category = category; }
+
+	public String getType() { return this._type; }
+	public void setType(String type) { this._type = type; }
 }
