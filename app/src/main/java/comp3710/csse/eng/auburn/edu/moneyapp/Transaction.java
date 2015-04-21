@@ -2,20 +2,18 @@ package comp3710.csse.eng.auburn.edu.moneyapp;
 
 public class Transaction {
 
-	//private variables
-	int _id;
+	private int _id;
 
-	String _date;
-	String _name;
-	int _amount;
-	String _category;
-	String _type;
+	private String _date;
+	private String _name;
+	private int _amount;
+	private Category _category;
+	private String _type;
 
-	// Empty constructor
 	public Transaction(){
 	}
 
-	public Transaction(int id, String date, String name, int amount, String category, String type) {
+	public Transaction(int id, String date, String name, int amount, Category category, String type) {
 		this._id = id;
 		this._date = date;
 		this._name = name;
@@ -24,7 +22,7 @@ public class Transaction {
 		this._type = type;
 	}
 
-	public Transaction(String date, String name, int amount, String category, String type) {
+	public Transaction(String date, String name, int amount, Category category, String type) {
 		this._date = date;
 		this._name = name;
 		this._amount = amount;
@@ -44,8 +42,8 @@ public class Transaction {
 	public int getAmount() { return this._amount; }
 	public void setAmount(int amount) { this._amount = amount; }
 
-	public String getCategory() { return this._category; }
-	public void setCategory(String category) { this._category = category; }
+	public Category getCategory() { return this._category; }
+	public void setCategory(Category category) { this._category = category; }
 
 	public String getType() { return this._type; }
 	public void setType(String type) { this._type = type; }
