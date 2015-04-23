@@ -13,6 +13,8 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.TransactionTable;
+
 public class MoneyAppContentProvider extends ContentProvider {
 
 	// database

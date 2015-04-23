@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.TransactionTable;
+
 public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "moneyapp.db";

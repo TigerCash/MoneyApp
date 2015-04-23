@@ -9,27 +9,21 @@ public class Budget {
 	private String _start_date;
 	private String _end_date;
 	private int _amount;
-	private ArrayList<Category> _categories;
-	private ArrayList<Integer> _category_percentages;
 
 	public Budget(){
 	}
 
-	public Budget(int id, String startDate, String endDate, int amount, ArrayList<Category> categories, ArrayList<Integer> categoryPercentages) {
+	public Budget(int id, String startDate, String endDate, int amount) {
 		this._id = id;
 		this._start_date = startDate;
 		this._end_date = endDate;
 		this._amount = amount;
-		this._categories = categories;
-		this._category_percentages = categoryPercentages;
 	}
 
-	public Budget(String startDate, String endDate, int amount, ArrayList<Category> categories, ArrayList<Integer> categoryPercentages) {
+	public Budget(String startDate, String endDate, int amount) {
 		this._start_date = startDate;
 		this._end_date = endDate;
 		this._amount = amount;
-		this._categories = categories;
-		this._category_percentages = categoryPercentages;
 	}
 
 	public String getStartDate() {
@@ -54,22 +48,6 @@ public class Budget {
 
 	public void setAmount(int _amount) {
 		this._amount = _amount;
-	}
-
-	public ArrayList<Category> getCategories() {
-		return _categories;
-	}
-
-	public void setCategories(ArrayList<Category> _categories) {
-		this._categories = _categories;
-	}
-
-	public ArrayList<Integer> getCategoryPercentages() {
-		return _category_percentages;
-	}
-
-	public void setCategoryPercentages(ArrayList<Integer> _category_percentages) {
-		this._category_percentages = _category_percentages;
 	}
 
 }

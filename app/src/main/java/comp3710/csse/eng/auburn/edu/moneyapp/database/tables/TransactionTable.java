@@ -1,4 +1,4 @@
-package comp3710.csse.eng.auburn.edu.moneyapp.database;
+package comp3710.csse.eng.auburn.edu.moneyapp.database.tables;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -11,7 +11,7 @@ public class TransactionTable {
 	public static final String COLUMN_DATE = "date";
 	public static final String COLUMN_NAME = "name";
 	public static final String COLUMN_AMOUNT = "amount";
-	public static final String COLUMN_CATEGORY = "category";
+	public static final String COLUMN_CATEGORY_NAME = "category";
 	public static final String COLUMN_TYPE = "type";
 
 	// Database creation SQL statement
@@ -22,7 +22,8 @@ public class TransactionTable {
 			+ COLUMN_DATE + " text not null"
 			+ COLUMN_NAME + " text not null"
 			+ COLUMN_AMOUNT + "integer not null"
-			+ COLUMN_CATEGORY + " text not null, "
+			+ COLUMN_CATEGORY_NAME + " text not null"
+				+ " FOREIGN KEY REFERENCES " + CategoryTable.TABLE_CATEGORY + "(" + CategoryTable.COLUMN_NAME + "),"
 		    + COLUMN_TYPE + " text not null"
 			+ ");";
 
