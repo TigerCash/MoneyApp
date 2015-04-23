@@ -19,7 +19,7 @@
         <provider
             android:authorities="comp3710.csse.eng.auburn.edu.moneyapp.provider"
             android:multiprocess="true"
-            android:name="MoneyAppContentProvider">
+            android:name=".database.MoneyAppContentProvider">
         </provider>
     </application>
 

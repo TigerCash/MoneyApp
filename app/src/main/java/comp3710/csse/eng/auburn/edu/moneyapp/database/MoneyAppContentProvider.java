@@ -1,4 +1,4 @@
-package comp3710.csse.eng.auburn.edu.moneyapp;
+package comp3710.csse.eng.auburn.edu.moneyapp.database;
 
 import java.util.Arrays;
 import java.util.HashSet;

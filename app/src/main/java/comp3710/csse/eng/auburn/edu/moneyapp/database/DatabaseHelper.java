@@ -1,4 +1,4 @@
-package comp3710.csse.eng.auburn.edu.moneyapp;
+package comp3710.csse.eng.auburn.edu.moneyapp.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
