@@ -17,11 +17,11 @@ public class BudgetPortionTable {
 			+ TABLE_BUDGET_PORTION
 			+ "("
 			+ COLUMN_ID + " integer primary key autoincrement, "
-			+ COLUMN_BUDGET_ID + " text not null"
-				+ " FOREIGN KEY REFERENCES " + BudgetTable.TABLE_BUDGET + "(" + BudgetTable.COLUMN_ID + "),"
-			+ COLUMN_CATEGORY_NAME + " text not null"
-				+ " FOREIGN KEY REFERENCES " + CategoryTable.TABLE_CATEGORY + "(" + CategoryTable.COLUMN_NAME + "),"
-			+ COLUMN_PERCENTAGE + "integer not null"
+			+ COLUMN_BUDGET_ID + " text not null, "
+			+ COLUMN_CATEGORY_NAME + " text not null, "
+			+ COLUMN_PERCENTAGE + "integer not null, "
+			+ "FOREIGN KEY(" + COLUMN_BUDGET_ID + ") REFERENCES " + BudgetTable.TABLE_BUDGET + "(" + BudgetTable.COLUMN_ID + "), "
+			+ "FOREIGN KEY(" + COLUMN_CATEGORY_NAME + ") REFERENCES " + CategoryTable.TABLE_CATEGORY + "(" + CategoryTable.COLUMN_NAME + ")"
 			+ ");";
 
 	public static void onCreate(SQLiteDatabase database) {

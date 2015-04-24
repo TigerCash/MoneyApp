@@ -49,4 +49,14 @@ public class Transaction {
 
 	public String getType() { return this._type; }
 	public void setType(String type) { this._type = type; }
+
+	@Override
+	public String toString() {
+		return "\nid: " + _id
+			+ "\nDate: " + _date
+			+ "\nName: " + _name
+			+ "\nAmount: " + _amount
+			+ "\nCategory: " + _category.toString()
+			+ "\nType: " + _type;
+	}
 }

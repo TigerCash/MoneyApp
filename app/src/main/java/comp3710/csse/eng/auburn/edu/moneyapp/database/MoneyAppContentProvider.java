@@ -40,8 +40,14 @@ public class MoneyAppContentProvider extends ContentProvider {
 	private static final String BASE_PATH_BUDGET_PORTION = BudgetPortionTable.TABLE_BUDGET_PORTION;
 	private static final String BASE_PATH_CATEGORY = CategoryTable.TABLE_CATEGORY;
 
-	//public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
-	//		+ "/" + BASE_PATH);
+	public static final Uri CONTENT_URI_TRANSACTION = Uri.parse("content://" + AUTHORITY
+			+ "/" + BASE_PATH_TRANSACTION);
+	public static final Uri CONTENT_URI_BUDGET = Uri.parse("content://" + AUTHORITY
+			+ "/" + BASE_PATH_BUDGET);
+	public static final Uri CONTENT_URI_BUDGET_PORTION = Uri.parse("content://" + AUTHORITY
+			+ "/" + BASE_PATH_BUDGET_PORTION);
+	public static final Uri CONTENT_URI_CATEGORY = Uri.parse("content://" + AUTHORITY
+			+ "/" + BASE_PATH_CATEGORY);
 
 	//public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
 	//		+ "/" + TransactionTable.TABLE_TRANSACTION;

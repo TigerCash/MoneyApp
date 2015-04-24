@@ -18,8 +18,8 @@ public class BudgetTable {
 			+ TABLE_BUDGET
 			+ "("
 			+ COLUMN_ID + " integer primary key autoincrement, "
-			+ COLUMN_START_DATE + " text not null"
-			+ COLUMN_END_DATE + " text not null"
+			+ COLUMN_START_DATE + " text not null, "
+			+ COLUMN_END_DATE + " text not null, "
 			+ COLUMN_AMOUNT + "integer not null"
 			+ ");";
 

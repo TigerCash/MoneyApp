@@ -5,6 +5,8 @@ public class Category {
 
 	private String _name;
 
+	public Category() {};
+
 	public Category(String _name) {
 		this._name = _name;
 	}
