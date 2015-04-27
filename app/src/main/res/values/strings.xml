@@ -22,5 +22,7 @@
     <string name="pick_time">Choose Time</string>
     <string name="pick_date">Date</string>
     <string name="add_new_category">Add New Category</string>
+    <string name="title_activity_screen_slide_pager">ScreenSlidePagerActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

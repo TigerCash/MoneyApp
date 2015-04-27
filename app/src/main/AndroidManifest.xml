@@ -16,11 +16,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <provider
+            android:name=".database.MoneyAppContentProvider"
             android:authorities="comp3710.csse.eng.auburn.edu.moneyapp.provider"
-            android:multiprocess="true"
-            android:name=".database.MoneyAppContentProvider">
+            android:multiprocess="true" >
         </provider>
+
+        <activity
+            android:name=".ScreenSlidePagerActivity"
+            android:label="@string/title_activity_screen_slide_pager"
+            android:parentActivityName=".HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

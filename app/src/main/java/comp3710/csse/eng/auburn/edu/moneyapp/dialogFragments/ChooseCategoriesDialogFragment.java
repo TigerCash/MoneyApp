@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,7 +15,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
+import comp3710.csse.eng.auburn.edu.moneyapp.ScreenSlidePagerActivity;
 
 
 /**
@@ -28,31 +32,19 @@ import comp3710.csse.eng.auburn.edu.moneyapp.R;
 public class ChooseCategoriesDialogFragment extends DialogFragment {
 	// TODO: Rename parameter arguments, choose names that match
 	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-	private static final String ARG_PARAM1 = "param1";
-	private static final String ARG_PARAM2 = "param2";
+	private static final String ARG_TYPE = "type";
 
-	// TODO: Rename and change types of parameters
-	private String mParam1;
-	private String mParam2;
+	private String mType;
 
 	private OnFragmentInteractionListener mListener;
 	private LinearLayout checkboxLinearLayout;
 	private Button addNewCategoryButton;
 
-	/**
-	 * Use this factory method to create a new instance of
-	 * this fragment using the provided parameters.
-	 *
-	 * @param param1 Parameter 1.
-	 * @param param2 Parameter 2.
-	 * @return A new instance of fragment ChooseCategoriesDialogFragment.
-	 */
-	// TODO: Rename and change types and number of parameters
-	public static ChooseCategoriesDialogFragment newInstance(String param1, String param2) {
+
+	public static ChooseCategoriesDialogFragment newInstance(String type) {
 		ChooseCategoriesDialogFragment fragment = new ChooseCategoriesDialogFragment();
 		Bundle args = new Bundle();
-		args.putString(ARG_PARAM1, param1);
-		args.putString(ARG_PARAM2, param2);
+		args.putString(ARG_TYPE, type);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -65,8 +57,7 @@ public class ChooseCategoriesDialogFragment extends DialogFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null) {
-			mParam1 = getArguments().getString(ARG_PARAM1);
-			mParam2 = getArguments().getString(ARG_PARAM2);
+			mType = getArguments().getString(ARG_TYPE);
 		}
 	}
 
@@ -93,7 +84,51 @@ public class ChooseCategoriesDialogFragment extends DialogFragment {
 				.setPositiveButton("positive", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						// sign in the user ...
+
+						ArrayList<String> chosenCategories = new ArrayList<String>();
+
+						// Launch Add New Category Dialog for each category selected
+						int numberCheckboxes = checkboxLinearLayout.getChildCount();
+						for (int i = 0; i < numberCheckboxes; i++) {
+							CheckBox cb = (CheckBox) checkboxLinearLayout.getChildAt(i);
+							if (cb.isChecked()) {
+								chosenCategories.add(cb.getText().toString());
+							}
+						}
+
+						Intent intent = new Intent(getActivity(), ScreenSlidePagerActivity.class);
+						//EditText editText = (EditText) findViewById(R.id.edit_message);
+						//String message = editText.getText().toString();
+						intent.putExtra(ScreenSlidePagerActivity.NUM_PAGES, chosenCategories.size());
+						intent.putExtra(ScreenSlidePagerActivity.TYPE, mType);
+
+						intent.putExtra("test", "test");
+
+						/*ArrayList<String> names = new ArrayList<String>();
+
+						for (int i = 0; i < chosenCategories.size(); i++) {
+							names.add(chosenCategories.get(i));
+						}
+
+						// Object class does not implement Serializable interface
+						Bundle extraNames = new Bundle();
+						extraNames.putSerializable("names", names);
+						intent.putExtra("extraNames", extraNames);*/
+
+
+						// getActivity().startActivity(intent);
+						//startActivity(intent);
+
+						if (mListener != null) {
+							mListener.onFragmentInteraction2(chosenCategories, mType);
+						}
+
+						/*for (int i = 0; i < chosenCategories.size(); i++) {
+							DialogFragment populateTransactionDialog =
+									PopulateTransactionDialogFragment.newInstance(
+											chosenCategories.get(i), "type");
+							populateTransactionDialog.show(getActivity().getSupportFragmentManager(), "PopulateTransactionDialogFragment");
+						}*/
 					}
 				})
 				.setNegativeButton("negative", new DialogInterface.OnClickListener() {
@@ -106,7 +141,6 @@ public class ChooseCategoriesDialogFragment extends DialogFragment {
 
 	View.OnClickListener addNewCategoryHandler = new View.OnClickListener() {
 		public void onClick(View v) {
-			// it was the 1st button
 			// Create an instance of the dialog fragment and show it
 			DialogFragment dialog = new AddNewCategoryDialogFragment();
 			dialog.show(getActivity().getSupportFragmentManager(), "AddNewCategoryDialogFragment");
@@ -121,15 +155,8 @@ public class ChooseCategoriesDialogFragment extends DialogFragment {
 		CheckBox box = new CheckBox(this.getActivity());
 		checkboxLinearLayout.addView(box);
 
-		// TODO: Get categories
+		// TODO: Get all categories from database
 		// TODO: Add checkbox for each category
-	}
-
-	// TODO: Rename method, update argument and hook method into UI event
-	public void onButtonPressed(Uri uri) {
-		if (mListener != null) {
-			mListener.onFragmentInteraction2(uri);
-		}
 	}
 
 	@Override
@@ -161,7 +188,7 @@ public class ChooseCategoriesDialogFragment extends DialogFragment {
 	 */
 	public interface OnFragmentInteractionListener {
 		// TODO: Update argument type and name
-		public void onFragmentInteraction2(Uri uri);
+		public void onFragmentInteraction2(ArrayList<String> chosenCategories, String type);
 	}
 
 }

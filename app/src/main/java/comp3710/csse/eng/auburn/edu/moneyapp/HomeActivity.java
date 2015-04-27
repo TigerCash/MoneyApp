@@ -1,5 +1,6 @@
 package comp3710.csse.eng.auburn.edu.moneyapp;
 
+import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -74,7 +75,8 @@ public class HomeActivity extends ActionBarActivity
 		public void onClick(View v) {
 			// it was the 1st button
 			// Create an instance of the dialog fragment and show it
-			DialogFragment dialog = new ChooseCategoriesDialogFragment();
+			DialogFragment dialog = ChooseCategoriesDialogFragment.newInstance("withdrawal");
+			//DialogFragment dialog = new ChooseCategoriesDialogFragment();
 			dialog.show(getSupportFragmentManager(), "ChooseCategoriesDialogFragment");
 		}
 	};
@@ -118,8 +120,20 @@ public class HomeActivity extends ActionBarActivity
 
 	}
 
-	public void onFragmentInteraction2(Uri uri) {
+	public void onFragmentInteraction2(ArrayList<String> chosenCategories, String type) {
+		ArrayList<String> names = new ArrayList<String>();
 
+		for (int i = 0; i < chosenCategories.size(); i++) {
+			names.add(chosenCategories.get(i));
+		}
+
+		Intent intent = new Intent(this, ScreenSlidePagerActivity.class);
+		intent.putExtra(ScreenSlidePagerActivity.NUM_PAGES, chosenCategories.size());
+		intent.putExtra(ScreenSlidePagerActivity.TYPE, type);
+
+		intent.putStringArrayListExtra(ScreenSlidePagerActivity.NAMES, names);
+
+		startActivity(intent);
 	}
 
 	public void onFragmentInteraction3(Uri uri) {
