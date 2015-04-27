@@ -1,23 +1,38 @@
 package comp3710.csse.eng.auburn.edu.moneyapp;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.TimePickerDialog.OnTimeSetListener;
+import android.widget.TimePicker;
 
-import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.DatePickerFragment;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.TimePickerFragment;
 
-public class ScreenSlidePageFragment extends Fragment {
+public class ScreenSlidePageFragment extends Fragment implements View.OnClickListener {
 
 	private String mType;
 	private String mName;
 
-	private Button time_button;
-	private Button date_button;
+	private EditText time_text;
+	private EditText date_text;
+
+	private DatePickerDialog datePickerDialog;
+	private TimePickerDialog timePickerDialog;
+
+	private SimpleDateFormat dateFormatter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,11 +55,46 @@ public class ScreenSlidePageFragment extends Fragment {
 		categoryName.setText(mName);
 		transactionType.setText(mType);
 
-		time_button = (Button) rootView.findViewById(R.id.time_button);
-		date_button = (Button) rootView.findViewById(R.id.date_button);
-		time_button.setOnClickListener(timePickerHandler);
-		date_button.setOnClickListener(datePickerHandler);
+		time_text = (EditText) rootView.findViewById(R.id.time_text);
+		date_text = (EditText) rootView.findViewById(R.id.date_text);
+		/*time_text.setOnClickListener(timePickerHandler);
+		date_text.setOnClickListener(datePickerHandler);*/
+		time_text.setOnClickListener(this);
+		date_text.setOnClickListener(this);
 
+		//dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+		dateFormatter = new SimpleDateFormat("MM.dd.yyyy", Locale.US);
+
+		Calendar newCalendar = Calendar.getInstance();
+		datePickerDialog = new DatePickerDialog(getActivity(), new OnDateSetListener() {
+
+			public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+				Calendar newDate = Calendar.getInstance();
+				newDate.set(year, monthOfYear, dayOfMonth);
+				date_text.setText(dateFormatter.format(newDate.getTime()));
+			}
+
+		},newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+		timePickerDialog = new TimePickerDialog(getActivity(), new OnTimeSetListener() {
+
+			public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+				String am_pm = "";
+				Calendar newTime = Calendar.getInstance();
+				newTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+				newTime.set(Calendar.MINUTE, minute);
+
+				if (newTime.get(Calendar.AM_PM) == Calendar.AM)
+					am_pm = "AM";
+				else if (newTime.get(Calendar.AM_PM) == Calendar.PM)
+					am_pm = "PM";
+
+				String strHrsToShow = (newTime.get(Calendar.HOUR) == 0) ?"12":newTime.get(Calendar.HOUR)+"";
+				String strMinToShow = (newTime.get(Calendar.MINUTE) < 10) ? "0"+newTime.get(Calendar.MINUTE):newTime.get(Calendar.MINUTE)+"";
+
+				time_text.setText(strHrsToShow+":"+strMinToShow+" "+am_pm);
+			}
+		},newCalendar.get(Calendar.HOUR_OF_DAY), newCalendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(getActivity()));
 
 
 		return rootView;
@@ -73,12 +123,23 @@ public class ScreenSlidePageFragment extends Fragment {
 
 	View.OnClickListener datePickerHandler = new View.OnClickListener() {
 		public void onClick(View v) {
-			// it was the 1st button
+			/*// it was the 1st button
 			// Create an instance of the dialog fragment and show it
 			DialogFragment newFragment = new DatePickerFragment();
-			newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+			newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");*/
+
+
 		}
 	};
+
+	@Override
+	public void onClick(View view) {
+		if(view == date_text) {
+			datePickerDialog.show();
+		} else if(view == time_text) {
+			timePickerDialog.show();
+		}
+	}
 
 	public String getName() {
 		return mName;

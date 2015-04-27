@@ -36,17 +36,25 @@
             android:hint="@string/amount_hint"
             android:inputType="numberDecimal" />
 
-        <Button
-            android:id="@+id/time_button"
+        <EditText
+            android:id="@+id/time_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/pick_time" />
+            android:hint="@string/pick_time"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
 
-        <Button
-            android:id="@+id/date_button"
+        <EditText
+            android:id="@+id/date_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/pick_date"/>
+            android:hint="@string/pick_date"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
 
     </LinearLayout>
 
