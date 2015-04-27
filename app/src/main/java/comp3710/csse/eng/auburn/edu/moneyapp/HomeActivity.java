@@ -73,21 +73,14 @@ public class HomeActivity extends ActionBarActivity
 
 	View.OnClickListener withdrawalTransactionHandler = new View.OnClickListener() {
 		public void onClick(View v) {
-			// it was the 1st button
-			// Create an instance of the dialog fragment and show it
 			DialogFragment dialog = ChooseCategoriesDialogFragment.newInstance("withdrawal");
-			//DialogFragment dialog = new ChooseCategoriesDialogFragment();
 			dialog.show(getSupportFragmentManager(), "ChooseCategoriesDialogFragment");
 		}
 	};
 
 	View.OnClickListener depositTransactionHandler = new View.OnClickListener() {
 		public void onClick(View v) {
-			// it was the 2nd button
-			// Launch Choose Categories Dialog Fragment
-			// TODO: This is only a test, this shouldn't be here
-			// TODO: This should be called for each category for a new transaction
-			DialogFragment dialog = new PopulateTransactionDialogFragment();
+			DialogFragment dialog = ChooseCategoriesDialogFragment.newInstance("deposit");
 			dialog.show(getSupportFragmentManager(), "ChooseCategoriesDialogFragment");
 		}
 	};
