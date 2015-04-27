@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 
 
@@ -26,6 +28,7 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 	private String mParam2;
 
 	private OnFragmentInteractionListener mListener;
+	private OnAddCategoryListener mAddListener;
 	private EditText mNameEditText;
 
 	/**
@@ -56,6 +59,12 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 		if (getArguments() != null) {
 			mParam1 = getArguments().getString(ARG_PARAM1);
 			mParam2 = getArguments().getString(ARG_PARAM2);
+		}
+
+		try {
+			mAddListener = (OnAddCategoryListener) getTargetFragment();
+		} catch (ClassCastException e) {
+			throw new ClassCastException("Calling Fragment must implement OnAddFriendListener");
 		}
 	}
 
@@ -95,6 +104,7 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 						else {
 							if (mListener != null) {
 								mListener.addNewCategory(name);
+								mAddListener.refresh();
 							}
 						}
 					}
@@ -125,19 +135,13 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 		mListener = null;
 	}
 
-	/**
-	 * This interface must be implemented by activities that contain this
-	 * fragment to allow an interaction in this fragment to be communicated
-	 * to the activity and potentially other fragments contained in that
-	 * activity.
-	 * <p/>
-	 * See the Android Training lesson <a href=
-	 * "http://developer.android.com/training/basics/fragments/communicating.html"
-	 * >Communicating with Other Fragments</a> for more information.
-	 */
+
 	public interface OnFragmentInteractionListener {
-		// TODO: Update argument type and name
 		public void addNewCategory(String name);
+	}
+
+	public interface OnAddCategoryListener {
+		public void refresh();
 	}
 
 	private void warnDialogEmptyName() {
@@ -146,6 +150,7 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				// User clicked OK button
+
 			}
 		});
 		// Set other dialog properties

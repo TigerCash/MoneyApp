@@ -1,5 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/choose_categories_dialog"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context="comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.ChooseCategoriesDialogFragment">

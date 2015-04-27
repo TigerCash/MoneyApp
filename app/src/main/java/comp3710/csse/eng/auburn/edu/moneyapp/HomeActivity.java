@@ -142,5 +142,9 @@ public class HomeActivity extends ActionBarActivity
 
 	public void addNewCategory(String name) {
 		Log.d("home", "HomeActivity passed name: " + name);
+		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getApplicationContext());
+		helper.addCategory(new Category(name));
+
+		//((ChooseCategoriesDialogFragment) getSupportFragmentManager().findFragmentById(R.id.choose_categories_dialog)).refresh();
 	}
 }

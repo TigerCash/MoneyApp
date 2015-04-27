@@ -9,16 +9,20 @@ import android.support.v4.app.DialogFragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.ScreenSlidePagerActivity;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
 
 
 /**
@@ -29,7 +33,8 @@ import comp3710.csse.eng.auburn.edu.moneyapp.ScreenSlidePagerActivity;
  * Use the {@link ChooseCategoriesDialogFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ChooseCategoriesDialogFragment extends DialogFragment {
+public class ChooseCategoriesDialogFragment extends DialogFragment
+		implements AddNewCategoryDialogFragment.OnAddCategoryListener {
 	// TODO: Rename parameter arguments, choose names that match
 	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 	private static final String ARG_TYPE = "type";
@@ -141,8 +146,10 @@ public class ChooseCategoriesDialogFragment extends DialogFragment {
 
 	View.OnClickListener addNewCategoryHandler = new View.OnClickListener() {
 		public void onClick(View v) {
+
 			// Create an instance of the dialog fragment and show it
 			DialogFragment dialog = new AddNewCategoryDialogFragment();
+			dialog.setTargetFragment(ChooseCategoriesDialogFragment.this, 1);
 			dialog.show(getActivity().getSupportFragmentManager(), "AddNewCategoryDialogFragment");
 		}
 	};
@@ -151,12 +158,36 @@ public class ChooseCategoriesDialogFragment extends DialogFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		// use loop
-		CheckBox box = new CheckBox(this.getActivity());
-		checkboxLinearLayout.addView(box);
+		refresh();
+	}
 
-		// TODO: Get all categories from database
-		// TODO: Add checkbox for each category
+	public void refresh() {
+		if(checkboxLinearLayout.getChildCount() > 0)
+			checkboxLinearLayout.removeAllViews();
+
+		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
+		ArrayList<Category> categories = helper.getAllCategories();
+
+		CheckBox box;
+		for (int i = 0; i < categories.size(); i++) {
+			box = new CheckBox(this.getActivity());
+			box.setText(categories.get(i).getName());
+			checkboxLinearLayout.addView(box);
+		}
+	}
+
+
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		Log.d("chooseCategories", "onResume");
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		Log.d("chooseCategories", "onStart");
 	}
 
 	@Override

@@ -125,12 +125,16 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 
 
 	// Category CRUD
-	public int addCategory(Category category) {
+	public String addCategory(Category category) {
 		return CategoryHelper.addCategory(category, contentResolver);
 	}
 
 	public Category getCategory(int id) {
 		return CategoryHelper.getCategory(id, contentResolver);
+	}
+
+	public ArrayList<Category> getAllCategories() {
+		return CategoryHelper.getAllCategories(contentResolver);
 	}
 
 	public void deleteCategory(int id) {
