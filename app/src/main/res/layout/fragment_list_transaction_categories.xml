@@ -2,7 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="comp3710.csse.eng.auburn.edu.moneyapp.ListTransactionCategoriesFragment">
+             tools:context="comp3710.csse.eng.auburn.edu.moneyapp.addTransaction.ListTransactionCategoriesFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

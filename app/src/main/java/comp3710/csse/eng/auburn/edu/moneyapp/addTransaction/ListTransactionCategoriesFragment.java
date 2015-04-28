@@ -1,4 +1,4 @@
-package comp3710.csse.eng.auburn.edu.moneyapp;
+package comp3710.csse.eng.auburn.edu.moneyapp.addTransaction;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+
+import comp3710.csse.eng.auburn.edu.moneyapp.R;
 
 
 /**

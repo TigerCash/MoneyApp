@@ -1,4 +1,4 @@
-package comp3710.csse.eng.auburn.edu.moneyapp;
+package comp3710.csse.eng.auburn.edu.moneyapp.addTransaction;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 
+import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.AddNewCategoryDialogFragment;
