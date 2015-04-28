@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.AddNewCategoryDialogFragment;
 
 
@@ -21,7 +22,7 @@ public class AddTransactionActivity extends ActionBarActivity
 		AddNewCategoryDialogFragment.OnFragmentInteractionListener,
 		ListTransactionCategoriesFragment.OnFragmentInteractionListener {
 
-	public ArrayList<String> transactionCategories;
+	public ArrayList<Transaction> transactionCategories;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +60,8 @@ public class AddTransactionActivity extends ActionBarActivity
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void onAcceptTransactionCategories(ArrayList<String> chosenCategories) {
-		transactionCategories = chosenCategories;
+	public void onAcceptTransactionCategories(ArrayList<Transaction> categoryTransactions) {
+		transactionCategories = categoryTransactions;
 
 		// Create fragment and give it an argument specifying the article it should show
 		ListTransactionCategoriesFragment f = new ListTransactionCategoriesFragment();
@@ -84,7 +85,7 @@ public class AddTransactionActivity extends ActionBarActivity
 		//((ChooseCategoriesDialogFragment) getSupportFragmentManager().findFragmentById(R.id.choose_categories_dialog)).refresh();
 	}
 
-	public ArrayList<String> onFragmentInteraction8() {
+	public ArrayList<Transaction> onFragmentInteraction8() {
 		return transactionCategories;
 	}
 

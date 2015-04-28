@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.AddNewCategoryDialogFragment;
 
 
@@ -110,16 +111,21 @@ public class ChooseCategoriesFragment extends Fragment
 			if (mListener != null) {
 				ArrayList<String> chosenCategories = new ArrayList<String>();
 
-				// Launch Add New Category Dialog for each category selected
+				ArrayList<Transaction> categoryTransactions = new ArrayList<>();
+
 				int numberCheckboxes = checkboxLinearLayout.getChildCount();
 				for (int i = 0; i < numberCheckboxes; i++) {
 					CheckBox cb = (CheckBox) checkboxLinearLayout.getChildAt(i);
 					if (cb.isChecked()) {
-						chosenCategories.add(cb.getText().toString());
+						Transaction t = new Transaction();
+						t.setCategory(new Category(cb.getText().toString()));
+						categoryTransactions.add(t);
+						//chosenCategories.add(cb.getText().toString());
 					}
 				}
 
-				mListener.onAcceptTransactionCategories(chosenCategories);
+				//mListener.onAcceptTransactionCategories(chosenCategories);
+				mListener.onAcceptTransactionCategories(categoryTransactions);
 			}
 		}
 	};
@@ -175,7 +181,7 @@ public class ChooseCategoriesFragment extends Fragment
 	 */
 	public interface OnFragmentInteractionListener {
 		// TODO: Update argument type and name
-		public void onAcceptTransactionCategories(ArrayList<String> chosenCategories);
+		public void onAcceptTransactionCategories(ArrayList<Transaction> categoryTransactions);
 	}
 
 }
