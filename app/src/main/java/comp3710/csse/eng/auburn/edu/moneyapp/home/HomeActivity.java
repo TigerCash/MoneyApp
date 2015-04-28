@@ -1,7 +1,6 @@
-package comp3710.csse.eng.auburn.edu.moneyapp;
+package comp3710.csse.eng.auburn.edu.moneyapp.home;
 
 import android.content.Intent;
-import android.support.v4.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.net.Uri;
@@ -15,17 +14,17 @@ import android.widget.Button;
 
 import java.util.ArrayList;
 
+import comp3710.csse.eng.auburn.edu.moneyapp.addTransaction.AddTransactionActivity;
+import comp3710.csse.eng.auburn.edu.moneyapp.R;
+
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
-import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.AddNewCategoryDialogFragment;
-import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.ChooseCategoriesDialogFragment;
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.PopulateTransactionDialogFragment;
 
 
 public class HomeActivity extends ActionBarActivity
 		implements RecentTransactionsFragment.OnFragmentInteractionListener,
-		ChooseCategoriesDialogFragment.OnFragmentInteractionListener,
 		PopulateTransactionDialogFragment.OnFragmentInteractionListener {
 
 	Button withdrawal_button;
@@ -72,9 +71,6 @@ public class HomeActivity extends ActionBarActivity
 
 	View.OnClickListener withdrawalTransactionHandler = new View.OnClickListener() {
 		public void onClick(View v) {
-			/*DialogFragment dialog = ChooseCategoriesDialogFragment.newInstance("withdrawal");
-			dialog.show(getSupportFragmentManager(), "ChooseCategoriesDialogFragment");*/
-
 			Intent intent = new Intent(HomeActivity.this, AddTransactionActivity.class);
 
 			intent.putExtra("type", "withdrawal");
@@ -84,8 +80,6 @@ public class HomeActivity extends ActionBarActivity
 
 	View.OnClickListener depositTransactionHandler = new View.OnClickListener() {
 		public void onClick(View v) {
-			DialogFragment dialog = ChooseCategoriesDialogFragment.newInstance("deposit");
-			dialog.show(getSupportFragmentManager(), "ChooseCategoriesDialogFragment");
 		}
 	};
 
@@ -116,7 +110,7 @@ public class HomeActivity extends ActionBarActivity
 
 	}
 
-	public void onFragmentInteraction2(ArrayList<String> chosenCategories, String type) {
+	/*public void onFragmentInteraction2(ArrayList<String> chosenCategories, String type) {
 		ArrayList<String> names = new ArrayList<String>();
 
 		for (int i = 0; i < chosenCategories.size(); i++) {
@@ -130,7 +124,7 @@ public class HomeActivity extends ActionBarActivity
 		intent.putStringArrayListExtra(ScreenSlidePagerActivity.NAMES, names);
 
 		startActivity(intent);
-	}
+	}*/
 
 	public void onFragmentInteraction3(Uri uri) {
 
