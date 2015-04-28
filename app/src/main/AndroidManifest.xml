@@ -26,10 +26,14 @@
         <activity
             android:name=".ScreenSlidePagerActivity"
             android:label="@string/title_activity_screen_slide_pager"
-            android:parentActivityName=".HomeActivity">
+            android:parentActivityName=".HomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeActivity" />
+        </activity>
+        <activity
+            android:name=".AddTransactionActivity"
+            android:label="@string/title_activity_add_transaction" >
         </activity>
     </application>
 

@@ -1,0 +1,64 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical"
+             tools:context="comp3710.csse.eng.auburn.edu.moneyapp.ChooseCategoriesFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/choose_categories"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/checkbox_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:text="test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <CheckBox
+                android:text="test2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <CheckBox
+                android:text="test3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <CheckBox
+                android:text="test4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <CheckBox
+                android:text="test5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/add_new_category_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_new_category"/>
+
+    <Button
+        android:id="@+id/accept_categories"
+        android:text="Accept Categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

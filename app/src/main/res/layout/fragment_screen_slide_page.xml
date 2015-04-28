@@ -56,6 +56,14 @@
             android:focusable="false"
             android:focusableInTouchMode="false"/>
 
+        <TextView
+            android:id="@+id/accept_transaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/accept_transaction"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
     </LinearLayout>
 
 </ScrollView>

@@ -1,10 +1,13 @@
 package comp3710.csse.eng.auburn.edu.moneyapp;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +37,8 @@ public class ScreenSlidePageFragment extends Fragment implements View.OnClickLis
 
 	private SimpleDateFormat dateFormatter;
 
+	private OnScreenSlidePageFragmentInteractionListener mListener;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,6 +59,9 @@ public class ScreenSlidePageFragment extends Fragment implements View.OnClickLis
 		TextView transactionType = (TextView) rootView.findViewById(R.id.transaction_type);
 		categoryName.setText(mName);
 		transactionType.setText(mType);
+
+		TextView acceptTransaction = (TextView) rootView.findViewById(R.id.accept_transaction);
+		acceptTransaction.setOnClickListener(acceptTransactionHandler);
 
 		time_text = (EditText) rootView.findViewById(R.id.time_text);
 		date_text = (EditText) rootView.findViewById(R.id.date_text);
@@ -131,6 +139,35 @@ public class ScreenSlidePageFragment extends Fragment implements View.OnClickLis
 
 		}
 	};
+
+	View.OnClickListener acceptTransactionHandler = new View.OnClickListener() {
+		public void onClick(View v) {
+			Log.d("screenSlide", "accept");
+			//getActivity().
+		}
+	};
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			mListener = (OnScreenSlidePageFragmentInteractionListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement OnFragmentInteractionListener");
+		}
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		mListener = null;
+	}
+
+
+	public interface OnScreenSlidePageFragmentInteractionListener {
+		public void removePage(Fragment fragment);
+	}
 
 	@Override
 	public void onClick(View view) {

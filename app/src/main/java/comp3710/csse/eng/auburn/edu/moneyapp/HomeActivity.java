@@ -26,8 +26,7 @@ import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.PopulateTransaction
 public class HomeActivity extends ActionBarActivity
 		implements RecentTransactionsFragment.OnFragmentInteractionListener,
 		ChooseCategoriesDialogFragment.OnFragmentInteractionListener,
-		PopulateTransactionDialogFragment.OnFragmentInteractionListener,
-		AddNewCategoryDialogFragment.OnFragmentInteractionListener {
+		PopulateTransactionDialogFragment.OnFragmentInteractionListener {
 
 	Button withdrawal_button;
 	Button deposit_button;
@@ -73,8 +72,13 @@ public class HomeActivity extends ActionBarActivity
 
 	View.OnClickListener withdrawalTransactionHandler = new View.OnClickListener() {
 		public void onClick(View v) {
-			DialogFragment dialog = ChooseCategoriesDialogFragment.newInstance("withdrawal");
-			dialog.show(getSupportFragmentManager(), "ChooseCategoriesDialogFragment");
+			/*DialogFragment dialog = ChooseCategoriesDialogFragment.newInstance("withdrawal");
+			dialog.show(getSupportFragmentManager(), "ChooseCategoriesDialogFragment");*/
+
+			Intent intent = new Intent(HomeActivity.this, AddTransactionActivity.class);
+
+			intent.putExtra("type", "withdrawal");
+			startActivity(intent);
 		}
 	};
 
@@ -132,11 +136,5 @@ public class HomeActivity extends ActionBarActivity
 
 	}
 
-	public void addNewCategory(String name) {
-		Log.d("home", "HomeActivity passed name: " + name);
-		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getApplicationContext());
-		helper.addCategory(new Category(name));
 
-		//((ChooseCategoriesDialogFragment) getSupportFragmentManager().findFragmentById(R.id.choose_categories_dialog)).refresh();
-	}
 }

@@ -64,7 +64,7 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 		try {
 			mAddListener = (OnAddCategoryListener) getTargetFragment();
 		} catch (ClassCastException e) {
-			throw new ClassCastException("Calling Fragment must implement OnAddFriendListener");
+			throw new ClassCastException("Calling Fragment must implement OnAddCategoryListener");
 		}
 	}
 
@@ -104,6 +104,8 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 						else {
 							if (mListener != null) {
 								mListener.addNewCategory(name);
+							}
+							if (mAddListener != null) {
 								mAddListener.refresh();
 							}
 						}

@@ -1,6 +1,7 @@
 package comp3710.csse.eng.auburn.edu.moneyapp;
 
 //import android.app.ActionBar;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v7.app.ActionBar;
 import android.content.Intent;
@@ -15,11 +16,13 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.ArrayList;
 
 
-public class ScreenSlidePagerActivity extends FragmentActivity {
+public class ScreenSlidePagerActivity extends FragmentActivity
+		implements ScreenSlidePageFragment.OnScreenSlidePageFragmentInteractionListener {
 	/**
 	 * The number of pages (wizard steps) to show in this demo.
 	 */
@@ -37,13 +40,9 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
 	 * and next wizard steps.
 	 */
 	private ViewPager mPager;
-	//private PagerTitleStrip mPagerTitleStrip;
-
-
-	/**
-	 * The pager adapter, which provides the pages to the view pager widget.
-	 */
 	private PagerAdapter mPagerAdapter;
+
+	private ArrayList<Fragment> screenSlidePageFragments = new ArrayList<Fragment>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,60 +78,9 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
 		//mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
 		mPager.setAdapter(mPagerAdapter);
 
-
-		/*// Action Bar Tabs
-		final ActionBar actionBar = getSupportActionBar();
-
-		// Specify that tabs should be displayed in the action bar.
-
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-
-		// Create a tab listener that is called when the user changes tabs.
-		ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-
-			@Override
-			public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-				mPager.setCurrentItem(tab.getPosition());
-			}
-
-			@Override
-			public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
-			}
-
-			@Override
-			public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
-			}
-		};
-
-		mPager.setOnPageChangeListener(
-			new ViewPager.SimpleOnPageChangeListener() {
-				@Override
-				public void onPageSelected(int position) {
-					// When swiping between pages, select the
-					// corresponding tab.
-					getSupportActionBar().setSelectedNavigationItem(position);
-				}
-		});
-
-
-		// Add 3 tabs, specifying the tab's text and TabListener
-		for (int i = 0; i < mNumPages; i++) {
-			actionBar.addTab(
-					actionBar.newTab()
-							.setText("Tab " + (i + 1))
-							.setTabListener(tabListener));
-		}*/
 	}
 
-	/*@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.gesture, menu);
-		return true;
-	}*/
+
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -158,13 +106,33 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
 		}
 	}
 
+	public void removePage(Fragment fragment) {
+		screenSlidePageFragments.remove(fragment);
+		mPagerAdapter.notifyDataSetChanged();
+		/*
+		if ((position >= 0) && (position < getSize()) && (getSize() > 1)) {
+			if (position == mPager.getCurrentItem()) {
+				if(position == (getSize()-1)) {
+					mPager.setCurrentItem(position-1);
+				} else if (position == 0){
+					mPager.setCurrentItem(1);
+				}
+			}
+			screenSlidePageFragments.remove(position);
+			mPagerAdapter.notifyDataSetChanged();
+		}*/
+	}
+
+	public int getSize() {
+		return screenSlidePageFragments.size();
+	}
+
 	/**
 	 * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
 	 * sequence.
 	 */
-	private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-		private ArrayList<Fragment> screenSlidePageFragments =
-				new ArrayList<Fragment>();
+	private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
+
 
 		public ScreenSlidePagerAdapter(FragmentManager fm, ArrayList<String> categoryNames, String type) {
 			super(fm);
@@ -175,9 +143,10 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
 			}
 		}
 
-		/*public ScreenSlidePagerAdapter(FragmentManager fm) {
+		public ScreenSlidePagerAdapter(FragmentManager fm) {
 			super(fm);
-		}*/
+		}
+
 
 		@Override
 		public Fragment getItem(int position) {
