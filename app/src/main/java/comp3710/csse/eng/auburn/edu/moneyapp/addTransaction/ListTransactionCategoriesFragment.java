@@ -8,10 +8,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
 
 
 /**
@@ -33,6 +37,9 @@ public class ListTransactionCategoriesFragment extends Fragment {
 	private String mParam2;
 
 	private OnFragmentInteractionListener mListener;
+	private TableLayout mTable;
+
+	private ArrayList<Transaction> mTransactionCategories = new ArrayList<>();
 
 	/**
 	 * Use this factory method to create a new instance of
@@ -70,8 +77,61 @@ public class ListTransactionCategoriesFragment extends Fragment {
 	                         Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_list_transaction_categories, container, false);
 
+
+
 		if (mListener != null) {
-			Log.d("listTrans", mListener.onFragmentInteraction8().get(0));
+			mTransactionCategories = mListener.onFragmentInteraction8();
+			//Log.d("listTrans", mListener.onFragmentInteraction8().get(0));
+		}
+
+		mTable = (TableLayout) v.findViewById(R.id.category_table);
+
+		TableRow tableRow;
+		TextView textView;
+
+		for (int i = 0; i < mTransactionCategories.size(); i++) {
+
+			tableRow = new TableRow(getActivity());
+			tableRow.setTag(i);
+
+			textView = new TextView(getActivity());
+			textView.setText(mTransactionCategories.get(i).getCategory().getName());
+			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+
+
+			textView = new TextView(getActivity());
+			int amount = mTransactionCategories.get(i).getAmount();
+			textView.setText(Integer.toString(amount));
+			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+			textView = new TextView(getActivity());
+			String complete = "";
+			String transactionName = mTransactionCategories.get(i).getName();
+			String transactionDate = mTransactionCategories.get(i).getDate();
+			if (transactionName != null && transactionDate != null) {
+				complete = "Complete";
+			}
+			else {
+				complete = "Incomplete";
+			}
+			textView.setText(complete);
+			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+			tableRow.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					TableRow tableRow = ((TableRow)v);
+					TextView nameTextView = (TextView) tableRow.getChildAt(0);
+					Log.d("list", "The name is" + nameTextView.getText().toString());
+					int rowIndex = (int)tableRow.getTag();
+					Log.d("list", Integer.toString(rowIndex));
+					// Populate Transaction
+				}
+			});
+
+			mTable.addView(tableRow);
+
 		}
 
 
@@ -129,7 +189,7 @@ public class ListTransactionCategoriesFragment extends Fragment {
 	 */
 	public interface OnFragmentInteractionListener {
 		// TODO: Update argument type and name
-		public ArrayList<String> onFragmentInteraction8();
+		public ArrayList<comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction> onFragmentInteraction8();
 	}
 
 }
