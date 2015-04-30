@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -40,6 +41,7 @@ public class ListTransactionCategoriesFragment extends Fragment {
 
 	private OnFragmentInteractionListener mListener;
 	private TableLayout mTable;
+	private Button mCompleteTransactionsButton;
 
 	private ArrayList<Transaction> mTransactionCategories = new ArrayList<>();
 
@@ -79,6 +81,9 @@ public class ListTransactionCategoriesFragment extends Fragment {
 	                         Bundle savedInstanceState) {
 
 		View v = inflater.inflate(R.layout.fragment_list_transaction_categories, container, false);
+
+		mCompleteTransactionsButton = (Button) v.findViewById(R.id.complete_transactions_button);
+		mCompleteTransactionsButton.setOnClickListener(completeTransactionsHandler);
 
 
 		if (mListener != null) {
@@ -177,12 +182,15 @@ public class ListTransactionCategoriesFragment extends Fragment {
 		return v;
 	}
 
-	// TODO: Rename method, update argument and hook method into UI event
-	public void onButtonPressed(Uri uri) {
-		if (mListener != null) {
-			mListener.onFragmentInteraction8();
+
+	View.OnClickListener completeTransactionsHandler = new View.OnClickListener() {
+		public void onClick(View v) {
+			// it was the 1st button
+			if (mListener != null) {
+				mListener.onCompleteTransactions();
+			}
 		}
-	}
+	};
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -213,8 +221,9 @@ public class ListTransactionCategoriesFragment extends Fragment {
 	 */
 	public interface OnFragmentInteractionListener {
 		// TODO: Update argument type and name
-		public ArrayList<comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction> onFragmentInteraction8();
+		public ArrayList<Transaction> onFragmentInteraction8();
 		public void onEditTransaction(int transactionIndex);
+		public void onCompleteTransactions();
 	}
 
 }
