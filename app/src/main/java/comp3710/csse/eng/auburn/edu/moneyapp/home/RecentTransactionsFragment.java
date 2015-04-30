@@ -94,19 +94,6 @@ public class RecentTransactionsFragment extends Fragment {
 			tableRow.setTag(i);
 
 			textView = new TextView(getActivity());
-			textView.setText(recentTransactions.get(i).getCategory().getName());
-			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
-
-			textView = new TextView(getActivity());
-			textView.setText(recentTransactions.get(i).getName());
-			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
-
-			textView = new TextView(getActivity());
-			int amount = recentTransactions.get(i).getAmount();
-			textView.setText(Integer.toString(amount));
-			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
-
-			textView = new TextView(getActivity());
 			textView.setText(recentTransactions.get(i).getDate());
 			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
 
@@ -115,7 +102,25 @@ public class RecentTransactionsFragment extends Fragment {
 			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
 
 			textView = new TextView(getActivity());
-			textView.setText(recentTransactions.get(i).getType());
+			textView.setText(recentTransactions.get(i).getName());
+			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+
+			textView = new TextView(getActivity());
+			int amount = recentTransactions.get(i).getAmount();
+			String amountString = "";
+			String type = recentTransactions.get(i).getType();
+			if (type.equals("withdrawal")) {
+				amountString = "-" + Integer.toString(amount);
+			}
+			else if (type.equals("deposit")) {
+				amountString = "+" + Integer.toString(amount);
+			}
+			textView.setText(amountString);
+			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+			textView = new TextView(getActivity());
+			textView.setText(recentTransactions.get(i).getCategory().getName());
 			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
 
 
