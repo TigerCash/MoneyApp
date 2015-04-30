@@ -52,6 +52,10 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 		CategoryTable.onUpgrade(database, oldVersion, newVersion);
 	}
 
+	public int getBalance() {
+		return TransactionHelper.getBalance(contentResolver);
+	}
+
 	// CRUD methods - stub here and call external helper file per table
 
 	public ArrayList<Transaction> getAllTransactions() {

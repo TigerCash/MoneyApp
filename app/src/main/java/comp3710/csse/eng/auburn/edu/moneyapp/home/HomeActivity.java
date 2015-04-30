@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,7 @@ public class HomeActivity extends ActionBarActivity
 		implements RecentTransactionsFragment.OnFragmentInteractionListener,
 		PopulateTransactionDialogFragment.OnFragmentInteractionListener {
 
+	TextView balance_text;
 	Button withdrawal_button;
 	Button deposit_button;
 
@@ -41,6 +43,7 @@ public class HomeActivity extends ActionBarActivity
 		RecentTransactionsFragment fragment = new RecentTransactionsFragment();
 		fragmentTransaction.add(R.id.widget_fragment_container, fragment);
 		fragmentTransaction.commit();
+
 
 		/*MoneyAppDatabaseHelper help = new MoneyAppDatabaseHelper(getApplicationContext());
 		help.onUpgrade(help.getWritableDatabase(), 1, 1);
@@ -60,6 +63,10 @@ public class HomeActivity extends ActionBarActivity
 
 		for (Transaction transaction : transactions)
 			Log.d("db6", transaction.toString());*/
+
+		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getApplicationContext());
+		balance_text = (TextView) findViewById(R.id.balance_text);
+		balance_text.setText(Integer.toString(helper.getBalance()));
 
 
 		withdrawal_button = (Button) findViewById(R.id.withdrawal_button);
