@@ -24,6 +24,45 @@ public final class TransactionHelper {
 	private TransactionHelper() {
 	}
 
+	public static int getBalance(ContentResolver contentResolver) {
+		ArrayList<Transaction> withdrawalTransactions = getAllTransactionsOfType(contentResolver, "withdrawal");
+		ArrayList<Transaction> depositTransactions = getAllTransactionsOfType(contentResolver, "deposit");
+
+		int balance = 0;
+
+		for (int i = 0; i < withdrawalTransactions.size(); i++) {
+			balance -= withdrawalTransactions.get(i).getAmount();
+		}
+
+		for (int i = 0; i < depositTransactions.size(); i++) {
+			balance += depositTransactions.get(i).getAmount();
+		}
+
+		return balance;
+	}
+
+	public static ArrayList<Transaction> getAllTransactionsOfType(ContentResolver contentResolver, String type) {
+		String[] projection = {TransactionTable.COLUMN_ID, TransactionTable.COLUMN_DATE,
+				TransactionTable.COLUMN_TIME,
+				TransactionTable.COLUMN_NAME, TransactionTable.COLUMN_AMOUNT,
+				TransactionTable.COLUMN_CATEGORY_NAME, TransactionTable.COLUMN_TYPE};
+
+		String selection = TransactionTable.COLUMN_TYPE + " = '" + type + "'";
+
+		Cursor cursor = contentResolver.query(CONTENT_URI,
+				projection, selection, null, null);
+
+		ArrayList<Transaction> transactionList = new ArrayList<Transaction>();
+
+		while (cursor.moveToNext()) {
+			Transaction transaction = getTransaction(cursor);
+			transactionList.add(transaction);
+		}
+
+		cursor.close();
+		return transactionList;
+	}
+
 	public static int addTransaction(Transaction transaction, ContentResolver contentResolver) {
 		ContentValues values = new ContentValues();
 
