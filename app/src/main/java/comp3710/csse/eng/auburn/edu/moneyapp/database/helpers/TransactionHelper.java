@@ -27,6 +27,7 @@ public final class TransactionHelper {
 		ContentValues values = new ContentValues();
 
 		//values.put(TransactionTable.COLUMN_ID, transaction.getId());
+		// Removed above statement because it will always insert a 0 - we dont want this
 		values.put(TransactionTable.COLUMN_DATE, transaction.getDate());
 		values.put(TransactionTable.COLUMN_TIME, transaction.getTime());
 		values.put(TransactionTable.COLUMN_NAME, transaction.getName());
