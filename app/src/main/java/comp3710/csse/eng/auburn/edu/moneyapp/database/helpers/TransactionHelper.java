@@ -84,7 +84,7 @@ public final class TransactionHelper {
 
 		transaction.setId(cursor.getInt(cursor.getColumnIndex(TransactionTable.COLUMN_ID)));
 		transaction.setDate(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_DATE)));
-		transaction.setDate(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_TIME)));
+		transaction.setTime(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_TIME)));
 		transaction.setName(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_NAME)));
 		transaction.setAmount(cursor.getInt(cursor.getColumnIndex(TransactionTable.COLUMN_AMOUNT)));
 		transaction.setCategory(new Category(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_CATEGORY_NAME))));
