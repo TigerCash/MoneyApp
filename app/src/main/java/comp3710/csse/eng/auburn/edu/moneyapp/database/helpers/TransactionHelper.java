@@ -121,7 +121,9 @@ public final class TransactionHelper {
 				TransactionTable.COLUMN_CATEGORY_NAME, TransactionTable.COLUMN_TYPE};
 
 		String selection = null;
-		String sortOrder = TransactionTable.COLUMN_DATE + " DESC, " + TransactionTable.COLUMN_TIME + " DESC;";
+		String sortOrder = TransactionTable.COLUMN_DATE + " DESC, "
+				         + TransactionTable.COLUMN_TIME + " DESC "
+						 + "LIMIT " + numberOfTransactions + ";";
 
 		Cursor cursor = contentResolver.query(CONTENT_URI,
 				projection, selection, null, sortOrder);
