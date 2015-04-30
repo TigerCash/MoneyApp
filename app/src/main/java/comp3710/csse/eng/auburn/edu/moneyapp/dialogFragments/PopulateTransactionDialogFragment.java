@@ -88,8 +88,8 @@ public class PopulateTransactionDialogFragment extends DialogFragment {
 		// Inflate and set the layout for the dialog
 		View v = inflater.inflate(R.layout.fragment_populate_transaction_dialog, null);
 
-		time_button = (Button) v.findViewById(R.id.time_button);
-		date_button = (Button) v.findViewById(R.id.date_button);
+		time_button = (Button) v.findViewById(R.id.time_text);
+		date_button = (Button) v.findViewById(R.id.date_text);
 		time_button.setOnClickListener(timePickerHandler);
 		date_button.setOnClickListener(datePickerHandler);
 

@@ -9,6 +9,7 @@ public class TransactionTable {
 	public static final String TABLE_TRANSACTION = "transactions";
 	public static final String COLUMN_ID = "_id";
 	public static final String COLUMN_DATE = "date";
+	public static final String COLUMN_TIME = "time";
 	public static final String COLUMN_NAME = "name";
 	public static final String COLUMN_AMOUNT = "amount";
 	public static final String COLUMN_CATEGORY_NAME = "category";
@@ -20,6 +21,7 @@ public class TransactionTable {
 			+ " ("
 			+ COLUMN_ID + " integer primary key autoincrement, "
 			+ COLUMN_DATE + " text not null, "
+			+ COLUMN_TIME + " text not null, "
 			+ COLUMN_NAME + " text not null, "
 			+ COLUMN_AMOUNT + " integer not null, "
 			+ COLUMN_CATEGORY_NAME + " text not null, "

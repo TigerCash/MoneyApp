@@ -44,7 +44,7 @@ public class HomeActivity extends ActionBarActivity
 
 		MoneyAppDatabaseHelper help = new MoneyAppDatabaseHelper(getApplicationContext());
 		//help.onUpgrade(help.getWritableDatabase(), 1, 1);
-		Transaction t = new Transaction(3, "date", "na3", 5, new Category("cat"), "type");
+		Transaction t = new Transaction(3, "date", "time", "na3", 5, new Category("cat"), "type");
 		help.addTransaction(t);
 
 		Transaction newt = help.getTransaction(t.getId());

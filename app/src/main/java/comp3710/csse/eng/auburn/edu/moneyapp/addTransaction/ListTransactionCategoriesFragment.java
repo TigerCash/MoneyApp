@@ -75,8 +75,8 @@ public class ListTransactionCategoriesFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_list_transaction_categories, container, false);
 
+		View v = inflater.inflate(R.layout.fragment_list_transaction_categories, container, false);
 
 
 		if (mListener != null) {
@@ -124,9 +124,12 @@ public class ListTransactionCategoriesFragment extends Fragment {
 					TableRow tableRow = ((TableRow)v);
 					TextView nameTextView = (TextView) tableRow.getChildAt(0);
 					Log.d("list", "The name is" + nameTextView.getText().toString());
-					int rowIndex = (int)tableRow.getTag();
-					Log.d("list", Integer.toString(rowIndex));
+					int transactionRowIndex = (int)tableRow.getTag();
+					Log.d("list", Integer.toString(transactionRowIndex));
 					// Populate Transaction
+					if (mListener != null) {
+						mListener.onEditTransaction(transactionRowIndex);
+					}
 				}
 			});
 
@@ -190,6 +193,7 @@ public class ListTransactionCategoriesFragment extends Fragment {
 	public interface OnFragmentInteractionListener {
 		// TODO: Update argument type and name
 		public ArrayList<comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction> onFragmentInteraction8();
+		public void onEditTransaction(int transactionIndex);
 	}
 
 }

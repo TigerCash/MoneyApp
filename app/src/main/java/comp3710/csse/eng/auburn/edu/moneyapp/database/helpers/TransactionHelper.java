@@ -28,6 +28,7 @@ public final class TransactionHelper {
 
 		values.put(TransactionTable.COLUMN_ID, transaction.getId());
 		values.put(TransactionTable.COLUMN_DATE, transaction.getDate());
+		values.put(TransactionTable.COLUMN_TIME, transaction.getTime());
 		values.put(TransactionTable.COLUMN_NAME, transaction.getName());
 		values.put(TransactionTable.COLUMN_AMOUNT, transaction.getAmount());
 		values.put(TransactionTable.COLUMN_CATEGORY_NAME, transaction.getCategory().toString());
@@ -40,6 +41,7 @@ public final class TransactionHelper {
 
 	public static Transaction getTransaction(int id, ContentResolver contentResolver) {
 		String[] projection = {TransactionTable.COLUMN_ID, TransactionTable.COLUMN_DATE,
+				TransactionTable.COLUMN_TIME,
 				TransactionTable.COLUMN_NAME, TransactionTable.COLUMN_AMOUNT,
 				TransactionTable.COLUMN_CATEGORY_NAME, TransactionTable.COLUMN_TYPE};
 
@@ -80,6 +82,7 @@ public final class TransactionHelper {
 
 		transaction.setId(cursor.getInt(cursor.getColumnIndex(TransactionTable.COLUMN_ID)));
 		transaction.setDate(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_DATE)));
+		transaction.setDate(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_TIME)));
 		transaction.setName(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_NAME)));
 		transaction.setAmount(cursor.getInt(cursor.getColumnIndex(TransactionTable.COLUMN_AMOUNT)));
 		transaction.setCategory(new Category(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_CATEGORY_NAME))));
@@ -90,6 +93,7 @@ public final class TransactionHelper {
 
 	public static ArrayList<Transaction> getAllTransactions(ContentResolver contentResolver) {
 		String[] projection = {TransactionTable.COLUMN_ID, TransactionTable.COLUMN_DATE,
+				TransactionTable.COLUMN_TIME,
 				TransactionTable.COLUMN_NAME, TransactionTable.COLUMN_AMOUNT,
 				TransactionTable.COLUMN_CATEGORY_NAME, TransactionTable.COLUMN_TYPE};
 
@@ -140,6 +144,7 @@ public final class TransactionHelper {
 		ContentValues values = new ContentValues();
 
 		values.put(TransactionTable.COLUMN_DATE, transaction.getDate());
+		values.put(TransactionTable.COLUMN_TIME, transaction.getTime());
 		values.put(TransactionTable.COLUMN_NAME, transaction.getName());
 		values.put(TransactionTable.COLUMN_AMOUNT, transaction.getAmount());
 		values.put(TransactionTable.COLUMN_CATEGORY_NAME, transaction.getCategory().toString());

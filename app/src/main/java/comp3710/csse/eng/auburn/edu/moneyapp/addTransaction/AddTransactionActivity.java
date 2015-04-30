@@ -20,7 +20,8 @@ import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.AddNewCategoryDialo
 public class AddTransactionActivity extends ActionBarActivity
 		implements ChooseCategoriesFragment.OnFragmentInteractionListener,
 		AddNewCategoryDialogFragment.OnFragmentInteractionListener,
-		ListTransactionCategoriesFragment.OnFragmentInteractionListener {
+		ListTransactionCategoriesFragment.OnFragmentInteractionListener,
+		PopulateTransactionFragment.OnFragmentInteractionListener {
 
 	public ArrayList<Transaction> transactionCategories;
 
@@ -88,6 +89,54 @@ public class AddTransactionActivity extends ActionBarActivity
 	public ArrayList<Transaction> onFragmentInteraction8() {
 		return transactionCategories;
 	}
+
+	public void onEditTransaction(int transactionIndex) {
+
+		Transaction t = transactionCategories.get(transactionIndex);
+
+		// Create fragment and give it an argument specifying the article it should show
+		PopulateTransactionFragment f = PopulateTransactionFragment.newInstance(t, transactionIndex);
+
+		/*Bundle args = new Bundle();
+		args.putInt("index", transactionIndex);
+		args.putString("category", t.getCategory().getName());
+		args.putString("type", t.getType());
+
+		f.setArguments(args);*/
+
+
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+		// Replace whatever is in the fragment_container view with this fragment,
+		// and add the transaction to the back stack so the user can navigate back
+		transaction.replace(R.id.fragment_container, f);
+		transaction.addToBackStack(null);
+
+		// Commit the transaction
+		transaction.commit();
+	}
+
+	public void onCompleteTransaction(Transaction t, int index) {
+
+		int i = 0;
+
+		transactionCategories.set(index, t);
+
+		// Create fragment and give it an argument specifying the article it should show
+		ListTransactionCategoriesFragment f = new ListTransactionCategoriesFragment();
+
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+		// Replace whatever is in the fragment_container view with this fragment,
+		// and add the transaction to the back stack so the user can navigate back
+		transaction.replace(R.id.fragment_container, f);
+		transaction.addToBackStack(null);
+
+		// Commit the transaction
+		transaction.commit();
+	}
+
+
 
 
 }
