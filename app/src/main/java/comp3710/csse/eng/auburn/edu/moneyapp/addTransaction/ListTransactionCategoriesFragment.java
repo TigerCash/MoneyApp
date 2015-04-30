@@ -1,6 +1,8 @@
 package comp3710.csse.eng.auburn.edu.moneyapp.addTransaction;
 
 import android.app.Activity;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -98,7 +100,9 @@ public class ListTransactionCategoriesFragment extends Fragment {
 			textView.setText(mTransactionCategories.get(i).getCategory().getName());
 			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
 
-
+			textView = new TextView(getActivity());
+			textView.setText(mTransactionCategories.get(i).getName());
+			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
 
 			textView = new TextView(getActivity());
 			int amount = mTransactionCategories.get(i).getAmount();
@@ -106,25 +110,35 @@ public class ListTransactionCategoriesFragment extends Fragment {
 			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
 
 			textView = new TextView(getActivity());
-			String complete = "";
+			textView.setText(mTransactionCategories.get(i).getDate());
+			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+			textView = new TextView(getActivity());
+			textView.setText(mTransactionCategories.get(i).getTime());
+			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+
 			String transactionName = mTransactionCategories.get(i).getName();
 			String transactionDate = mTransactionCategories.get(i).getDate();
+			Resources res = getResources();
+
 			if (transactionName != null && transactionDate != null) {
-				complete = "Complete";
+
+				tableRow.setBackgroundColor(res.getColor(R.color.translucent_green));
 			}
 			else {
-				complete = "Incomplete";
+
+				tableRow.setBackgroundColor(res.getColor(R.color.translucent_red));
 			}
-			textView.setText(complete);
-			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
 
 			tableRow.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					TableRow tableRow = ((TableRow)v);
+					TableRow tableRow = ((TableRow) v);
 					TextView nameTextView = (TextView) tableRow.getChildAt(0);
 					Log.d("list", "The name is" + nameTextView.getText().toString());
-					int transactionRowIndex = (int)tableRow.getTag();
+					int transactionRowIndex = (int) tableRow.getTag();
 					Log.d("list", Integer.toString(transactionRowIndex));
 					// Populate Transaction
 					if (mListener != null) {
