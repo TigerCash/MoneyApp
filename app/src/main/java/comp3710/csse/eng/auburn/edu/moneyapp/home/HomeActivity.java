@@ -80,6 +80,10 @@ public class HomeActivity extends ActionBarActivity
 
 	View.OnClickListener depositTransactionHandler = new View.OnClickListener() {
 		public void onClick(View v) {
+			Intent intent = new Intent(HomeActivity.this, AddTransactionActivity.class);
+
+			intent.putExtra("type", "deposit");
+			startActivity(intent);
 		}
 	};
 
