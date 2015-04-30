@@ -14,6 +14,7 @@
         android:paddingBottom="10dp"/>
 
     <TableLayout
+        android:id="@+id/recent_transactions_table"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -22,40 +23,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/date"/>
+                android:text="Category"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/time"/>
+                android:text="Name"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/name"/>
+                android:text="Amount"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/amount"/>
+                android:text="Date"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/type"/>
+                android:text="Time"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/category"/>
+                android:text="Type"/>
 
-        </TableRow>
-
+            </TableRow>
         </TableLayout>
 
 

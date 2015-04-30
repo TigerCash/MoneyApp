@@ -4,11 +4,19 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
 
 
 /**
@@ -25,11 +33,14 @@ public class RecentTransactionsFragment extends Fragment {
 	private static final String ARG_PARAM1 = "param1";
 	private static final String ARG_PARAM2 = "param2";
 
+	private static final int NUMBER_OF_TRANSACTIONS = 5;
+
 	// TODO: Rename and change types of parameters
 	private String mParam1;
 	private String mParam2;
 
 	private OnFragmentInteractionListener mListener;
+	private TableLayout mTable;
 
 	/**
 	 * Use this factory method to create a new instance of
@@ -66,7 +77,67 @@ public class RecentTransactionsFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_recent_transactions, container, false);
+		View v = inflater.inflate(R.layout.fragment_recent_transactions, container, false);
+
+		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity());
+
+		ArrayList<Transaction> recentTransactions = helper.getRecentTransactions(NUMBER_OF_TRANSACTIONS);
+
+		mTable = (TableLayout) v.findViewById(R.id.recent_transactions_table);
+
+		TableRow tableRow;
+		TextView textView;
+
+		for (int i = 0; i < recentTransactions.size(); i++) {
+
+			tableRow = new TableRow(getActivity());
+			tableRow.setTag(i);
+
+			textView = new TextView(getActivity());
+			textView.setText(recentTransactions.get(i).getCategory().getName());
+			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+			textView = new TextView(getActivity());
+			textView.setText(recentTransactions.get(i).getName());
+			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+			textView = new TextView(getActivity());
+			int amount = recentTransactions.get(i).getAmount();
+			textView.setText(Integer.toString(amount));
+			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+			textView = new TextView(getActivity());
+			textView.setText(recentTransactions.get(i).getDate());
+			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+			textView = new TextView(getActivity());
+			textView.setText(recentTransactions.get(i).getTime());
+			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+			textView = new TextView(getActivity());
+			textView.setText(recentTransactions.get(i).getType());
+			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+
+			tableRow.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					TableRow tableRow = ((TableRow) v);
+					TextView nameTextView = (TextView) tableRow.getChildAt(0);
+					Log.d("list", "The name is" + nameTextView.getText().toString());
+					int transactionRowIndex = (int) tableRow.getTag();
+					Log.d("list", Integer.toString(transactionRowIndex));
+					// Populate Transaction
+					if (mListener != null) {
+						//mListener.onEditTransaction(transactionRowIndex);
+					}
+				}
+			});
+
+			mTable.addView(tableRow);
+		}
+
+		return v;
 	}
 
 	// TODO: Rename method, update argument and hook method into UI event

@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppContentProvider;
@@ -111,6 +112,30 @@ public final class TransactionHelper {
 
 		cursor.close();
 		return transactionList;
+	}
+
+	public static ArrayList<Transaction> getRecentTransactions(int numberOfTransactions, ContentResolver contentResolver) {
+		String[] projection = {TransactionTable.COLUMN_ID, TransactionTable.COLUMN_DATE,
+				TransactionTable.COLUMN_TIME,
+				TransactionTable.COLUMN_NAME, TransactionTable.COLUMN_AMOUNT,
+				TransactionTable.COLUMN_CATEGORY_NAME, TransactionTable.COLUMN_TYPE};
+
+		String selection = null;
+		String sortOrder = TransactionTable.COLUMN_DATE + "," + TransactionTable.COLUMN_TIME + " DESC";
+
+		Cursor cursor = contentResolver.query(CONTENT_URI,
+				projection, selection, null, sortOrder);
+
+		ArrayList<Transaction> transactionList = new ArrayList<Transaction>();
+
+		while (cursor.moveToNext()) {
+			Transaction transaction = getTransaction(cursor);
+			transactionList.add(transaction);
+		}
+
+		cursor.close();
+		return transactionList;
+
 	}
 
 	public static boolean deleteTransaction(int id, ContentResolver contentResolver) {

@@ -58,6 +58,10 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 		return TransactionHelper.getAllTransactions(contentResolver);
 	}
 
+	public ArrayList<Transaction> getRecentTransactions(int numberOfTransactions) {
+		return TransactionHelper.getRecentTransactions(numberOfTransactions, contentResolver);
+	}
+
 	// Transaction CRUD
 	public int addTransaction(Transaction transaction) {
 		return TransactionHelper.addTransaction(transaction, contentResolver);
