@@ -15,7 +15,10 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
@@ -123,13 +126,30 @@ public class ListTransactionCategoriesFragment extends Fragment {
 			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
 
 
-			String transactionName = mTransactionCategories.get(i).getName();
+			/*String transactionName = mTransactionCategories.get(i).getName();
 			int transactionAmount = mTransactionCategories.get(i).getAmount();
 
 			String transactionDate = mTransactionCategories.get(i).getDate();
-			String transactionTime = mTransactionCategories.get(i).getTime();
+			String transactionTime = mTransactionCategories.get(i).getTime();*/
+
 			Resources res = getResources();
-			if (transactionName == null || transactionName.equals("")
+			String isComplete = mTransactionCategories.get(i).isComplete().get(0);
+
+			if (isComplete.equals(Transaction.INCOMPLETE)) {
+				tableRow.setBackgroundColor(res.getColor(R.color.translucent_red));
+			}
+			else {
+				if (isComplete.equals(Transaction.PARTIALLY_COMPLETE))
+				{
+					tableRow.setBackgroundColor(res.getColor(R.color.translucent_blue));
+				}
+				else if (isComplete.equals(Transaction.COMPLETE))
+				{
+					tableRow.setBackgroundColor(res.getColor(R.color.translucent_green));
+				}
+			}
+
+			/*if (transactionName == null || transactionName.equals("")
 			 || transactionAmount == 0) {
 				tableRow.setBackgroundColor(res.getColor(R.color.translucent_red));
 			}
@@ -141,7 +161,7 @@ public class ListTransactionCategoriesFragment extends Fragment {
 				else {
 					tableRow.setBackgroundColor(res.getColor(R.color.translucent_green));
 				}
-			}
+			}*/
 
 
 			tableRow.setOnClickListener(new View.OnClickListener() {
@@ -187,7 +207,49 @@ public class ListTransactionCategoriesFragment extends Fragment {
 		public void onClick(View v) {
 			// it was the 1st button
 			if (mListener != null) {
-				mListener.onCompleteTransactions();
+
+				boolean transactionsComplete = true;
+
+				for (int i = 0; i < mTransactionCategories.size(); i++) {
+					String transactionState;
+					Transaction transaction = mTransactionCategories.get(i);
+					transactionState = transaction.isComplete().get(0);
+
+					if (transactionState.equals(Transaction.INCOMPLETE)) {
+						transactionsComplete = false;
+						break;
+					}
+					else if (transactionState.equals(Transaction.PARTIALLY_COMPLETE)) {
+						if (transaction.isComplete().contains("Date")) {
+							Calendar c = Calendar.getInstance();
+							SimpleDateFormat dateFormatter = new SimpleDateFormat("MM.dd.yyyy", Locale.US);
+							transaction.setDate(dateFormatter.format(c.getTime()));
+
+						}
+						if (transaction.isComplete().contains("Time")) {
+							String am_pm = "";
+							Calendar newTime = Calendar.getInstance();
+
+							if (newTime.get(Calendar.AM_PM) == Calendar.AM)
+								am_pm = "AM";
+							else if (newTime.get(Calendar.AM_PM) == Calendar.PM)
+								am_pm = "PM";
+
+							String strHrsToShow = (newTime.get(Calendar.HOUR) == 0) ?"12":newTime.get(Calendar.HOUR)+"";
+							String strMinToShow = (newTime.get(Calendar.MINUTE) < 10) ? "0"+newTime.get(Calendar.MINUTE):newTime.get(Calendar.MINUTE)+"";
+
+							transaction.setTime(strHrsToShow+":"+strMinToShow+" "+am_pm);
+						}
+
+					}
+					else if (transactionState.equals(Transaction.COMPLETE)) {
+						//complete
+					}
+
+				}
+
+				if (transactionsComplete)
+					mListener.onCompleteTransactions();
 			}
 		}
 	};

@@ -1,5 +1,8 @@
 package comp3710.csse.eng.auburn.edu.moneyapp.database.classes;
 
+import java.util.ArrayList;
+
+import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
 
 public class Transaction {
@@ -55,6 +58,43 @@ public class Transaction {
 
 	public String getType() { return this._type; }
 	public void setType(String type) { this._type = type; }
+
+	public static final String COMPLETE = "complete";
+	public static final String PARTIALLY_COMPLETE = "partial";
+	public static final String INCOMPLETE = "incomplete";
+
+	public ArrayList<String> isComplete() {
+		String isComplete = COMPLETE;
+
+		ArrayList<String> attributeStatus = new ArrayList<>();
+
+		if (this._name == null || this._name.equals("")) {
+			isComplete = INCOMPLETE;
+			attributeStatus.add("Name");
+		}
+		if (this._amount == 0) {
+			isComplete = INCOMPLETE;
+			attributeStatus.add("Amount");
+		}
+		if (!isComplete.equals(INCOMPLETE))
+		{
+			if (this._date == null || this._date.equals(""))
+			{
+				isComplete = PARTIALLY_COMPLETE;
+				attributeStatus.add("Date");
+			}
+
+			if (this._time == null || this._time.equals(""))
+			{
+				isComplete = PARTIALLY_COMPLETE;
+				attributeStatus.add("Time");
+			}
+		}
+
+		attributeStatus.add(0, isComplete);
+
+		return attributeStatus;
+	}
 
 	@Override
 	public String toString() {
