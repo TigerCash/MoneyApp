@@ -1,5 +1,6 @@
 package comp3710.csse.eng.auburn.edu.moneyapp.addTransaction;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
@@ -15,6 +16,7 @@ import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.AddNewCategoryDialogFragment;
+import comp3710.csse.eng.auburn.edu.moneyapp.home.HomeActivity;
 
 
 public class AddTransactionActivity extends ActionBarActivity
@@ -136,6 +138,19 @@ public class AddTransactionActivity extends ActionBarActivity
 		transaction.commit();
 	}
 
+	public void onCompleteTransactions() {
+		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getApplicationContext());
+
+		for (int i = 0; i < transactionCategories.size(); i++) {
+			helper.addTransaction(transactionCategories.get(i));
+		}
+
+		Intent intent = new Intent(AddTransactionActivity.this, HomeActivity.class);
+
+		//intent.putExtra("type", "withdrawal");
+		startActivity(intent);
+
+	}
 
 
 
