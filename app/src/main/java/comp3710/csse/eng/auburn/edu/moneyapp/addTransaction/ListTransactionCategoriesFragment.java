@@ -119,16 +119,23 @@ public class ListTransactionCategoriesFragment extends Fragment {
 
 
 			String transactionName = mTransactionCategories.get(i).getName();
+			int transactionAmount = mTransactionCategories.get(i).getAmount();
+
 			String transactionDate = mTransactionCategories.get(i).getDate();
+			String transactionTime = mTransactionCategories.get(i).getTime();
 			Resources res = getResources();
-
-			if (transactionName != null && transactionDate != null) {
-
-				tableRow.setBackgroundColor(res.getColor(R.color.translucent_green));
+			if (transactionName == null || transactionName.equals("")
+			 || transactionAmount == 0) {
+				tableRow.setBackgroundColor(res.getColor(R.color.translucent_red));
 			}
 			else {
-
-				tableRow.setBackgroundColor(res.getColor(R.color.translucent_red));
+				if (transactionDate == null || transactionDate.equals("")
+						|| transactionTime == null || transactionTime.equals("")) {
+					tableRow.setBackgroundColor(res.getColor(R.color.translucent_blue));
+				}
+				else {
+					tableRow.setBackgroundColor(res.getColor(R.color.translucent_green));
+				}
 			}
 
 
