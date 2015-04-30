@@ -136,7 +136,7 @@ public class PopulateTransactionFragment extends Fragment {
 		complete_transaction_button = (Button) v.findViewById(R.id.complete_transaction_button);
 		complete_transaction_button.setOnClickListener(completeTransactionHandler);
 
-		dateFormatter = new SimpleDateFormat("MM.dd.yyyy", Locale.US);
+		dateFormatter = new SimpleDateFormat("MM.dd.yy", Locale.US);
 
 		return v;
 	}

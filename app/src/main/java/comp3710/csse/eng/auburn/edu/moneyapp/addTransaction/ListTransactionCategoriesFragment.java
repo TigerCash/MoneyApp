@@ -105,7 +105,11 @@ public class ListTransactionCategoriesFragment extends Fragment {
 			tableRow.setTag(i);
 
 			textView = new TextView(getActivity());
-			textView.setText(mTransactionCategories.get(i).getCategory().getName());
+			textView.setText(mTransactionCategories.get(i).getDate());
+			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+			textView = new TextView(getActivity());
+			textView.setText(mTransactionCategories.get(i).getTime());
 			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
 
 			textView = new TextView(getActivity());
@@ -118,13 +122,8 @@ public class ListTransactionCategoriesFragment extends Fragment {
 			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
 
 			textView = new TextView(getActivity());
-			textView.setText(mTransactionCategories.get(i).getDate());
+			textView.setText(mTransactionCategories.get(i).getCategory().getName());
 			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
-
-			textView = new TextView(getActivity());
-			textView.setText(mTransactionCategories.get(i).getTime());
-			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
-
 
 			/*String transactionName = mTransactionCategories.get(i).getName();
 			int transactionAmount = mTransactionCategories.get(i).getAmount();
@@ -222,7 +221,7 @@ public class ListTransactionCategoriesFragment extends Fragment {
 					else if (transactionState.equals(Transaction.PARTIALLY_COMPLETE)) {
 						if (transaction.isComplete().contains("Date")) {
 							Calendar c = Calendar.getInstance();
-							SimpleDateFormat dateFormatter = new SimpleDateFormat("MM.dd.yyyy", Locale.US);
+							SimpleDateFormat dateFormatter = new SimpleDateFormat("MM.dd.yy", Locale.US);
 							transaction.setDate(dateFormatter.format(c.getTime()));
 
 						}
