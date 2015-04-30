@@ -32,12 +32,10 @@ public class ChooseCategoriesFragment extends Fragment
 		implements AddNewCategoryDialogFragment.OnAddCategoryListener {
 	// TODO: Rename parameter arguments, choose names that match
 	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-	private static final String ARG_PARAM1 = "param1";
-	private static final String ARG_PARAM2 = "param2";
+	private static final String TYPE_PARAM = "type";
 
 	// TODO: Rename and change types of parameters
-	private String mParam1;
-	private String mParam2;
+	private String mType;
 
 	private LinearLayout checkboxLinearLayout;
 	private Button addNewCategoryButton;
@@ -45,20 +43,11 @@ public class ChooseCategoriesFragment extends Fragment
 
 	private OnFragmentInteractionListener mListener;
 
-	/**
-	 * Use this factory method to create a new instance of
-	 * this fragment using the provided parameters.
-	 *
-	 * @param param1 Parameter 1.
-	 * @param param2 Parameter 2.
-	 * @return A new instance of fragment ChooseCategoriesFragment.
-	 */
-	// TODO: Rename and change types and number of parameters
-	public static ChooseCategoriesFragment newInstance(String param1, String param2) {
+
+	public static ChooseCategoriesFragment newInstance(String type) {
 		ChooseCategoriesFragment fragment = new ChooseCategoriesFragment();
 		Bundle args = new Bundle();
-		args.putString(ARG_PARAM1, param1);
-		args.putString(ARG_PARAM2, param2);
+		args.putString(TYPE_PARAM, type);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -71,8 +60,7 @@ public class ChooseCategoriesFragment extends Fragment
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null) {
-			mParam1 = getArguments().getString(ARG_PARAM1);
-			mParam2 = getArguments().getString(ARG_PARAM2);
+			mType = getArguments().getString(TYPE_PARAM);
 		}
 	}
 
@@ -119,6 +107,7 @@ public class ChooseCategoriesFragment extends Fragment
 					if (cb.isChecked()) {
 						Transaction t = new Transaction();
 						t.setCategory(new Category(cb.getText().toString()));
+						t.setType(mType);
 						categoryTransactions.add(t);
 						//chosenCategories.add(cb.getText().toString());
 					}

@@ -26,7 +26,7 @@ public final class TransactionHelper {
 	public static int addTransaction(Transaction transaction, ContentResolver contentResolver) {
 		ContentValues values = new ContentValues();
 
-		values.put(TransactionTable.COLUMN_ID, transaction.getId());
+		//values.put(TransactionTable.COLUMN_ID, transaction.getId());
 		values.put(TransactionTable.COLUMN_DATE, transaction.getDate());
 		values.put(TransactionTable.COLUMN_TIME, transaction.getTime());
 		values.put(TransactionTable.COLUMN_NAME, transaction.getName());

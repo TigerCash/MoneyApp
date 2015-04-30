@@ -19,7 +19,7 @@ public class TransactionTable {
 	private static final String TABLE_CREATE = "create table "
 			+ TABLE_TRANSACTION
 			+ " ("
-			+ COLUMN_ID + " integer primary key autoincrement, "
+			+ COLUMN_ID + " integer primary key, "
 			+ COLUMN_DATE + " text not null, "
 			+ COLUMN_TIME + " text not null, "
 			+ COLUMN_NAME + " text not null, "

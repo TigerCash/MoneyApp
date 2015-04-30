@@ -42,9 +42,9 @@ public class HomeActivity extends ActionBarActivity
 		fragmentTransaction.add(R.id.widget_fragment_container, fragment);
 		fragmentTransaction.commit();
 
-		MoneyAppDatabaseHelper help = new MoneyAppDatabaseHelper(getApplicationContext());
-		//help.onUpgrade(help.getWritableDatabase(), 1, 1);
-		Transaction t = new Transaction(3, "date", "time", "na3", 5, new Category("cat"), "type");
+		/*MoneyAppDatabaseHelper help = new MoneyAppDatabaseHelper(getApplicationContext());
+		help.onUpgrade(help.getWritableDatabase(), 1, 1);
+		Transaction t = new Transaction("date", "time", "na3", 5, new Category("cat"), "type");
 		help.addTransaction(t);
 
 		Transaction newt = help.getTransaction(t.getId());
@@ -59,7 +59,7 @@ public class HomeActivity extends ActionBarActivity
 		ArrayList<Transaction> transactions = help.getAllTransactions();
 
 		for (Transaction transaction : transactions)
-			Log.d("db6", transaction.toString());
+			Log.d("db6", transaction.toString());*/
 
 
 		withdrawal_button = (Button) findViewById(R.id.withdrawal_button);

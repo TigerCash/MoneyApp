@@ -26,16 +26,20 @@ public class AddTransactionActivity extends ActionBarActivity
 		PopulateTransactionFragment.OnFragmentInteractionListener {
 
 	public ArrayList<Transaction> transactionCategories;
+	private String mType;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_transaction);
 
+		Intent intent = getIntent();
+		mType = intent.getStringExtra("type");
+
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-		ChooseCategoriesFragment fragment = new ChooseCategoriesFragment();
+		ChooseCategoriesFragment fragment = ChooseCategoriesFragment.newInstance(mType);
 		fragmentTransaction.add(R.id.fragment_container, fragment);
 		fragmentTransaction.commit();
 	}
@@ -144,6 +148,11 @@ public class AddTransactionActivity extends ActionBarActivity
 		for (int i = 0; i < transactionCategories.size(); i++) {
 			helper.addTransaction(transactionCategories.get(i));
 		}
+
+		ArrayList<Transaction> transactions = helper.getAllTransactions();
+
+		for (Transaction transaction : transactions)
+			Log.d("db9", transaction.toString());
 
 		Intent intent = new Intent(AddTransactionActivity.this, HomeActivity.class);
 
