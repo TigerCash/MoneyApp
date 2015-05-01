@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.view.ActionMode;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
@@ -41,6 +45,8 @@ public class RecentTransactionsFragment extends Fragment {
 
 	private OnFragmentInteractionListener mListener;
 	private TableLayout mTable;
+
+	private ActionMode mActionMode;
 
 	/**
 	 * Use this factory method to create a new instance of
@@ -123,6 +129,7 @@ public class RecentTransactionsFragment extends Fragment {
 			textView.setText(recentTransactions.get(i).getCategory().getName());
 			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
 
+			tableRow.setOnLongClickListener(onLongClickListener);
 
 			tableRow.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -145,12 +152,59 @@ public class RecentTransactionsFragment extends Fragment {
 		return v;
 	}
 
-	// TODO: Rename method, update argument and hook method into UI event
-	public void onButtonPressed(Uri uri) {
-		if (mListener != null) {
-			mListener.onFragmentInteraction(uri);
+	View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
+		@Override
+		public boolean onLongClick(View v) {
+
+			if (mActionMode != null) {
+				return false;
+			}
+
+			// Start the CAB using the ActionMode.Callback defined above
+			mActionMode = getActivity().startActionMode(mActionModeCallback);
+			v.setSelected(true);
+
+			return true;
 		}
-	}
+	};
+
+	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+		// Called when the action mode is created; startActionMode() was called
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			// Inflate a menu resource providing context menu items
+			MenuInflater inflater = mode.getMenuInflater();
+			inflater.inflate(R.menu.action_bar, menu);
+			return true;
+		}
+
+		// Called each time the action mode is shown. Always called after onCreateActionMode, but
+		// may be called multiple times if the mode is invalidated.
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false; // Return false if nothing is done
+		}
+
+		// Called when the user selects a contextual menu item
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			switch (item.getItemId()) {
+				/*case R.id.menu_share:
+					shareCurrentItem();
+					mode.finish(); // Action picked, so close the CAB
+					return true;*/
+				default:
+					return false;
+			}
+		}
+
+		// Called when the user exits the action mode
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			mActionMode = null;
+		}
+	};
 
 	@Override
 	public void onAttach(Activity activity) {
