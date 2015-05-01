@@ -148,6 +148,7 @@ public class EditTransactionDialogFragment extends DialogFragment {
 							Transaction t = new Transaction();
 
 							t.setName(name_text.getText().toString());
+
 							try {
 								t.setAmount(Integer.valueOf(amount_text.getText().toString()));
 							} catch (Exception e) {
@@ -161,10 +162,46 @@ public class EditTransactionDialogFragment extends DialogFragment {
 
 							t.setId(mTransaction.getId());
 
-							mEditListener.onEditTransaction(t);
-							//mListener.onCompleteTransaction(transaction, mIndex);
+							String transactionState;
+							boolean transactionsComplete = true;
+							Transaction transaction = t;
+							transactionState = transaction.isComplete().get(0);
+
+							if (transactionState.equals(Transaction.INCOMPLETE)) {
+								transactionsComplete = false;
+							} else if (transactionState.equals(Transaction.PARTIALLY_COMPLETE)) {
+								if (transaction.isComplete().contains("Date")) {
+									Calendar c = Calendar.getInstance();
+									SimpleDateFormat dateFormatter = new SimpleDateFormat("MM.dd.yy", Locale.US);
+									transaction.setDate(dateFormatter.format(c.getTime()));
+
+								}
+								if (transaction.isComplete().contains("Time")) {
+									String am_pm = "";
+									Calendar newTime = Calendar.getInstance();
+
+									if (newTime.get(Calendar.AM_PM) == Calendar.AM)
+										am_pm = "AM";
+									else if (newTime.get(Calendar.AM_PM) == Calendar.PM)
+										am_pm = "PM";
+
+									String strHrsToShow = (newTime.get(Calendar.HOUR) == 0) ? "12" : newTime.get(Calendar.HOUR) + "";
+									String strMinToShow = (newTime.get(Calendar.MINUTE) < 10) ? "0" + newTime.get(Calendar.MINUTE) : newTime.get(Calendar.MINUTE) + "";
+
+									transaction.setTime(strHrsToShow + ":" + strMinToShow + " " + am_pm);
+								}
+
+							} else if (transactionState.equals(Transaction.COMPLETE)) {
+								//complete
+							}
+
+
+							if (transactionsComplete)
+								mEditListener.onEditTransaction(t);
+
 						}
 					}
+
 				})
 				.setNegativeButton("negative", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
