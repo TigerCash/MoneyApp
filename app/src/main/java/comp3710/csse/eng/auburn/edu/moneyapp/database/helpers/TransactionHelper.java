@@ -88,7 +88,7 @@ public final class TransactionHelper {
 
 		String selection = TransactionTable.COLUMN_ID + "=" + id;
 
-		selection = null;
+
 
 		Cursor cursor = contentResolver.query(CONTENT_URI,
 				projection, selection, null,
@@ -210,6 +210,7 @@ public final class TransactionHelper {
 
 		ContentValues values = new ContentValues();
 
+
 		values.put(TransactionTable.COLUMN_DATE, transaction.getDate());
 		values.put(TransactionTable.COLUMN_TIME, transaction.getTime());
 		values.put(TransactionTable.COLUMN_NAME, transaction.getName());
@@ -217,7 +218,9 @@ public final class TransactionHelper {
 		values.put(TransactionTable.COLUMN_CATEGORY_NAME, transaction.getCategory().toString());
 		values.put(TransactionTable.COLUMN_TYPE, transaction.getType());
 
-		numReplacedRows = contentResolver.update(CONTENT_URI, values, null, null);
+		String selection = TransactionTable.COLUMN_ID + " = " + transaction.getId();
+
+		numReplacedRows = contentResolver.update(CONTENT_URI, values, selection, null);
 
 		return numReplacedRows;
 	}

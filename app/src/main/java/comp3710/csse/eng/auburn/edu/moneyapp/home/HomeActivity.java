@@ -1,5 +1,6 @@
 package comp3710.csse.eng.auburn.edu.moneyapp.home;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
@@ -13,15 +14,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import comp3710.csse.eng.auburn.edu.moneyapp.addTransaction.AddTransactionActivity;
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.allTransactions.AllTransactionsActivity;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
+import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.EditTransactionDialogFragment;
+import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.ValidateDeleteDialogFragment;
 
 
 public class HomeActivity extends ActionBarActivity
-		implements RecentTransactionsFragment.OnFragmentInteractionListener {
+		implements RecentTransactionsFragment.OnFragmentInteractionListener,
+		EditTransactionDialogFragment.OnEditTransactionListener {
 
 	TextView balance_text;
 	Button withdrawal_button;
@@ -149,6 +156,30 @@ public class HomeActivity extends ActionBarActivity
 		Intent intent = new Intent(HomeActivity.this, AllTransactionsActivity.class);
 
 		startActivity(intent);
+	}
+
+	public void onEditTransaction(Transaction transaction) {
+
+		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(this);
+
+		helper.updateTransaction(transaction);
+
+		ArrayList<Transaction> trans = helper.getAllTransactions();
+
+		Fragment currentFragment = getSupportFragmentManager().findFragmentByTag("recent_transactions");
+		FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+		fragTransaction.detach(currentFragment);
+		fragTransaction.attach(currentFragment);
+		fragTransaction.commit();
+
+		setBalanceText();
+	}
+
+	public void editTransaction(Transaction transaction) {
+		int i = 0;
+		Transaction t = transaction;
+		DialogFragment newFragment = EditTransactionDialogFragment.newInstance(transaction);
+		newFragment.show(this.getSupportFragmentManager(), "edit_transaction");
 	}
 
 
