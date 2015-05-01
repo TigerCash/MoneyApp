@@ -21,12 +21,10 @@ import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
-import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.PopulateTransactionDialogFragment;
 
 
 public class HomeActivity extends ActionBarActivity
-		implements RecentTransactionsFragment.OnFragmentInteractionListener,
-		PopulateTransactionDialogFragment.OnFragmentInteractionListener {
+		implements RecentTransactionsFragment.OnFragmentInteractionListener {
 
 	TextView balance_text;
 	Button withdrawal_button;
