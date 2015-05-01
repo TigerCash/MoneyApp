@@ -222,10 +222,12 @@ public class RecentTransactionsFragment extends Fragment {
 					mode.finish(); // Action picked, so close the CAB
 					return true;*/
 				case R.id.action_edit:
-
+					
+					mode.finish();
 					return true;
 				case R.id.action_delete:
 					deleteTransaction(mSelectedTableRow);
+					mode.finish();
 					return true;
 				default:
 					return false;
