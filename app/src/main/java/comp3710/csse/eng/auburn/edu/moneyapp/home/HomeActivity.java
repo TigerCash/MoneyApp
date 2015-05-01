@@ -1,27 +1,23 @@
 package comp3710.csse.eng.auburn.edu.moneyapp.home;
 
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import comp3710.csse.eng.auburn.edu.moneyapp.addTransaction.AddTransactionActivity;
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.allTransactions.AllTransactionsActivity;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
-import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
-import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
 
 
 public class HomeActivity extends ActionBarActivity
@@ -40,7 +36,7 @@ public class HomeActivity extends ActionBarActivity
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 		RecentTransactionsFragment fragment = new RecentTransactionsFragment();
-		fragmentTransaction.add(R.id.widget_fragment_container, fragment);
+		fragmentTransaction.add(R.id.widget_fragment_container, fragment, "recent_transactions");
 		fragmentTransaction.commit();
 
 
@@ -63,10 +59,7 @@ public class HomeActivity extends ActionBarActivity
 		for (Transaction transaction : transactions)
 			Log.d("db6", transaction.toString());*/
 
-		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getApplicationContext());
-		balance_text = (TextView) findViewById(R.id.balance_text);
-		balance_text.setText(Integer.toString(helper.getBalance()));
-
+		setBalanceText();
 
 		withdrawal_button = (Button) findViewById(R.id.withdrawal_button);
 		deposit_button = (Button) findViewById(R.id.deposit_button);
@@ -116,8 +109,20 @@ public class HomeActivity extends ActionBarActivity
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void onFragmentInteraction(Uri uri) {
+	public void setBalanceText() {
+		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getApplicationContext());
+		balance_text = (TextView) findViewById(R.id.balance_text);
+		balance_text.setText(Integer.toString(helper.getBalance()));
+	}
 
+	public void onDeleteTransaction() {
+		Fragment currentFragment = getSupportFragmentManager().findFragmentByTag("recent_transactions");
+		FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+		fragTransaction.detach(currentFragment);
+		fragTransaction.attach(currentFragment);
+		fragTransaction.commit();
+
+		setBalanceText();
 	}
 
 	/*public void onFragmentInteraction2(ArrayList<String> chosenCategories, String type) {
