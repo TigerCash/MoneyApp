@@ -3,8 +3,9 @@ package comp3710.csse.eng.auburn.edu.moneyapp.home;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.view.ActionMode;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.view.ActionMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,9 +13,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -85,6 +89,9 @@ public class RecentTransactionsFragment extends Fragment {
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.fragment_recent_transactions, container, false);
 
+		TextView all_transactions_text = (TextView) v.findViewById(R.id.all_transactions_text);
+		all_transactions_text.setOnClickListener(onAllTransactionsListener);
+
 		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity());
 
 		ArrayList<Transaction> recentTransactions = helper.getRecentTransactions(NUMBER_OF_TRANSACTIONS);
@@ -152,6 +159,15 @@ public class RecentTransactionsFragment extends Fragment {
 		return v;
 	}
 
+	View.OnClickListener onAllTransactionsListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			if (mListener != null) {
+				mListener.onAllTransactions();
+			}
+		}
+	};
+
 	View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
 		@Override
 		public boolean onLongClick(View v) {
@@ -161,7 +177,10 @@ public class RecentTransactionsFragment extends Fragment {
 			}
 
 			// Start the CAB using the ActionMode.Callback defined above
-			mActionMode = getActivity().startActionMode(mActionModeCallback);
+			ActionBarActivity activity=(ActionBarActivity)getActivity();
+			activity.startSupportActionMode(mActionModeCallback);
+			//mActionMode = getActivity().startSupportActionMode(mActionModeCallback);
+
 			v.setSelected(true);
 
 			return true;
@@ -206,6 +225,7 @@ public class RecentTransactionsFragment extends Fragment {
 		}
 	};
 
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -236,6 +256,7 @@ public class RecentTransactionsFragment extends Fragment {
 	public interface OnFragmentInteractionListener {
 		// TODO: Update argument type and name
 		public void onFragmentInteraction(Uri uri);
+		public void onAllTransactions();
 	}
 
 }

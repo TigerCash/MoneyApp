@@ -1,8 +1,8 @@
 package comp3710.csse.eng.auburn.edu.moneyapp.home;
 
 import android.content.Intent;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import comp3710.csse.eng.auburn.edu.moneyapp.addTransaction.AddTransactionActivity;
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 
+import comp3710.csse.eng.auburn.edu.moneyapp.allTransactions.AllTransactionsActivity;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
@@ -35,7 +36,7 @@ public class HomeActivity extends ActionBarActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 
-		FragmentManager fragmentManager = getFragmentManager();
+		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 		RecentTransactionsFragment fragment = new RecentTransactionsFragment();
@@ -137,6 +138,12 @@ public class HomeActivity extends ActionBarActivity
 
 	public void onFragmentInteraction3(Uri uri) {
 
+	}
+
+	public void onAllTransactions() {
+		Intent intent = new Intent(HomeActivity.this, AllTransactionsActivity.class);
+
+		startActivity(intent);
 	}
 
 
