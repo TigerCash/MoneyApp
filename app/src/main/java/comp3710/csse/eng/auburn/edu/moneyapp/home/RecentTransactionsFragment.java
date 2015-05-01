@@ -222,7 +222,7 @@ public class RecentTransactionsFragment extends Fragment {
 					mode.finish(); // Action picked, so close the CAB
 					return true;*/
 				case R.id.action_edit:
-					
+					editTransaction(mSelectedTableRow);
 					mode.finish();
 					return true;
 				case R.id.action_delete:
@@ -273,6 +273,16 @@ public class RecentTransactionsFragment extends Fragment {
 		// TODO: Update argument type and name
 		public void onDeleteTransaction();
 		public void onAllTransactions();
+		public void editTransaction(Transaction transaction);
+	}
+
+	public void editTransaction(TableRow selectedTableRow) {
+		int transactionId = (int)selectedTableRow.getTag(R.id.transaction_id);
+		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity());
+
+		Transaction transaction = helper.getTransaction(transactionId);
+
+		mListener.editTransaction(transaction);
 	}
 
 	public void deleteTransaction(TableRow selectedTableRow) {
