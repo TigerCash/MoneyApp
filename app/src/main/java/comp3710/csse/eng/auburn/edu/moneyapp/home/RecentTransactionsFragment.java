@@ -1,8 +1,11 @@
 package comp3710.csse.eng.auburn.edu.moneyapp.home;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
@@ -25,6 +28,7 @@ import java.util.ArrayList;
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
+import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.ValidateDeleteDialogFragment;
 
 
 /**
@@ -49,6 +53,7 @@ public class RecentTransactionsFragment extends Fragment {
 
 	private OnFragmentInteractionListener mListener;
 	private TableLayout mTable;
+	private TableRow mSelectedTableRow;
 
 	private ActionMode mActionMode;
 
@@ -104,7 +109,8 @@ public class RecentTransactionsFragment extends Fragment {
 		for (int i = 0; i < recentTransactions.size(); i++) {
 
 			tableRow = new TableRow(getActivity());
-			tableRow.setTag(i);
+			tableRow.setTag(R.id.row_index, i);
+			tableRow.setTag(R.id.transaction_id, recentTransactions.get(i).getId());
 
 			textView = new TextView(getActivity());
 			textView.setText(recentTransactions.get(i).getDate());
@@ -144,7 +150,7 @@ public class RecentTransactionsFragment extends Fragment {
 					TableRow tableRow = ((TableRow) v);
 					TextView nameTextView = (TextView) tableRow.getChildAt(0);
 					Log.d("list", "The name is" + nameTextView.getText().toString());
-					int transactionRowIndex = (int) tableRow.getTag();
+					int transactionRowIndex = (int) tableRow.getTag(R.id.row_index);
 					Log.d("list", Integer.toString(transactionRowIndex));
 					// Populate Transaction
 					if (mListener != null) {
@@ -181,6 +187,8 @@ public class RecentTransactionsFragment extends Fragment {
 			activity.startSupportActionMode(mActionModeCallback);
 			//mActionMode = getActivity().startSupportActionMode(mActionModeCallback);
 
+			mSelectedTableRow = (TableRow) v;
+
 			v.setSelected(true);
 
 			return true;
@@ -213,6 +221,12 @@ public class RecentTransactionsFragment extends Fragment {
 					shareCurrentItem();
 					mode.finish(); // Action picked, so close the CAB
 					return true;*/
+				case R.id.action_edit:
+
+					return true;
+				case R.id.action_delete:
+					deleteTransaction(mSelectedTableRow);
+					return true;
 				default:
 					return false;
 			}
@@ -255,8 +269,30 @@ public class RecentTransactionsFragment extends Fragment {
 	 */
 	public interface OnFragmentInteractionListener {
 		// TODO: Update argument type and name
-		public void onFragmentInteraction(Uri uri);
+		public void onDeleteTransaction();
 		public void onAllTransactions();
 	}
 
+	public void deleteTransaction(TableRow selectedTableRow) {
+		promptUserValidation();
+	}
+
+	public void promptUserValidation() {
+		DialogFragment newFragment = new ValidateDeleteDialogFragment();
+		newFragment.setTargetFragment(this, 1);
+		newFragment.show(getActivity().getSupportFragmentManager(), "validate");
+	}
+
+	public void onValidateDeleteDialogPositiveClick() {
+		int transactionId = (int)mSelectedTableRow.getTag(R.id.transaction_id);
+		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity());
+
+		helper.deleteTransaction(transactionId);
+
+		mListener.onDeleteTransaction();
+	}
+
+	public void onValidateDeleteDialogNegativeClick() {
+		return;
+	}
 }
