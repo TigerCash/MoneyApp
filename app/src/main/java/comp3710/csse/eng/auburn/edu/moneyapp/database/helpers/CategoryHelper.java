@@ -34,7 +34,17 @@ public final class CategoryHelper {
 	}
 
 	public static Category getCategory(int id, ContentResolver contentResolver) {
-		return new Category();
+		String[] projection = {CategoryTable.COLUMN_ID, CategoryTable.COLUMN_NAME};
+
+		String selection = CategoryTable.COLUMN_ID + " = " + id;
+
+		Cursor cursor = contentResolver.query(CONTENT_URI,
+				projection, selection, null,
+				null);
+
+		cursor.moveToFirst();
+
+		return getCategory(cursor);
 	}
 
 	public static Category getCategory(String name, ContentResolver contentResolver) {
@@ -55,13 +65,14 @@ public final class CategoryHelper {
 	private static Category getCategory(Cursor cursor) {
 		Category category = new Category();
 
+		category.setId(cursor.getInt(cursor.getColumnIndex(CategoryTable.COLUMN_ID)));
 		category.setName(cursor.getString(cursor.getColumnIndex(CategoryTable.COLUMN_NAME)));
 
 		return category;
 	}
 
 	public static ArrayList<Category> getAllCategories(ContentResolver contentResolver) {
-		String[] projection = {CategoryTable.COLUMN_NAME};
+		String[] projection = {CategoryTable.COLUMN_ID, CategoryTable.COLUMN_NAME};
 
 		Cursor cursor = contentResolver.query(CONTENT_URI,
 				projection, null, null,

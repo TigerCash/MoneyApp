@@ -17,7 +17,7 @@ public class CategoryTable {
 			+ "("
 			+ COLUMN_ID + " integer primary key, "
 			+ COLUMN_NAME + " text not null"
-			+ ");";
+			+ ")";
 
 	public static void onCreate(SQLiteDatabase database) {
 		database.execSQL(TABLE_CREATE);
