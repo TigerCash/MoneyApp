@@ -47,16 +47,28 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
 		final String childText = ((HashMap<String,String>) getChild(groupPosition, childPosition)).get("desc");
 
+		final String descText = ((HashMap<String,String>) getChild(groupPosition, childPosition)).get("desc");
+		final String amountText = ((HashMap<String,String>) getChild(groupPosition, childPosition)).get("amount");
+		final String categoryText = ((HashMap<String,String>) getChild(groupPosition, childPosition)).get("category");
+
 		if (convertView == null) {
 			LayoutInflater infalInflater = (LayoutInflater) this._context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = infalInflater.inflate(R.layout.list_item, null);
 		}
 
-		TextView txtListChild = (TextView) convertView
+		/*TextView txtListChild = (TextView) convertView
 				.findViewById(R.id.lblListItem);
 
-		txtListChild.setText(childText);
+		txtListChild.setText(childText);*/
+
+		TextView descTextV = (TextView) convertView.findViewById(R.id.description_text);
+		descTextV.setText(descText);
+		TextView amountTextV = (TextView) convertView.findViewById(R.id.amount_text);
+		amountTextV.setText(amountText);
+		TextView categoryTextV = (TextView) convertView.findViewById(R.id.category_text);
+		categoryTextV.setText(categoryText);
+
 		return convertView;
 	}
 
@@ -84,17 +96,32 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded,
 	                         View convertView, ViewGroup parent) {
-		String headerTitle = ((HashMap<String,String>) getGroup(groupPosition)).get("name");
+		String dateText = ((HashMap<String,String>) getGroup(groupPosition)).get("date");
+		String timeText = ((HashMap<String,String>) getGroup(groupPosition)).get("time");
+		String nameText = ((HashMap<String,String>) getGroup(groupPosition)).get("name");
+		String totalText = ((HashMap<String,String>) getGroup(groupPosition)).get("total");
 		if (convertView == null) {
 			LayoutInflater infalInflater = (LayoutInflater) this._context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = infalInflater.inflate(R.layout.listview_layout, null);
 		}
 
-		TextView lblListHeader = (TextView) convertView
+		/*TextView lblListHeader = (TextView) convertView
 				.findViewById(R.id.lblListHeader);
 		lblListHeader.setTypeface(null, Typeface.BOLD);
-		lblListHeader.setText(headerTitle);
+		lblListHeader.setText(headerTitle);*/
+
+		TextView dateTextV = (TextView) convertView.findViewById(R.id.date_text);
+		dateTextV.setText(dateText);
+
+		TextView timeTextV = (TextView) convertView.findViewById(R.id.time_text);
+		timeTextV.setText(timeText);
+
+		TextView nameTextV = (TextView) convertView.findViewById(R.id.name_text);
+		nameTextV.setText(nameText);
+
+		TextView totalTextV = (TextView) convertView.findViewById(R.id.total_text);
+		totalTextV.setText(totalText);
 
 		return convertView;
 	}
