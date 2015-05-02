@@ -4,15 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 
@@ -28,7 +25,7 @@ public class ChooseTransactionTypeDialogFragment extends DialogFragment {
 	private String mParam2;
 
 	private OnNewTransactionListener mListener;
-	private EditText mNameEditText;
+	private TextView mMessageText;
 
 	/**
 	 * Use this factory method to create a new instance of
@@ -72,7 +69,8 @@ public class ChooseTransactionTypeDialogFragment extends DialogFragment {
 		// Inflate and set the layout for the dialog
 		View v = inflater.inflate(R.layout.fragment_add_new_category_dialog, null);
 
-		mNameEditText = (EditText) v.findViewById(R.id.name_edit_text);
+		mMessageText = (TextView) v.findViewById(R.id.message_text);
+
 
 		// Pass null as the parent view because its going in the dialog layout
 		builder.setView(v)

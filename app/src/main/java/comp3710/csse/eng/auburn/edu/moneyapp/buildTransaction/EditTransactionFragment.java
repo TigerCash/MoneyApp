@@ -40,6 +40,8 @@ public class EditTransactionFragment extends Fragment {
 	private EditText mTimeEditText;
 	private TableLayout mTransactionPortionsTable;
 
+	private Transaction savedTransaction;
+
 
 
 	// TODO: Rename and change types and number of parameters
@@ -120,6 +122,7 @@ public class EditTransactionFragment extends Fragment {
 
 		mAddTransactionPortionText = (TextView) v.findViewById(R.id.add_transaction_portion_text);
 		mAddTransactionPortionText.setOnClickListener(addTransactionPortionListener);
+
 
 		Transaction transaction = ((BuildTransactionActivity)getActivity()).buildTransaction;
 
@@ -268,7 +271,10 @@ public class EditTransactionFragment extends Fragment {
 	View.OnClickListener addTransactionPortionListener = new View.OnClickListener() {
 		public void onClick(View v) {
 
-
+			View view = v.getRootView();
+			((BuildTransactionActivity)getActivity()).buildTransaction.setName(((EditText)view.findViewById(R.id.name_edit_text)).getText().toString());
+			((BuildTransactionActivity)getActivity()).buildTransaction.setDate(((EditText)view.findViewById(R.id.date_edit_text)).getText().toString());
+			((BuildTransactionActivity)getActivity()).buildTransaction.setTime(((EditText)view.findViewById(R.id.time_edit_text)).getText().toString());
 
 			if (mListener != null) {
 				mListener.onAddTransactionPortion();
