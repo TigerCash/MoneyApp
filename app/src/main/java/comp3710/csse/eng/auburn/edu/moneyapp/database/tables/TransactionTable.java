@@ -11,8 +11,6 @@ public class TransactionTable {
 	public static final String COLUMN_DATE = "date";
 	public static final String COLUMN_TIME = "time";
 	public static final String COLUMN_NAME = "name";
-	public static final String COLUMN_AMOUNT = "amount";
-	public static final String COLUMN_CATEGORY_NAME = "category";
 	public static final String COLUMN_TYPE = "trans_type";
 
 	// Database creation SQL statement
@@ -23,10 +21,7 @@ public class TransactionTable {
 			+ COLUMN_DATE + " text not null, "
 			+ COLUMN_TIME + " text not null, "
 			+ COLUMN_NAME + " text not null, "
-			+ COLUMN_AMOUNT + " integer not null, "
-			+ COLUMN_CATEGORY_NAME + " text not null, "
-		    + COLUMN_TYPE + " text not null, "
-			+ "FOREIGN KEY(" + COLUMN_CATEGORY_NAME + ") REFERENCES " + CategoryTable.TABLE_CATEGORY + "(" + CategoryTable.COLUMN_NAME + ")"
+		    + COLUMN_TYPE + " text not null"
 			+ ");";
 
 	public static void onCreate(SQLiteDatabase database) {

@@ -24,7 +24,7 @@ public final class TransactionHelper {
 	private TransactionHelper() {
 	}
 
-	public static int getBalance(ContentResolver contentResolver) {
+	/*public static int getBalance(ContentResolver contentResolver) {
 		ArrayList<Transaction> withdrawalTransactions = getAllTransactionsOfType(contentResolver, "withdrawal");
 		ArrayList<Transaction> depositTransactions = getAllTransactionsOfType(contentResolver, "deposit");
 
@@ -100,7 +100,7 @@ public final class TransactionHelper {
 
 		Transaction transaction = new Transaction();
 
-		/*if (cursor.moveToFirst()) {
+		*//*if (cursor.moveToFirst()) {
 			cursor.moveToFirst();
 			transaction.setId(cursor.getInt(0));
 			transaction.setDate(cursor.getString(1));
@@ -111,7 +111,7 @@ public final class TransactionHelper {
 			cursor.close();
 		} else {
 			transaction = null;
-		}*/
+		}*//*
 
 		//return transaction;
 
@@ -223,5 +223,5 @@ public final class TransactionHelper {
 		numReplacedRows = contentResolver.update(CONTENT_URI, values, selection, null);
 
 		return numReplacedRows;
-	}
+	}*/
 }
