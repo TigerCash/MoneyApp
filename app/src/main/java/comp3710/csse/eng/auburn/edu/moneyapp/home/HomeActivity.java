@@ -36,6 +36,9 @@ public class HomeActivity extends ActionBarActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 
+		//MoneyAppDatabaseHelper help = new MoneyAppDatabaseHelper(getApplicationContext());
+		//help.onUpgrade(help.getWritableDatabase(), 1, 1);
+
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -44,9 +47,9 @@ public class HomeActivity extends ActionBarActivity
 		fragmentTransaction.commit();
 
 
-		/*MoneyAppDatabaseHelper help = new MoneyAppDatabaseHelper(getApplicationContext());
-		help.onUpgrade(help.getWritableDatabase(), 1, 1);
-		Transaction t = new Transaction("date", "time", "na3", 5, new Category("cat"), "type");
+		//MoneyAppDatabaseHelper help = new MoneyAppDatabaseHelper(getApplicationContext());
+		//help.onUpgrade(help.getWritableDatabase(), 1, 1);
+		/*Transaction t = new Transaction("date", "time", "na3", 5, new Category("cat"), "type");
 		help.addTransaction(t);
 
 		Transaction newt = help.getTransaction(t.getId());

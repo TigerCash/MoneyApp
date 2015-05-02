@@ -11,6 +11,7 @@ import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Budget;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.BudgetPortion;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.TransactionPortion;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.helpers.BudgetHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.helpers.BudgetPortionHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.helpers.CategoryHelper;
@@ -18,6 +19,7 @@ import comp3710.csse.eng.auburn.edu.moneyapp.database.helpers.TransactionHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.BudgetPortionTable;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.BudgetTable;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.CategoryTable;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.TransactionPortionTable;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.TransactionTable;
 
 public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
@@ -36,6 +38,7 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase database) {
 		TransactionTable.onCreate(database);
+		TransactionPortionTable.onCreate(database);
 		BudgetTable.onCreate(database);
 		BudgetPortionTable.onCreate(database);
 		CategoryTable.onCreate(database);
@@ -47,6 +50,7 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase database, int oldVersion,
 	                      int newVersion) {
 		TransactionTable.onUpgrade(database, oldVersion, newVersion);
+		TransactionPortionTable.onUpgrade(database, oldVersion, newVersion);
 		BudgetTable.onUpgrade(database, oldVersion, newVersion);
 		BudgetPortionTable.onUpgrade(database, oldVersion, newVersion);
 		CategoryTable.onUpgrade(database, oldVersion, newVersion);
@@ -61,11 +65,11 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 	public ArrayList<Transaction> getAllTransactions() {
 		return TransactionHelper.getAllTransactions(contentResolver);
 	}
-
+	*/
 	public ArrayList<Transaction> getRecentTransactions(int numberOfTransactions) {
 		return TransactionHelper.getRecentTransactions(numberOfTransactions, contentResolver);
 	}
-
+/*
 	// Transaction CRUD
 	public int addTransaction(Transaction transaction) {
 		return TransactionHelper.addTransaction(transaction, contentResolver);

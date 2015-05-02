@@ -60,6 +60,14 @@ public class Transaction {
 	public void addTransactionPortion(TransactionPortion transactionPortion) {
 		this._transaction_portions.add(transactionPortion);
 	}
+
+	public String getTotal() {
+		int total = 0;
+		for (int i = 0; i < this._transaction_portions.size(); i++) {
+			total += Integer.parseInt(this._transaction_portions.get(i).getAmount());
+		}
+		return Integer.toString(total);
+	}
 /*
 	public static final String COMPLETE = "complete";
 	public static final String PARTIALLY_COMPLETE = "partial";
