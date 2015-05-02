@@ -5,17 +5,20 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.TransactionPortion;
@@ -120,9 +123,53 @@ public class EditTransactionFragment extends Fragment {
 
 		// Fill tablelayout with transactionPortions
 		mTransactionPortionsTable = (TableLayout) v.findViewById(R.id.transaction_portions_table);
+		ArrayList<TransactionPortion> transactionPortions = ((BuildTransactionActivity)getActivity()).transaction.getTransactionPortions();
 
 
 
+		if (transactionPortions != null) {
+			TableRow tableRow;
+			TextView textView;
+
+			for (int i = 0; i < transactionPortions.size(); i++) {
+
+				tableRow = new TableRow(getActivity());
+				tableRow.setTag(i);
+
+				textView = new TextView(getActivity());
+				textView.setText(transactionPortions.get(i).getDescription());
+				tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+				textView = new TextView(getActivity());
+				textView.setText(transactionPortions.get(i).getAmount());
+				tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+				textView = new TextView(getActivity());
+				MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getBaseContext());
+				Category category = helper.getCategory(transactionPortions.get(i).getCategoryId());
+				textView.setText(category.getName());
+				tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+
+				tableRow.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						TableRow tableRow = ((TableRow) v);
+						TextView nameTextView = (TextView) tableRow.getChildAt(0);
+						Log.d("list", "The name is" + nameTextView.getText().toString());
+						int transactionRowIndex = (int) tableRow.getTag();
+						Log.d("list", Integer.toString(transactionRowIndex));
+						// Populate Transaction
+						if (mListener != null) {
+							//mListener.onEditTransaction(transactionRowIndex);
+						}
+					}
+				});
+
+				mTransactionPortionsTable.addView(tableRow);
+
+			}
+		}
 
 		return v;
 	}
