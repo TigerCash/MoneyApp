@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.internal.widget.AdapterViewCompat;
 import android.support.v7.view.ActionMode;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
@@ -59,7 +61,7 @@ public class RecentTransactionsFragment extends Fragment {
 	private String mParam1;
 	private String mParam2;
 
-	private OnFragmentInteractionListener mListener;
+	//private OnFragmentInteractionListener mListener;
 	private TableLayout mTable;
 	private TableRow mSelectedTableRow;
 
@@ -289,6 +291,8 @@ public class RecentTransactionsFragment extends Fragment {
 		// setting list adapter
 		listView.setAdapter(adapter2);
 
+		listView.setOnItemLongClickListener(onItemLongClickListener);
+
 		/*TextView all_transactions_text = (TextView) v.findViewById(R.id.all_transactions_text);
 		all_transactions_text.setOnClickListener(onAllTransactionsListener);
 
@@ -360,12 +364,69 @@ public class RecentTransactionsFragment extends Fragment {
 		return v;
 	}
 
+
+	AdapterView.OnItemLongClickListener onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
+		@Override
+		public boolean onItemLongClick(AdapterView<?> parent, View childView, int flatPos, long id) {
+			if (ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+				final ExpandableListAdapter adapter = (ExpandableListAdapter) ((ExpandableListView) parent).getExpandableListAdapter();
+				long packedPos = ((ExpandableListView) parent).getExpandableListPosition(flatPos);
+				int groupPosition = ExpandableListView.getPackedPositionGroup(packedPos);
+				int childPosition = ExpandableListView.getPackedPositionChild(packedPos);
+
+				//do your child callback here
+				Log.d("recent", "onitemlongclicklistern child");
+
+				if (mActionMode != null) {
+					return false;
+				}
+
+				// Start the CAB using the ActionMode.Callback defined above
+				ActionBarActivity activity=(ActionBarActivity)getActivity();
+				activity.startSupportActionMode(mActionModeCallback);
+
+				/*mSelectedTableRow = (TableRow) v;
+
+				v.setSelected(true);*/
+
+				return true;
+
+			} else if(ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+				final ExpandableListAdapter adapter = (ExpandableListAdapter) ((ExpandableListView) parent).getExpandableListAdapter();
+				long packedPos = ((ExpandableListView) parent).getExpandableListPosition(flatPos);
+				int groupPosition = ExpandableListView.getPackedPositionGroup(packedPos);
+
+				//do your group callback here
+				Log.d("recent", "onitemlongclicklistern group");
+
+				if (mActionMode != null) {
+					return false;
+				}
+
+				// Start the CAB using the ActionMode.Callback defined above
+				ActionBarActivity activity=(ActionBarActivity)getActivity();
+				activity.startSupportActionMode(mActionModeCallback);
+
+				/*mSelectedTableRow = (TableRow) v;
+
+				v.setSelected(true);*/
+
+				return true; //true if we consumed the click, false if not
+
+			} else {
+				// null item; we don't consume the click
+				return false;
+			}
+
+		}
+	};
+
 	View.OnClickListener onAllTransactionsListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			if (mListener != null) {
-				mListener.onAllTransactions();
-			}
+			/*if (mListener != null) {
+				//mListener.onAllTransactions();
+			}*/
 		}
 	};
 
@@ -441,7 +502,7 @@ public class RecentTransactionsFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			mListener = (OnFragmentInteractionListener) activity;
+			//mListener = (OnFragmentInteractionListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnFragmentInteractionListener");
@@ -451,7 +512,7 @@ public class RecentTransactionsFragment extends Fragment {
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		mListener = null;
+		//mListener = null;
 	}
 
 	/**
@@ -487,7 +548,7 @@ public class RecentTransactionsFragment extends Fragment {
 
 	public void promptUserValidation() {
 		DialogFragment newFragment = new ValidateDeleteDialogFragment();
-		newFragment.setTargetFragment(this, 1);
+		//newFragment.setTargetFragment(this, 1);
 		newFragment.show(getActivity().getSupportFragmentManager(), "validate");
 	}
 
@@ -497,7 +558,7 @@ public class RecentTransactionsFragment extends Fragment {
 
 		//helper.deleteTransaction(transactionId);
 
-		mListener.onDeleteTransaction();
+		//mListener.onDeleteTransaction();
 	}
 
 	public void onValidateDeleteDialogNegativeClick() {
