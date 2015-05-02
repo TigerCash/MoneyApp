@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,11 +60,6 @@ public class ChooseTransactionTypeDialogFragment extends DialogFragment {
 			mParam2 = getArguments().getString(ARG_PARAM2);
 		}
 
-		try {
-			mListener = (OnNewTransactionListener) getTargetFragment();
-		} catch (ClassCastException e) {
-			throw new ClassCastException("Calling Fragment must implement OnNewTransactionListener");
-		}
 	}
 
 

@@ -1,5 +1,6 @@
 package comp3710.csse.eng.auburn.edu.moneyapp.home;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
@@ -7,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -80,6 +82,8 @@ public class HomeActivity extends ActionBarActivity
 			intent.putExtra("type", "withdrawal");
 			startActivity(intent);*/
 
+			DialogFragment newFragment = new ChooseTransactionTypeDialogFragment();
+			newFragment.show(getSupportFragmentManager(), "chooseTransactionType");
 
 		}
 	};
