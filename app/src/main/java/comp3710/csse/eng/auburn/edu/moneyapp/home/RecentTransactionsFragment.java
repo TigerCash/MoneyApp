@@ -72,6 +72,7 @@ public class RecentTransactionsFragment extends Fragment {
 	private ActionMode mActionMode;
 
 	ExpandableListAdapter adapter2;
+	ExpandableListView listView;
 
 	// Array of strings storing country names
 	String[] countries = new String[] {
@@ -143,6 +144,12 @@ public class RecentTransactionsFragment extends Fragment {
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.fragment_recent_transactions, container, false);
 
+		setupExpandableListView(v);
+
+		return v;
+	}
+
+	public void setupExpandableListView(View v) {
 		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity());
 
 		ArrayList<Transaction> recentTransactions = helper.getRecentTransactions(NUMBER_OF_TRANSACTIONS);
@@ -239,7 +246,7 @@ public class RecentTransactionsFragment extends Fragment {
 
 
 		// get the listview
-		ExpandableListView listView = (ExpandableListView) v.findViewById(R.id.recent_transactions_list_view);
+		listView = (ExpandableListView) v.findViewById(R.id.recent_transactions_list_view);
 
 		// preparing list data
 		//prepareListData();
@@ -290,10 +297,6 @@ public class RecentTransactionsFragment extends Fragment {
 		HashMap<HashMap<String,String>, ArrayList<HashMap<String,String>>> aListDataChild = new  HashMap<HashMap<String,String>, ArrayList<HashMap<String,String>>>();
 		aListDataChild.put(aList.get(0), aList);
 
-
-
-
-
 		adapter2 = new ExpandableListAdapter(getActivity().getBaseContext(), transactionList, transactionListPortion);
 
 		// setting list adapter
@@ -301,76 +304,6 @@ public class RecentTransactionsFragment extends Fragment {
 
 
 		listView.setOnItemLongClickListener(onItemLongClickListener);
-
-		/*TextView all_transactions_text = (TextView) v.findViewById(R.id.all_transactions_text);
-		all_transactions_text.setOnClickListener(onAllTransactionsListener);
-
-		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity());
-
-		ArrayList<Transaction> recentTransactions = helper.getRecentTransactions(NUMBER_OF_TRANSACTIONS);
-
-		mTable = (TableLayout) v.findViewById(R.id.recent_transactions_table);
-
-		TableRow tableRow;
-		TextView textView;
-
-		for (int i = 0; i < recentTransactions.size(); i++) {
-
-			tableRow = new TableRow(getActivity());
-			tableRow.setTag(R.id.row_index, i);
-			tableRow.setTag(R.id.transaction_id, recentTransactions.get(i).getId());
-
-			textView = new TextView(getActivity());
-			textView.setText(recentTransactions.get(i).getDate());
-			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
-
-			textView = new TextView(getActivity());
-			textView.setText(recentTransactions.get(i).getTime());
-			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
-
-			textView = new TextView(getActivity());
-			textView.setText(recentTransactions.get(i).getName());
-			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
-
-
-			textView = new TextView(getActivity());
-			int amount = recentTransactions.get(i).getAmount();
-			String amountString = "";
-			String type = recentTransactions.get(i).getType();
-			if (type.equals("withdrawal")) {
-				amountString = "-" + Integer.toString(amount);
-			}
-			else if (type.equals("deposit")) {
-				amountString = "+" + Integer.toString(amount);
-			}
-			textView.setText(amountString);
-			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
-
-			textView = new TextView(getActivity());
-			textView.setText(recentTransactions.get(i).getCategory().getName());
-			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
-
-			tableRow.setOnLongClickListener(onLongClickListener);
-
-			tableRow.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					TableRow tableRow = ((TableRow) v);
-					TextView nameTextView = (TextView) tableRow.getChildAt(0);
-					Log.d("list", "The name is" + nameTextView.getText().toString());
-					int transactionRowIndex = (int) tableRow.getTag(R.id.row_index);
-					Log.d("list", Integer.toString(transactionRowIndex));
-					// Populate Transaction
-					if (mListener != null) {
-						//mListener.onEditTransaction(transactionRowIndex);
-					}
-				}
-			});
-
-			mTable.addView(tableRow);
-		}*/
-
-		return v;
 	}
 
 
@@ -584,12 +517,18 @@ public class RecentTransactionsFragment extends Fragment {
 		if (remainingTransactionPortions == 0) {
 			helper.deleteTransaction(transactionId);
 		}
+
+		setupExpandableListView(parentView.getRootView());
 		adapter2.notifyDataSetChanged();
+		//listView.setAdapter(adapter2);
 	}
 
 	public void deleteTransaction(LinearLayout parentView) {
 		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
 		helper.deleteTransaction((int) parentView.getTag());
+
+		setupExpandableListView(parentView.getRootView());
+		//listView.setAdapter(adapter2);
 		adapter2.notifyDataSetChanged();
 	}
 
