@@ -181,6 +181,27 @@ public final class TransactionPortionHelper {
 		return result;
 	}
 */
+	public static boolean deleteTransactionPortions(int transactionId, ContentResolver contentResolver) {
+		ArrayList<TransactionPortion> transactionPortions = getTransactionPortions(transactionId, contentResolver);
+		for (int i = 0; i < transactionPortions.size(); i++) {
+			deleteTransactionPortion(transactionPortions.get(i).getId(), contentResolver);
+		}
+		return true;
+	}
+
+	public static boolean deleteTransactionPortion(int transactionPortionId, ContentResolver contentResolver) {
+		boolean result = false;
+
+		String selection = TransactionPortionTable.COLUMN_ID + "=" + transactionPortionId;
+
+		int rowsDeleted = contentResolver.delete(CONTENT_URI, selection, null);
+
+		if (rowsDeleted > 0)
+			result = true;
+
+		return result;
+	}
+
 	public static void updateTransactionPortions(ArrayList<TransactionPortion> transactionPortions, ContentResolver contentResolver) {
 		for (int i = 0; i < transactionPortions.size(); i++) {
 			updateTransactionPortion(transactionPortions.get(i), contentResolver);

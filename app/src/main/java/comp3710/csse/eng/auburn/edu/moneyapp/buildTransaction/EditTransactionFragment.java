@@ -159,11 +159,12 @@ public class EditTransactionFragment extends Fragment {
 				tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
 
 				textView = new TextView(getActivity());
-				MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getBaseContext());
+				final MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getBaseContext());
 				Category category = helper.getCategory(transactionPortions.get(i).getCategoryId());
 				textView.setText(category.getName());
 				tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
 
+				tableRow.setTag(transaction.getTransactionPortions().get(i).getId());
 
 				tableRow.setOnClickListener(new View.OnClickListener() {
 					@Override
@@ -177,20 +178,29 @@ public class EditTransactionFragment extends Fragment {
 						if (mListener != null) {
 							//mListener.onEditTransaction(transactionRowIndex);
 
+
+							TransactionPortion transactionPortion;
+							// If transactionPortion already had an id (set as tag for tablerow)
+							// update and use this transactionPortion
+							if (((int)tableRow.getTag()) != 0) {
+								 transactionPortion = helper.getTransactionPortion((int)tableRow.getTag());
+							}
+							else {
+								// Build transactionPortion
+								transactionPortion = new TransactionPortion();
+
+								String description = ((TextView) tableRow.getChildAt(0)).getText().toString();
+								String amount = ((TextView) tableRow.getChildAt(1)).getText().toString();
+								String category = ((TextView) tableRow.getChildAt(2)).getText().toString();
+								MoneyAppDatabaseHelper helper1 = new MoneyAppDatabaseHelper(getActivity().getBaseContext());
+								int category_id = helper1.getCategory(category).getId();
+								transactionPortion.setDescription(description);
+								transactionPortion.setAmount(amount);
+								transactionPortion.setCategoryId(category_id);
+							}
+
 							// Delete this transactionPortion object from BuildTransaction buildTransaction's transactionPortions
 							// It will be re-added when it is updated in the editTransactionPortionFragment
-							// Build transactionPortion
-							TransactionPortion transactionPortion = new TransactionPortion();
-
-							String description = ((TextView) tableRow.getChildAt(0)).getText().toString();
-							String amount = ((TextView) tableRow.getChildAt(1)).getText().toString();
-							String category = ((TextView) tableRow.getChildAt(2)).getText().toString();
-							MoneyAppDatabaseHelper helper1 = new MoneyAppDatabaseHelper(getActivity().getBaseContext());
-							int category_id = helper1.getCategory(category).getId();
-							transactionPortion.setDescription(description);
-							transactionPortion.setAmount(amount);
-							transactionPortion.setCategoryId(category_id);
-
 							ArrayList<TransactionPortion> transactionPortions1 = ((BuildTransactionActivity)getActivity()).buildTransaction.getTransactionPortions();
 							transactionPortions1.remove(transactionPortion);
 							((BuildTransactionActivity)getActivity()).buildTransaction.setTransactionPortions(transactionPortions1);

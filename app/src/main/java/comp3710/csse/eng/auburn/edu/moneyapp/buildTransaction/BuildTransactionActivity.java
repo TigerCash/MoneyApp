@@ -30,15 +30,22 @@ public class BuildTransactionActivity extends ActionBarActivity
 
 		Intent intent = getIntent();
 
-		Transaction transaction = intent.getParcelableExtra("buildTransaction");
+		Transaction transaction = intent.getParcelableExtra("transaction");
 		TransactionPortion transactionPortion = intent.getParcelableExtra("transactionPortion");
 		if (transaction != null) {
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 			MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getApplicationContext());
+
 			buildTransaction = transaction;
 			buildTransaction.setTransactionPortions(helper.getTransactionPortions(buildTransaction.getId()));
+			helper.deleteTransaction(buildTransaction.getId());
+			helper.deleteTransactionPortions(buildTransaction.getId());
+			buildTransaction.setId(0);
+			for (int i = 0; i < buildTransaction.getTransactionPortions().size(); i++) {
+				buildTransaction.getTransactionPortions().get(i).setId(0);
+			}
 			EditTransactionFragment fragment = new EditTransactionFragment();
 			fragmentTransaction.add(R.id.widget_fragment_container, fragment, "edit_transaction");
 			fragmentTransaction.commit();
