@@ -155,11 +155,11 @@ public final class TransactionHelper {
 		return transactionList;
 
 	}
-/*
+
 	public static boolean deleteTransaction(int id, ContentResolver contentResolver) {
 		boolean result = false;
 
-		String selection = TransactionTable.COLUMN_ID + "= \"" + id + "\"";
+		String selection = TransactionTable.COLUMN_ID + " = " + id;
 
 		int rowsDeleted = contentResolver.delete(CONTENT_URI, selection, null);
 
@@ -168,7 +168,7 @@ public final class TransactionHelper {
 
 		return result;
 	}
-
+/*
 	public static boolean deleteTransaction(Transaction buildTransaction, ContentResolver contentResolver) {
 		boolean result = false;
 

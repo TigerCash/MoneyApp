@@ -99,6 +99,10 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 		return TransactionHelper.deleteTransaction(buildTransaction, contentResolver);
 	}
 */
+	public boolean deleteTransaction(int transactionId) {
+		return TransactionHelper.deleteTransaction(transactionId, contentResolver);
+	}
+
 	public int updateTransaction(Transaction transaction) {
 		return TransactionHelper.updateTransaction(transaction, contentResolver);
 	}
@@ -123,6 +127,10 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 
 	public TransactionPortion getTransactionPortion(int transactionPortionId) {
 		return TransactionPortionHelper.getTransactionPortion(transactionPortionId, contentResolver);
+	}
+
+	public boolean deleteTransactionPortions(int transactionId) {
+		return TransactionPortionHelper.deleteTransactionPortions(transactionId, contentResolver);
 	}
 
 
