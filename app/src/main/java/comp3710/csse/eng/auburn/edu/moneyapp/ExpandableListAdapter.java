@@ -45,7 +45,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	public View getChildView(int groupPosition, final int childPosition,
 	                         boolean isLastChild, View convertView, ViewGroup parent) {
 
-		final String childText = ((HashMap<String,String>) getChild(groupPosition, childPosition)).get("flag");
+		final String childText = ((HashMap<String,String>) getChild(groupPosition, childPosition)).get("desc");
 
 		if (convertView == null) {
 			LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -84,7 +84,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded,
 	                         View convertView, ViewGroup parent) {
-		String headerTitle = ((HashMap<String,String>) getGroup(groupPosition)).get("txt");
+		String headerTitle = ((HashMap<String,String>) getGroup(groupPosition)).get("name");
 		if (convertView == null) {
 			LayoutInflater infalInflater = (LayoutInflater) this._context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

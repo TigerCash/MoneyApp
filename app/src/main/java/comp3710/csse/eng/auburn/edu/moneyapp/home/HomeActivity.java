@@ -39,10 +39,10 @@ public class HomeActivity extends ActionBarActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 
-		MoneyAppDatabaseHelper help = new MoneyAppDatabaseHelper(getApplicationContext());
+		/*MoneyAppDatabaseHelper help = new MoneyAppDatabaseHelper(getApplicationContext());
 		help.onUpgrade(help.getWritableDatabase(), 1, 1);
 		CategoryTable t = new CategoryTable();
-		t.onUpgrade(help.getWritableDatabase(), 1, 1);
+		t.onUpgrade(help.getWritableDatabase(), 1, 1);*/
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

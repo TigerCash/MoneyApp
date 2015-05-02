@@ -32,6 +32,10 @@ public class BuildTransactionActivity extends ActionBarActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_build_transaction);
 
+		Intent intent = getIntent();
+		String type = intent.getStringExtra("type");
+		transaction.setType(type);
+
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -66,9 +70,7 @@ public class BuildTransactionActivity extends ActionBarActivity
 
 	public void onCompleteTransaction(Transaction transaction) {
 
-		// If transaction has id, update transaction and transactionPortions
 
-		// Else, add transaction and transactionPortions to DB
 
 		// Launch HomeActivity
 		Intent intent = new Intent(BuildTransactionActivity.this, HomeActivity.class);

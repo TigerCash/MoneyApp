@@ -15,6 +15,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
@@ -85,15 +86,15 @@ public class EditTransactionFragment extends Fragment {
 			if (args.getString("type") != null) {
 				((BuildTransactionActivity) getActivity()).transaction.setType(args.getString("type"));
 			}
-			else {
-				transactionPortion.setId(args.getInt("id"));
-				transactionPortion.setDescription(args.getString("description"));
-				transactionPortion.setAmount(args.getString("amount"));
-				transactionPortion.setCategoryId(args.getInt("category_id"));
-				transactionPortion.setTransactionId(args.getInt("transaction_id"));
 
-				((BuildTransactionActivity)getActivity()).transaction.addTransactionPortion(transactionPortion);
-			}
+			transactionPortion.setId(args.getInt("id"));
+			transactionPortion.setDescription(args.getString("description"));
+			transactionPortion.setAmount(args.getString("amount"));
+			transactionPortion.setCategoryId(args.getInt("category_id"));
+			transactionPortion.setTransactionId(args.getInt("transaction_id"));
+
+			((BuildTransactionActivity)getActivity()).transaction.addTransactionPortion(transactionPortion);
+
 		}
 	}
 
@@ -187,7 +188,30 @@ public class EditTransactionFragment extends Fragment {
 			transaction.setName(((EditText)view.findViewById(R.id.name_edit_text)).getText().toString());
 			transaction.setDate(((EditText)view.findViewById(R.id.date_edit_text)).getText().toString());
 			transaction.setTime(((EditText)view.findViewById(R.id.time_edit_text)).getText().toString());
+
 			// transaction portions should already be added in this transaction
+
+			MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
+			// If transaction has id, update transaction and transactionPortions
+			if (transaction.getId() != 0) {
+				helper.updateTransaction(transaction);
+				helper.updateTransactionPortions(transaction.getTransactionPortions());
+
+			}
+			// Else, add transaction and transactionPortions to DB
+			else {
+
+				// Insert transaction and get id of this transaction in the table
+				int transactionId = helper.addTransaction(transaction);
+
+				// Set the transaction_id for each transactionPortion in this transaction
+				ArrayList<TransactionPortion> transactionPortions = transaction.getTransactionPortions();
+				for (int i = 0; i < transactionPortions.size(); i++) {
+					transactionPortions.get(i).setTransactionId(transactionId);
+				}
+
+				helper.addTransactionPortions(transactionPortions);
+			}
 
 			// Call listener out
 			if (mListener != null) {

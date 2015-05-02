@@ -27,6 +27,11 @@ public final class TransactionPortionHelper {
 
 
 
+	public static void addTransactionPortions(ArrayList<TransactionPortion> transactionPortions, ContentResolver contentResolver) {
+		for (int i = 0; i < transactionPortions.size(); i++) {
+			addTransactionPortion(transactionPortions.get(i), contentResolver);
+		}
+	}
 
 	public static int addTransactionPortion(TransactionPortion transactionPortion, ContentResolver contentResolver) {
 		ContentValues values = new ContentValues();
@@ -77,6 +82,29 @@ public final class TransactionPortionHelper {
 		transactionPortion.setTransactionId(cursor.getInt(cursor.getColumnIndex(TransactionPortionTable.COLUMN_TRANSACTION_ID)));
 
 		return transactionPortion;
+	}
+
+	public static ArrayList<TransactionPortion> getTransactionPortions(int transactionId, ContentResolver contentResolver) {
+		String[] projection = {TransactionPortionTable.COLUMN_ID, TransactionPortionTable.COLUMN_DESCRIPTION,
+				TransactionPortionTable.COLUMN_AMOUNT, TransactionPortionTable.COLUMN_CATEGORY_ID,
+				TransactionPortionTable.COLUMN_TRANSACTION_ID};
+
+		String selection = TransactionPortionTable.COLUMN_TRANSACTION_ID + "=" + transactionId;
+
+		Cursor cursor = contentResolver.query(CONTENT_URI,
+				projection, selection, null,
+				null);
+
+		ArrayList<TransactionPortion> transactionPortions = new ArrayList<TransactionPortion>();
+
+		while (cursor.moveToNext()) {
+			TransactionPortion transactionPortion = getTransactionPortion(cursor);
+			transactionPortions.add(transactionPortion);
+		}
+
+		cursor.close();
+
+		return transactionPortions;
 	}
 
 	/*public static ArrayList<Transaction> getAllTransactions(ContentResolver contentResolver) {
@@ -151,24 +179,29 @@ public final class TransactionPortionHelper {
 
 		return result;
 	}
+*/
+	public static void updateTransactionPortions(ArrayList<TransactionPortion> transactionPortions, ContentResolver contentResolver) {
+		for (int i = 0; i < transactionPortions.size(); i++) {
+			updateTransactionPortion(transactionPortions.get(i), contentResolver);
+		}
+	}
 
-	public static int updateTransaction(Transaction transaction, ContentResolver contentResolver) {
+	public static int updateTransactionPortion(TransactionPortion transactionPortion, ContentResolver contentResolver) {
 		int numReplacedRows;
 
 		ContentValues values = new ContentValues();
 
+		//values.put(TransactionTable.COLUMN_ID, transaction.getId());
+		// Removed above statement because it will always insert a 0 - we dont want this
+		values.put(TransactionPortionTable.COLUMN_DESCRIPTION, transactionPortion.getDescription());
+		values.put(TransactionPortionTable.COLUMN_AMOUNT, transactionPortion.getAmount());
+		values.put(TransactionPortionTable.COLUMN_CATEGORY_ID, transactionPortion.getCategoryId());
+		values.put(TransactionPortionTable.COLUMN_TRANSACTION_ID, transactionPortion.getTransactionId());
 
-		values.put(TransactionTable.COLUMN_DATE, transaction.getDate());
-		values.put(TransactionTable.COLUMN_TIME, transaction.getTime());
-		values.put(TransactionTable.COLUMN_NAME, transaction.getName());
-		values.put(TransactionTable.COLUMN_AMOUNT, transaction.getAmount());
-		values.put(TransactionTable.COLUMN_CATEGORY_NAME, transaction.getCategory().toString());
-		values.put(TransactionTable.COLUMN_TYPE, transaction.getType());
-
-		String selection = TransactionTable.COLUMN_ID + " = " + transaction.getId();
+		String selection = TransactionTable.COLUMN_ID + " = " + transactionPortion.getId();
 
 		numReplacedRows = contentResolver.update(CONTENT_URI, values, selection, null);
 
 		return numReplacedRows;
-	}*/
+	}
 }
