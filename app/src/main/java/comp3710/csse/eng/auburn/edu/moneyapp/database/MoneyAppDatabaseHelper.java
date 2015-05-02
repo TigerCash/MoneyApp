@@ -129,6 +129,10 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 		return TransactionPortionHelper.getTransactionPortion(transactionPortionId, contentResolver);
 	}
 
+	public boolean deleteTransactionPortion(int transactionPortionId) {
+		return TransactionPortionHelper.deleteTransactionPortion(transactionPortionId, contentResolver);
+	}
+
 	public boolean deleteTransactionPortions(int transactionId) {
 		return TransactionPortionHelper.deleteTransactionPortions(transactionId, contentResolver);
 	}

@@ -71,6 +71,8 @@ public class RecentTransactionsFragment extends Fragment {
 
 	private ActionMode mActionMode;
 
+	ExpandableListAdapter adapter2;
+
 	// Array of strings storing country names
 	String[] countries = new String[] {
 			"India",
@@ -242,7 +244,7 @@ public class RecentTransactionsFragment extends Fragment {
 		// preparing list data
 		//prepareListData();
 
-		ExpandableListAdapter adapter2;
+
 
 
 		ArrayList<String> listDataHeader = new ArrayList<String>();
@@ -296,6 +298,7 @@ public class RecentTransactionsFragment extends Fragment {
 
 		// setting list adapter
 		listView.setAdapter(adapter2);
+
 
 		listView.setOnItemLongClickListener(onItemLongClickListener);
 
@@ -498,7 +501,11 @@ public class RecentTransactionsFragment extends Fragment {
 					mode.finish();
 					return true;
 				case R.id.action_delete:
-					//deleteTransaction(mSelectedTableRow);
+					if (mChildView != null)
+						deleteTransactionPortion(mChildView, mParentView);
+					else
+						deleteTransaction(mParentView);
+
 					mode.finish();
 					return true;
 				default:
@@ -564,6 +571,26 @@ public class RecentTransactionsFragment extends Fragment {
 
 		mListener.editTransaction(transaction);
 
+	}
+
+	public void deleteTransactionPortion(LinearLayout childView, LinearLayout parentView) {
+		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
+		int transactionId = helper.getTransactionPortion((int) childView.getTag()).getTransactionId();
+		helper.deleteTransactionPortion((int) childView.getTag());
+
+		// Get number of transaction portions remaining for this transaction after this deletion
+		int remainingTransactionPortions = helper.getTransactionPortions(transactionId).size();
+		// If no transaction portions left, delete transaction
+		if (remainingTransactionPortions == 0) {
+			helper.deleteTransaction(transactionId);
+		}
+		adapter2.notifyDataSetChanged();
+	}
+
+	public void deleteTransaction(LinearLayout parentView) {
+		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
+		helper.deleteTransaction((int) parentView.getTag());
+		adapter2.notifyDataSetChanged();
 	}
 
 	public void editTransaction(TableRow selectedTableRow) {
