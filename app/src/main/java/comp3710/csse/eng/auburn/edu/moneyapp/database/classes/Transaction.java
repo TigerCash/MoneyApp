@@ -56,6 +56,10 @@ public class Transaction {
 	public void setTransactionPortions(ArrayList<TransactionPortion> _transaction_portions) {
 		this._transaction_portions = _transaction_portions;
 	}
+
+	public void addTransactionPortion(TransactionPortion transactionPortion) {
+		this._transaction_portions.add(transactionPortion);
+	}
 /*
 	public static final String COMPLETE = "complete";
 	public static final String PARTIALLY_COMPLETE = "partial";
