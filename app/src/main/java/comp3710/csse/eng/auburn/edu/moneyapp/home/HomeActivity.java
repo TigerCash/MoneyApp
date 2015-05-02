@@ -21,6 +21,7 @@ import comp3710.csse.eng.auburn.edu.moneyapp.allTransactions.AllTransactionsActi
 import comp3710.csse.eng.auburn.edu.moneyapp.buildTransaction.BuildTransactionActivity;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.CategoryTable;
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.ChooseTransactionTypeDialogFragment;
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.EditTransactionDialogFragment;
 
@@ -38,8 +39,10 @@ public class HomeActivity extends ActionBarActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 
-		//MoneyAppDatabaseHelper help = new MoneyAppDatabaseHelper(getApplicationContext());
-		//help.onUpgrade(help.getWritableDatabase(), 1, 1);
+		MoneyAppDatabaseHelper help = new MoneyAppDatabaseHelper(getApplicationContext());
+		help.onUpgrade(help.getWritableDatabase(), 1, 1);
+		CategoryTable t = new CategoryTable();
+		t.onUpgrade(help.getWritableDatabase(), 1, 1);
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
