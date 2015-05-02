@@ -126,4 +126,21 @@ public class BuildTransactionActivity extends ActionBarActivity
 			}
 		}
 	}
+
+	public void onEditTransactionPortion(TransactionPortion transactionPortion) {
+		// Launch EditTransactionPortionFragment(transactionPortion)
+
+		// Create fragment and give it an argument specifying the article it should show
+		EditTransactionPortionFragment f = EditTransactionPortionFragment.newInstance(transactionPortion);
+
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+		// Replace whatever is in the fragment_container view with this fragment,
+		// and add the transaction to the back stack so the user can navigate back
+		transaction.replace(R.id.widget_fragment_container, f);
+		transaction.addToBackStack(null);
+
+		// Commit the transaction
+		transaction.commit();
+	}
 }

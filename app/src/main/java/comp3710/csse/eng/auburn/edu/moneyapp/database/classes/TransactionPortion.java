@@ -109,6 +109,29 @@ public class TransactionPortion {
 		return attributeStatus;
 	}*/
 
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+
+		TransactionPortion other = (TransactionPortion) obj;
+		if (_id != other._id)
+			return false;
+		if (!_description.equals(other._description))
+			return false;
+		if (!_amount.equals(other._amount))
+			return false;
+		if (_category_id != other._category_id)
+			return false;
+		if (_transaction_id != other._transaction_id)
+			return true;
+
+		return true;
+	}
+
 	@Override
 	public String toString() {
 		return "\nid: " + _id
