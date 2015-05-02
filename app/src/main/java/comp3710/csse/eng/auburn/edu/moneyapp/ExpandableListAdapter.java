@@ -47,11 +47,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	public View getChildView(int groupPosition, final int childPosition,
 	                         boolean isLastChild, View convertView, ViewGroup parent) {
 
-		final String childText = ((HashMap<String,String>) getChild(groupPosition, childPosition)).get("desc");
-
 		final String descText = ((HashMap<String,String>) getChild(groupPosition, childPosition)).get("desc");
 		final String amountText = ((HashMap<String,String>) getChild(groupPosition, childPosition)).get("amount");
 		final String categoryText = ((HashMap<String,String>) getChild(groupPosition, childPosition)).get("category");
+
+		final String transactionPortionIdString = ((HashMap<String,String>) getChild(groupPosition, childPosition)).get("id");
+		int transactionPortionId = Integer.parseInt(transactionPortionIdString);
 
 		if (convertView == null) {
 			LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -70,6 +71,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		amountTextV.setText(amountText);
 		TextView categoryTextV = (TextView) convertView.findViewById(R.id.category_text);
 		categoryTextV.setText(categoryText);
+
+		convertView.setTag(transactionPortionId);
 
 		return convertView;
 	}
@@ -102,6 +105,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		String timeText = ((HashMap<String,String>) getGroup(groupPosition)).get("time");
 		String nameText = ((HashMap<String,String>) getGroup(groupPosition)).get("name");
 		String totalText = ((HashMap<String,String>) getGroup(groupPosition)).get("total");
+
+		final String transactionIdString = ((HashMap<String,String>) getGroup(groupPosition)).get("id");
+		int transactionId = Integer.parseInt(transactionIdString);
+
 		if (convertView == null) {
 			LayoutInflater infalInflater = (LayoutInflater) this._context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -124,6 +131,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
 		TextView totalTextV = (TextView) convertView.findViewById(R.id.total_text);
 		totalTextV.setText(totalText);
+
+		convertView.setTag(transactionId);
 
 		return convertView;
 	}

@@ -319,7 +319,7 @@ public class MoneyAppContentProvider extends ContentProvider {
 				break;
 
 			case TRANSACTION_PORTIONS:
-				rowsUpdated = sqlDB.update(TransactionTable.TABLE_TRANSACTION,
+				rowsUpdated = sqlDB.update(TransactionPortionTable.TABLE_TRANSACTION_PORTION,
 						values,
 						selection,
 						selectionArgs);

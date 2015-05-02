@@ -21,6 +21,7 @@ import comp3710.csse.eng.auburn.edu.moneyapp.allTransactions.AllTransactionsActi
 import comp3710.csse.eng.auburn.edu.moneyapp.buildTransaction.BuildTransactionActivity;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.TransactionPortion;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.CategoryTable;
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.ChooseTransactionTypeDialogFragment;
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.EditTransactionDialogFragment;
@@ -162,6 +163,15 @@ public class HomeActivity extends ActionBarActivity
 		setBalanceText();*/
 	}
 
+
+
+	public void newTransaction(String type) {
+		Intent intent = new Intent(HomeActivity.this, BuildTransactionActivity.class);
+
+		intent.putExtra("type", type);
+		startActivity(intent);
+	}
+
 	public void editTransaction(Transaction transaction) {
 		/*int i = 0;
 		Transaction t = transaction;
@@ -169,10 +179,10 @@ public class HomeActivity extends ActionBarActivity
 		newFragment.show(this.getSupportFragmentManager(), "edit_transaction");*/
 	}
 
-	public void newTransaction(String type) {
+	public void editTransactionPortion(TransactionPortion transactionPortion) {
 		Intent intent = new Intent(HomeActivity.this, BuildTransactionActivity.class);
 
-		intent.putExtra("type", type);
+		intent.putExtra("transactionPortion", transactionPortion);
 		startActivity(intent);
 	}
 }

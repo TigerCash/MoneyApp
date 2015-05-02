@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TableLayout;
@@ -61,9 +62,12 @@ public class RecentTransactionsFragment extends Fragment {
 	private String mParam1;
 	private String mParam2;
 
-	//private OnFragmentInteractionListener mListener;
+	private OnFragmentInteractionListener mListener;
 	private TableLayout mTable;
 	private TableRow mSelectedTableRow;
+
+	private LinearLayout mChildView;
+	private LinearLayout mParentView;
 
 	private ActionMode mActionMode;
 
@@ -160,6 +164,7 @@ public class RecentTransactionsFragment extends Fragment {
 			hm.put("time", recentTransactions.get(i).getTime());
 			hm.put("name", recentTransactions.get(i).getName());
 			hm.put("total", recentTransactions.get(i).getTotal());
+			hm.put("id", String.valueOf(recentTransactions.get(i).getId()));
 			transactionList.add(hm);
 		}
 
@@ -192,6 +197,7 @@ public class RecentTransactionsFragment extends Fragment {
 				hm.put("amount", transactionPortions.get(j).getAmount());
 				Category category = helper.getCategory(transactionPortions.get(j).getCategoryId());
 				hm.put("category", category.getName());
+				hm.put("id", String.valueOf(transactionPortions.get(j).getId()));
 				al.add(hm);
 			}
 			transactionListPortion.put(transactionList.get(i), al);
@@ -385,6 +391,9 @@ public class RecentTransactionsFragment extends Fragment {
 				ActionBarActivity activity=(ActionBarActivity)getActivity();
 				activity.startSupportActionMode(mActionModeCallback);
 
+				mChildView = (LinearLayout) childView;
+				mParentView = (LinearLayout) parent.getChildAt(groupPosition);
+
 				/*mSelectedTableRow = (TableRow) v;
 
 				v.setSelected(true);*/
@@ -406,6 +415,9 @@ public class RecentTransactionsFragment extends Fragment {
 				// Start the CAB using the ActionMode.Callback defined above
 				ActionBarActivity activity=(ActionBarActivity)getActivity();
 				activity.startSupportActionMode(mActionModeCallback);
+
+				mChildView = null;
+				mParentView = (LinearLayout) parent.getChildAt(groupPosition);
 
 				/*mSelectedTableRow = (TableRow) v;
 
@@ -478,11 +490,15 @@ public class RecentTransactionsFragment extends Fragment {
 					mode.finish(); // Action picked, so close the CAB
 					return true;*/
 				case R.id.action_edit:
-					editTransaction(mSelectedTableRow);
+					//editTransaction(mSelectedTableRow);
+					if (mChildView != null)
+						editTransactionPortion(mChildView, mParentView);
+					else
+						editTransaction(mParentView);
 					mode.finish();
 					return true;
 				case R.id.action_delete:
-					deleteTransaction(mSelectedTableRow);
+					//deleteTransaction(mSelectedTableRow);
 					mode.finish();
 					return true;
 				default:
@@ -502,7 +518,7 @@ public class RecentTransactionsFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			//mListener = (OnFragmentInteractionListener) activity;
+			mListener = (OnFragmentInteractionListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnFragmentInteractionListener");
@@ -512,7 +528,7 @@ public class RecentTransactionsFragment extends Fragment {
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		//mListener = null;
+		mListener = null;
 	}
 
 	/**
@@ -527,9 +543,24 @@ public class RecentTransactionsFragment extends Fragment {
 	 */
 	public interface OnFragmentInteractionListener {
 		// TODO: Update argument type and name
-		public void onDeleteTransaction();
-		public void onAllTransactions();
+		/*public void onDeleteTransaction();
+		public void onAllTransactions();*/
 		public void editTransaction(Transaction transaction);
+		public void editTransactionPortion(TransactionPortion transactionPortion);
+	}
+
+	public void editTransactionPortion(LinearLayout childView, LinearLayout parentView) {
+		// Get transactionPortion so it can be edited
+		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
+		TransactionPortion transactionPortion = helper.getTransactionPortion((int) childView.getTag());
+
+		/*int t1 = (int) childView.getTag();
+		int t2 = (int) parentView.getTag();*/
+		mListener.editTransactionPortion(transactionPortion);
+	}
+
+	public void editTransaction(LinearLayout parentView) {
+
 	}
 
 	public void editTransaction(TableRow selectedTableRow) {

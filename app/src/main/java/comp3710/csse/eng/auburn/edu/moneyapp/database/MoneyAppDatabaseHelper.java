@@ -109,8 +109,16 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 		TransactionPortionHelper.updateTransactionPortions(transactionPortions, contentResolver);
 	}
 
+	public void updateTransactionPortion(TransactionPortion transactionPortion) {
+		TransactionPortionHelper.updateTransactionPortion(transactionPortion, contentResolver);
+	}
+
 	public ArrayList<TransactionPortion> getTransactionPortions(int transactionId) {
 		return TransactionPortionHelper.getTransactionPortions(transactionId, contentResolver);
+	}
+
+	public TransactionPortion getTransactionPortion(int transactionPortionId) {
+		return TransactionPortionHelper.getTransactionPortion(transactionPortionId, contentResolver);
 	}
 
 
