@@ -143,19 +143,28 @@ public class RecentTransactionsFragment extends Fragment {
 		// Each row in the list stores date, time, name, totaled amount
 		ArrayList<HashMap<String,String>> transactionList = new ArrayList<HashMap<String,String>>();
 
-		for (int i = 0; i < recentTransactions.size(); i++) {
+		/*for (int i = 0; i < recentTransactions.size(); i++) {
 			HashMap<String,String> hm = new HashMap<String,String>();
 			hm.put("date", "Date: " + recentTransactions.get(i).getDate());
 			hm.put("time", "Time: " + recentTransactions.get(i).getTime());
 			hm.put("name", "Name: " + recentTransactions.get(i).getName());
 			hm.put("total", "Total: " + recentTransactions.get(i).getTotal());
 			transactionList.add(hm);
+		}*/
+
+		for (int i = 0; i < recentTransactions.size(); i++) {
+			HashMap<String,String> hm = new HashMap<String,String>();
+			hm.put("date", recentTransactions.get(i).getDate());
+			hm.put("time", recentTransactions.get(i).getTime());
+			hm.put("name", recentTransactions.get(i).getName());
+			hm.put("total", recentTransactions.get(i).getTotal());
+			transactionList.add(hm);
 		}
 
 		HashMap<HashMap<String,String>, ArrayList<HashMap<String,String>>> transactionListPortion = new  HashMap<HashMap<String,String>, ArrayList<HashMap<String,String>>>();
 
 
-		for (int i = 0; i < transactionList.size(); i++) {
+		/*for (int i = 0; i < transactionList.size(); i++) {
 
 			ArrayList<HashMap<String,String>> al = new ArrayList<HashMap<String,String>>();
 			ArrayList<TransactionPortion> transactionPortions = recentTransactions.get(i).getTransactionPortions();
@@ -165,6 +174,22 @@ public class RecentTransactionsFragment extends Fragment {
 				hm.put("amount", "Amount: " + transactionPortions.get(j).getAmount());
 				Category category = helper.getCategory(transactionPortions.get(j).getCategoryId());
 				hm.put("category", "Category: " + category.getName());
+				al.add(hm);
+			}
+			transactionListPortion.put(transactionList.get(i), al);
+
+		}*/
+
+		for (int i = 0; i < transactionList.size(); i++) {
+
+			ArrayList<HashMap<String,String>> al = new ArrayList<HashMap<String,String>>();
+			ArrayList<TransactionPortion> transactionPortions = recentTransactions.get(i).getTransactionPortions();
+			for (int j = 0; j < transactionPortions.size(); j++) {
+				HashMap<String,String> hm = new HashMap<String,String>();
+				hm.put("desc", transactionPortions.get(j).getDescription());
+				hm.put("amount", transactionPortions.get(j).getAmount());
+				Category category = helper.getCategory(transactionPortions.get(j).getCategoryId());
+				hm.put("category", category.getName());
 				al.add(hm);
 			}
 			transactionListPortion.put(transactionList.get(i), al);
@@ -190,11 +215,11 @@ public class RecentTransactionsFragment extends Fragment {
 		String[] from = { "flag","txt","cur" };
 
 		// Ids of views in listview_layout
-		int[] to = { R.id.txt,R.id.txt,R.id.cur};
+		//int[] to = { R.id.txt,R.id.txt,R.id.cur};
 
 		// Instantiating an adapter to store each items
 		// R.layout.listview_layout defines the layout of each item
-		SimpleAdapter adapter = new SimpleAdapter(getActivity().getBaseContext(), aList, R.layout.listview_layout, from, to);
+		//SimpleAdapter adapter = new SimpleAdapter(getActivity().getBaseContext(), aList, R.layout.listview_layout, from, to);
 
 		// Getting a reference to listview of main.xml layout file
 		//ListView listView = ( ListView ) v.findViewById(R.id.recent_transactions_list_view);
