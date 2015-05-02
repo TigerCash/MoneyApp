@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="55dip"
+              android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
               android:orientation="horizontal" >
 
     <!--<TextView
@@ -17,6 +18,7 @@
         android:id="@+id/description_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_weight="1"/>
 
     <TextView
