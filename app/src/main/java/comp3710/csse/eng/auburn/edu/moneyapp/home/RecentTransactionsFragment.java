@@ -554,12 +554,15 @@ public class RecentTransactionsFragment extends Fragment {
 		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
 		TransactionPortion transactionPortion = helper.getTransactionPortion((int) childView.getTag());
 
-		/*int t1 = (int) childView.getTag();
-		int t2 = (int) parentView.getTag();*/
 		mListener.editTransactionPortion(transactionPortion);
 	}
 
 	public void editTransaction(LinearLayout parentView) {
+		// Get buildTransaction so it can be edited
+		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
+		Transaction transaction = helper.getTransaction((int) parentView.getTag());
+
+		mListener.editTransaction(transaction);
 
 	}
 
@@ -568,9 +571,9 @@ public class RecentTransactionsFragment extends Fragment {
 		int transactionId = (int)selectedTableRow.getTag(R.id.transaction_id);
 		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity());
 
-		//Transaction transaction = helper.getTransaction(transactionId);
+		//Transaction buildTransaction = helper.getTransaction(transactionId);
 
-		//mListener.editTransaction(transaction);
+		//mListener.editTransaction(buildTransaction);
 	}
 
 	public void deleteTransaction(TableRow selectedTableRow) {

@@ -137,9 +137,9 @@ public class EditTransactionPortionFragment extends Fragment {
 			MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
 			int categoryId = helper.getCategory(categoryName).getId();
 			mTransactionPortion.setCategoryId(categoryId);
-			//mTransactionPortion.setTransactionId(((BuildTransactionActivity)getActivity()).transaction.getId());
+			//mTransactionPortion.setTransactionId(((BuildTransactionActivity)getActivity()).buildTransaction.getId());
 			if (mListener != null) {
-				//((BuildTransactionActivity)getActivity()).transaction.addTransactionPortion(mTransactionPortion);
+				//((BuildTransactionActivity)getActivity()).buildTransaction.addTransactionPortion(mTransactionPortion);
 				mListener.onCompleteTransactionPortion(mTransactionPortion);
 			}
 		}

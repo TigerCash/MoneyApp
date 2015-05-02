@@ -213,21 +213,21 @@ public class ListTransactionCategoriesFragment extends Fragment {
 
 				for (int i = 0; i < mTransactionCategories.size(); i++) {
 					String transactionState;
-					Transaction transaction = mTransactionCategories.get(i);
-					transactionState = transaction.isComplete().get(0);
+					Transaction buildTransaction = mTransactionCategories.get(i);
+					transactionState = buildTransaction.isComplete().get(0);
 
 					if (transactionState.equals(Transaction.INCOMPLETE)) {
 						transactionsComplete = false;
 						break;
 					}
 					else if (transactionState.equals(Transaction.PARTIALLY_COMPLETE)) {
-						if (transaction.isComplete().contains("Date")) {
+						if (buildTransaction.isComplete().contains("Date")) {
 							Calendar c = Calendar.getInstance();
 							SimpleDateFormat dateFormatter = new SimpleDateFormat("MM.dd.yy", Locale.US);
-							transaction.setDate(dateFormatter.format(c.getTime()));
+							buildTransaction.setDate(dateFormatter.format(c.getTime()));
 
 						}
-						if (transaction.isComplete().contains("Time")) {
+						if (buildTransaction.isComplete().contains("Time")) {
 							String am_pm = "";
 							Calendar newTime = Calendar.getInstance();
 
@@ -239,7 +239,7 @@ public class ListTransactionCategoriesFragment extends Fragment {
 							String strHrsToShow = (newTime.get(Calendar.HOUR) == 0) ?"12":newTime.get(Calendar.HOUR)+"";
 							String strMinToShow = (newTime.get(Calendar.MINUTE) < 10) ? "0"+newTime.get(Calendar.MINUTE):newTime.get(Calendar.MINUTE)+"";
 
-							transaction.setTime(strHrsToShow+":"+strMinToShow+" "+am_pm);
+							buildTransaction.setTime(strHrsToShow+":"+strMinToShow+" "+am_pm);
 						}
 
 					}

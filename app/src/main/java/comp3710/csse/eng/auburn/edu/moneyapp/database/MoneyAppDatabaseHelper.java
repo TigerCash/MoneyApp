@@ -82,6 +82,10 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 	public int addTransaction(Transaction transaction) {
 		return TransactionHelper.addTransaction(transaction, contentResolver);
 	}
+
+	public Transaction getTransaction(int transactionId) {
+		return TransactionHelper.getTransaction(transactionId, contentResolver);
+	}
 /*
 	public Transaction getTransaction(int id) {
 		return TransactionHelper.getTransaction(id, contentResolver);
@@ -91,8 +95,8 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 		return TransactionHelper.deleteTransaction(id, contentResolver);
 	}
 
-	public boolean deleteTransaction(Transaction transaction) {
-		return TransactionHelper.deleteTransaction(transaction, contentResolver);
+	public boolean deleteTransaction(Transaction buildTransaction) {
+		return TransactionHelper.deleteTransaction(buildTransaction, contentResolver);
 	}
 */
 	public int updateTransaction(Transaction transaction) {

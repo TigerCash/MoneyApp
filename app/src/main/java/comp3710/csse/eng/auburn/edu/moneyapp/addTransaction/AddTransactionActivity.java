@@ -75,11 +75,11 @@ public class AddTransactionActivity extends ActionBarActivity
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
 		// Replace whatever is in the fragment_container view with this fragment,
-		// and add the transaction to the back stack so the user can navigate back
+		// and add the buildTransaction to the back stack so the user can navigate back
 		transaction.replace(R.id.fragment_container, f);
 		transaction.addToBackStack(null);
 
-		// Commit the transaction
+		// Commit the buildTransaction
 		transaction.commit();
 	}
 
@@ -113,11 +113,11 @@ public class AddTransactionActivity extends ActionBarActivity
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
 		// Replace whatever is in the fragment_container view with this fragment,
-		// and add the transaction to the back stack so the user can navigate back
+		// and add the buildTransaction to the back stack so the user can navigate back
 		transaction.replace(R.id.fragment_container, f);
 		transaction.addToBackStack(null);
 
-		// Commit the transaction
+		// Commit the buildTransaction
 		transaction.commit();
 	}
 
@@ -133,11 +133,11 @@ public class AddTransactionActivity extends ActionBarActivity
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
 		// Replace whatever is in the fragment_container view with this fragment,
-		// and add the transaction to the back stack so the user can navigate back
+		// and add the buildTransaction to the back stack so the user can navigate back
 		transaction.replace(R.id.fragment_container, f);
 		transaction.addToBackStack(null);
 
-		// Commit the transaction
+		// Commit the buildTransaction
 		transaction.commit();
 	}
 
@@ -150,8 +150,8 @@ public class AddTransactionActivity extends ActionBarActivity
 
 		//ArrayList<Transaction> transactions = helper.getAllTransactions();
 
-		//for (Transaction transaction : transactions)
-		//	Log.d("db9", transaction.toString());
+		//for (Transaction buildTransaction : transactions)
+		//	Log.d("db9", buildTransaction.toString());
 
 		Intent intent = new Intent(AddTransactionActivity.this, HomeActivity.class);
 

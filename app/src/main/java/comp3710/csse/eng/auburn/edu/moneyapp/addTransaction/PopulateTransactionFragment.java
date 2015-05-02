@@ -66,12 +66,12 @@ public class PopulateTransactionFragment extends Fragment {
 		PopulateTransactionFragment fragment = new PopulateTransactionFragment();
 		/*Bundle args = new Bundle();
 		args.putInt("index", index);
-		args.putString("date", transaction.getDate());
-		args.putString("time", transaction.getTime());
-		args.putString("name", transaction.getName());
-		args.putInt("amount", transaction.getAmount());
-		args.putString("category", transaction.getCategory().getName());
-		args.putString("type", transaction.getType());
+		args.putString("date", buildTransaction.getDate());
+		args.putString("time", buildTransaction.getTime());
+		args.putString("name", buildTransaction.getName());
+		args.putInt("amount", buildTransaction.getAmount());
+		args.putString("category", buildTransaction.getCategory().getName());
+		args.putString("type", buildTransaction.getType());
 
 		fragment.setArguments(args);*/
 
@@ -98,12 +98,12 @@ public class PopulateTransactionFragment extends Fragment {
 		if (args != null) {
 			/*mIndex = args.getInt("index");
 
-			transaction.setDate(args.getString("date"));
-			transaction.setTime(args.getString("time"));
-			transaction.setName(args.getString("name"));
-			transaction.setAmount(args.getInt("amount"));
-			transaction.setCategory(new Category(args.getString("category")));
-			transaction.setType(args.getString("type"));*/
+			buildTransaction.setDate(args.getString("date"));
+			buildTransaction.setTime(args.getString("time"));
+			buildTransaction.setName(args.getString("name"));
+			buildTransaction.setAmount(args.getInt("amount"));
+			buildTransaction.setCategory(new Category(args.getString("category")));
+			buildTransaction.setType(args.getString("type"));*/
 		}
 
 	}
@@ -116,20 +116,20 @@ public class PopulateTransactionFragment extends Fragment {
 
 		/*category_name_text = (TextView) v.findViewById(R.id.category_name_text);
 		type_text = (TextView) v.findViewById(R.id.type_text);
-		category_name_text.setText(transaction.getCategory().getName());
-		type_text.setText(transaction.getType());
+		category_name_text.setText(buildTransaction.getCategory().getName());
+		type_text.setText(buildTransaction.getType());
 
 		name_text = (EditText) v.findViewById(R.id.name);
-		name_text.setText(transaction.getName());
+		name_text.setText(buildTransaction.getName());
 		amount_text = (EditText) v.findViewById(R.id.amount);
-		int amount = transaction.getAmount();
+		int amount = buildTransaction.getAmount();
 		if (amount != 0)
 			amount_text.setText(Integer.toString(amount));
 
 		time_text = (EditText) v.findViewById(R.id.time_text);
-		time_text.setText(transaction.getTime());
+		time_text.setText(buildTransaction.getTime());
 		date_text = (EditText) v.findViewById(R.id.date_text);
-		date_text.setText(transaction.getDate());
+		date_text.setText(buildTransaction.getDate());
 		time_text.setOnClickListener(timePickerHandler);
 		date_text.setOnClickListener(datePickerHandler);
 
@@ -208,10 +208,10 @@ public class PopulateTransactionFragment extends Fragment {
 				t.setTime(time_text.getText().toString());
 
 				t.setType(transaction.getType());
-				//t.setCategory(transaction.getCategory());
+				//t.setCategory(buildTransaction.getCategory());
 
 				mListener.onCompleteTransaction(t, mIndex);
-				//mListener.onCompleteTransaction(transaction, mIndex);
+				//mListener.onCompleteTransaction(buildTransaction, mIndex);
 			}
 		}
 	};

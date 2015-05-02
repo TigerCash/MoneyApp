@@ -37,7 +37,7 @@ public final class TransactionPortionHelper {
 	public static int addTransactionPortion(TransactionPortion transactionPortion, ContentResolver contentResolver) {
 		ContentValues values = new ContentValues();
 
-		//values.put(TransactionTable.COLUMN_ID, transaction.getId());
+		//values.put(TransactionTable.COLUMN_ID, buildTransaction.getId());
 		// Removed above statement because it will always insert a 0 - we dont want this
 		values.put(TransactionPortionTable.COLUMN_DESCRIPTION, transactionPortion.getDescription());
 		values.put(TransactionPortionTable.COLUMN_AMOUNT, transactionPortion.getAmount());
@@ -121,8 +121,8 @@ public final class TransactionPortionHelper {
 		ArrayList<Transaction> transactionList = new ArrayList<Transaction>();
 
 		while (cursor.moveToNext()) {
-			Transaction transaction = getTransaction(cursor);
-			transactionList.add(transaction);
+			Transaction buildTransaction = getTransaction(cursor);
+			transactionList.add(buildTransaction);
 		}
 
 		cursor.close();
@@ -146,8 +146,8 @@ public final class TransactionPortionHelper {
 		ArrayList<Transaction> transactionList = new ArrayList<Transaction>();
 
 		while (cursor.moveToNext()) {
-			Transaction transaction = getTransaction(cursor);
-			transactionList.add(transaction);
+			Transaction buildTransaction = getTransaction(cursor);
+			transactionList.add(buildTransaction);
 		}
 
 		cursor.close();
@@ -168,10 +168,10 @@ public final class TransactionPortionHelper {
 		return result;
 	}
 
-	public static boolean deleteTransaction(Transaction transaction, ContentResolver contentResolver) {
+	public static boolean deleteTransaction(Transaction buildTransaction, ContentResolver contentResolver) {
 		boolean result = false;
 
-		String selection = TransactionTable.COLUMN_ID + "= \"" + transaction.getId() + "\"";
+		String selection = TransactionTable.COLUMN_ID + "= \"" + buildTransaction.getId() + "\"";
 
 		int rowsDeleted = contentResolver.delete(CONTENT_URI, selection, null);
 
@@ -192,7 +192,7 @@ public final class TransactionPortionHelper {
 
 		ContentValues values = new ContentValues();
 
-		//values.put(TransactionTable.COLUMN_ID, transaction.getId());
+		//values.put(TransactionTable.COLUMN_ID, buildTransaction.getId());
 		// Removed above statement because it will always insert a 0 - we dont want this
 		values.put(TransactionPortionTable.COLUMN_DESCRIPTION, transactionPortion.getDescription());
 		values.put(TransactionPortionTable.COLUMN_AMOUNT, transactionPortion.getAmount());
@@ -200,7 +200,7 @@ public final class TransactionPortionHelper {
 		values.put(TransactionPortionTable.COLUMN_TRANSACTION_ID, transactionPortion.getTransactionId());
 
 		String selection = TransactionPortionTable.COLUMN_ID + " = " + transactionPortion.getId();
-		
+
 		Uri test = CONTENT_URI;
 
 		numReplacedRows = contentResolver.update(CONTENT_URI, values, selection, null);
