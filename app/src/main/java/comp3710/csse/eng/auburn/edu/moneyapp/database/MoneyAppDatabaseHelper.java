@@ -16,6 +16,7 @@ import comp3710.csse.eng.auburn.edu.moneyapp.database.helpers.BudgetHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.helpers.BudgetPortionHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.helpers.CategoryHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.helpers.TransactionHelper;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.helpers.TransactionPortionHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.BudgetPortionTable;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.BudgetTable;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.CategoryTable;
@@ -67,14 +68,21 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 	}
 	*/
 	public ArrayList<Transaction> getRecentTransactions(int numberOfTransactions) {
-		return TransactionHelper.getRecentTransactions(numberOfTransactions, contentResolver);
+		ArrayList<Transaction> transactions = TransactionHelper.getRecentTransactions(numberOfTransactions, contentResolver);
+
+		for (int i = 0; i < transactions.size(); i++) {
+			ArrayList<TransactionPortion> transactionPortions = getTransactionPortions(transactions.get(i).getId());
+			transactions.get(i).setTransactionPortions(transactionPortions);
+		}
+
+		return transactions;
 	}
-/*
+
 	// Transaction CRUD
 	public int addTransaction(Transaction transaction) {
 		return TransactionHelper.addTransaction(transaction, contentResolver);
 	}
-
+/*
 	public Transaction getTransaction(int id) {
 		return TransactionHelper.getTransaction(id, contentResolver);
 	}
@@ -86,10 +94,24 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 	public boolean deleteTransaction(Transaction transaction) {
 		return TransactionHelper.deleteTransaction(transaction, contentResolver);
 	}
-
+*/
 	public int updateTransaction(Transaction transaction) {
 		return TransactionHelper.updateTransaction(transaction, contentResolver);
-	}*/
+	}
+
+
+	// TransactionPortion CRUD
+	public void addTransactionPortions(ArrayList<TransactionPortion> transactionPortions) {
+		TransactionPortionHelper.addTransactionPortions(transactionPortions, contentResolver);
+	}
+
+	public void updateTransactionPortions(ArrayList<TransactionPortion> transactionPortions) {
+		TransactionPortionHelper.updateTransactionPortions(transactionPortions, contentResolver);
+	}
+
+	public ArrayList<TransactionPortion> getTransactionPortions(int transactionId) {
+		return TransactionPortionHelper.getTransactionPortions(transactionId, contentResolver);
+	}
 
 
 	// Budget CRUD

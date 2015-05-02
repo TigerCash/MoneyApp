@@ -1,6 +1,7 @@
 package comp3710.csse.eng.auburn.edu.moneyapp.database.helpers;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -62,24 +63,20 @@ public final class TransactionHelper {
 		cursor.close();
 		return transactionList;
 	}
-
+*/
 	public static int addTransaction(Transaction transaction, ContentResolver contentResolver) {
 		ContentValues values = new ContentValues();
 
-		//values.put(TransactionTable.COLUMN_ID, transaction.getId());
-		// Removed above statement because it will always insert a 0 - we dont want this
 		values.put(TransactionTable.COLUMN_DATE, transaction.getDate());
 		values.put(TransactionTable.COLUMN_TIME, transaction.getTime());
 		values.put(TransactionTable.COLUMN_NAME, transaction.getName());
-		values.put(TransactionTable.COLUMN_AMOUNT, transaction.getAmount());
-		values.put(TransactionTable.COLUMN_CATEGORY_NAME, transaction.getCategory().toString());
 		values.put(TransactionTable.COLUMN_TYPE, transaction.getType());
 
-		contentResolver.insert(CONTENT_URI, values);
+		Uri uri = contentResolver.insert(CONTENT_URI, values);
 
-		return transaction.getId();
+		return (int)ContentUris.parseId(uri);
 	}
-
+/*
 	public static Transaction getTransaction(int id, ContentResolver contentResolver) {
 		String[] projection = {TransactionTable.COLUMN_ID, TransactionTable.COLUMN_DATE,
 				TransactionTable.COLUMN_TIME,
@@ -126,6 +123,8 @@ public final class TransactionHelper {
 		transaction.setTime(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_TIME)));
 		transaction.setName(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_NAME)));
 		transaction.setType(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_TYPE)));
+
+
 
 		return transaction;
 	}
@@ -201,18 +200,15 @@ public final class TransactionHelper {
 
 		return result;
 	}
-
+*/
 	public static int updateTransaction(Transaction transaction, ContentResolver contentResolver) {
 		int numReplacedRows;
 
 		ContentValues values = new ContentValues();
 
-
 		values.put(TransactionTable.COLUMN_DATE, transaction.getDate());
 		values.put(TransactionTable.COLUMN_TIME, transaction.getTime());
 		values.put(TransactionTable.COLUMN_NAME, transaction.getName());
-		values.put(TransactionTable.COLUMN_AMOUNT, transaction.getAmount());
-		values.put(TransactionTable.COLUMN_CATEGORY_NAME, transaction.getCategory().toString());
 		values.put(TransactionTable.COLUMN_TYPE, transaction.getType());
 
 		String selection = TransactionTable.COLUMN_ID + " = " + transaction.getId();
@@ -220,5 +216,5 @@ public final class TransactionHelper {
 		numReplacedRows = contentResolver.update(CONTENT_URI, values, selection, null);
 
 		return numReplacedRows;
-	}*/
+	}
 }

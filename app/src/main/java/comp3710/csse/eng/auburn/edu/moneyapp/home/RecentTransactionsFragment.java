@@ -35,6 +35,7 @@ import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.TransactionPortion;
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.ValidateDeleteDialogFragment;
 
 
@@ -142,7 +143,7 @@ public class RecentTransactionsFragment extends Fragment {
 		// Each row in the list stores date, time, name, totaled amount
 		ArrayList<HashMap<String,String>> transactionList = new ArrayList<HashMap<String,String>>();
 
-		for (int i = 0; i < transactionList.size(); i++) {
+		for (int i = 0; i < recentTransactions.size(); i++) {
 			HashMap<String,String> hm = new HashMap<String,String>();
 			hm.put("date", "Date: " + recentTransactions.get(i).getDate());
 			hm.put("time", "Time: " + recentTransactions.get(i).getTime());
@@ -157,11 +158,12 @@ public class RecentTransactionsFragment extends Fragment {
 		for (int i = 0; i < transactionList.size(); i++) {
 
 			ArrayList<HashMap<String,String>> al = new ArrayList<HashMap<String,String>>();
-			for (int j = 0; j < recentTransactions.size(); j++) {
+			ArrayList<TransactionPortion> transactionPortions = recentTransactions.get(i).getTransactionPortions();
+			for (int j = 0; j < transactionPortions.size(); j++) {
 				HashMap<String,String> hm = new HashMap<String,String>();
-				hm.put("desc", "Description: " + recentTransactions.get(i).getTransactionPortions().get(j).getDescription());
-				hm.put("amount", "Amount: " + recentTransactions.get(i).getTransactionPortions().get(j).getAmount());
-				Category category = helper.getCategory(recentTransactions.get(i).getTransactionPortions().get(j).getCategoryId());
+				hm.put("desc", "Description: " + transactionPortions.get(j).getDescription());
+				hm.put("amount", "Amount: " + transactionPortions.get(j).getAmount());
+				Category category = helper.getCategory(transactionPortions.get(j).getCategoryId());
 				hm.put("category", "Category: " + category.getName());
 				al.add(hm);
 			}
