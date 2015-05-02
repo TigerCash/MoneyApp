@@ -56,8 +56,8 @@ public final class TransactionHelper {
 		ArrayList<Transaction> transactionList = new ArrayList<Transaction>();
 
 		while (cursor.moveToNext()) {
-			Transaction transaction = getTransaction(cursor);
-			transactionList.add(transaction);
+			Transaction buildTransaction = getTransaction(cursor);
+			transactionList.add(buildTransaction);
 		}
 
 		cursor.close();
@@ -76,15 +76,13 @@ public final class TransactionHelper {
 
 		return (int)ContentUris.parseId(uri);
 	}
-/*
+
 	public static Transaction getTransaction(int id, ContentResolver contentResolver) {
 		String[] projection = {TransactionTable.COLUMN_ID, TransactionTable.COLUMN_DATE,
-				TransactionTable.COLUMN_TIME,
-				TransactionTable.COLUMN_NAME, TransactionTable.COLUMN_AMOUNT,
-				TransactionTable.COLUMN_CATEGORY_NAME, TransactionTable.COLUMN_TYPE};
+				TransactionTable.COLUMN_TIME, TransactionTable.COLUMN_NAME,
+				TransactionTable.COLUMN_TYPE};
 
 		String selection = TransactionTable.COLUMN_ID + "=" + id;
-
 
 
 		Cursor cursor = contentResolver.query(CONTENT_URI,
@@ -95,26 +93,9 @@ public final class TransactionHelper {
 
 		Log.d("db5", DatabaseUtils.dumpCursorToString(cursor));
 
-		Transaction transaction = new Transaction();
-
-		*//*if (cursor.moveToFirst()) {
-			cursor.moveToFirst();
-			transaction.setId(cursor.getInt(0));
-			transaction.setDate(cursor.getString(1));
-			transaction.setName(cursor.getString(2));
-			transaction.setAmount(cursor.getInt(3));
-			transaction.setCategory(new Category(cursor.getString(4)));
-			transaction.setType(cursor.getString(5));
-			cursor.close();
-		} else {
-			transaction = null;
-		}*//*
-
-		//return transaction;
-
 		return getTransaction(cursor);
 	}
-*/
+
 	private static Transaction getTransaction(Cursor cursor) {
 		Transaction transaction = new Transaction();
 
@@ -142,8 +123,8 @@ public final class TransactionHelper {
 		ArrayList<Transaction> transactionList = new ArrayList<Transaction>();
 
 		while (cursor.moveToNext()) {
-			Transaction transaction = getTransaction(cursor);
-			transactionList.add(transaction);
+			Transaction buildTransaction = getTransaction(cursor);
+			transactionList.add(buildTransaction);
 		}
 
 		cursor.close();
@@ -188,10 +169,10 @@ public final class TransactionHelper {
 		return result;
 	}
 
-	public static boolean deleteTransaction(Transaction transaction, ContentResolver contentResolver) {
+	public static boolean deleteTransaction(Transaction buildTransaction, ContentResolver contentResolver) {
 		boolean result = false;
 
-		String selection = TransactionTable.COLUMN_ID + "= \"" + transaction.getId() + "\"";
+		String selection = TransactionTable.COLUMN_ID + "= \"" + buildTransaction.getId() + "\"";
 
 		int rowsDeleted = contentResolver.delete(CONTENT_URI, selection, null);
 

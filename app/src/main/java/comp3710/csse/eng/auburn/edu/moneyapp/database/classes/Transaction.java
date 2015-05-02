@@ -1,9 +1,12 @@
 package comp3710.csse.eng.auburn.edu.moneyapp.database.classes;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 
-public class Transaction {
+public class Transaction implements Parcelable {
 
 	private int _id;
 
@@ -115,5 +118,38 @@ public class Transaction {
 			+ "\nTime: " + _time
 			+ "\nName: " + _name
 			+ "\nType: " + _type;
+	}
+
+
+	// Parcelable Methods
+	public int describeContents() {
+		return 0;
+	}
+
+	public void writeToParcel(Parcel out, int flags) {
+		out.writeInt(_id);
+		out.writeString(_date);
+		out.writeString(_time);
+		out.writeString(_name);
+		out.writeString(_type);
+	}
+
+	public static final Parcelable.Creator<Transaction> CREATOR
+			= new Parcelable.Creator<Transaction>() {
+		public Transaction createFromParcel(Parcel in) {
+			return new Transaction(in);
+		}
+
+		public Transaction[] newArray(int size) {
+			return new Transaction[size];
+		}
+	};
+
+	private Transaction(Parcel in) {
+		_id = in.readInt();
+		_date = in.readString();
+		_time = in.readString();
+		_name = in.readString();
+		_type = in.readString();
 	}
 }

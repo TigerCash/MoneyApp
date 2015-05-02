@@ -65,8 +65,8 @@ public class EditTransactionDialogFragment extends DialogFragment {
 		args.putString("date", transaction.getDate());
 		args.putString("time", transaction.getTime());
 		args.putString("name", transaction.getName());
-		//args.putInt("amount", transaction.getAmount());
-		//args.putString("category", transaction.getCategory().getName());
+		//args.putInt("amount", buildTransaction.getAmount());
+		//args.putString("category", buildTransaction.getCategory().getName());
 		args.putString("type", transaction.getType());
 
 		fragment.setArguments(args);
@@ -164,19 +164,19 @@ public class EditTransactionDialogFragment extends DialogFragment {
 
 							String transactionState;
 							boolean transactionsComplete = true;
-							Transaction transaction = t;
-							transactionState = transaction.isComplete().get(0);
+							Transaction buildTransaction = t;
+							transactionState = buildTransaction.isComplete().get(0);
 
 							if (transactionState.equals(Transaction.INCOMPLETE)) {
 								transactionsComplete = false;
 							} else if (transactionState.equals(Transaction.PARTIALLY_COMPLETE)) {
-								if (transaction.isComplete().contains("Date")) {
+								if (buildTransaction.isComplete().contains("Date")) {
 									Calendar c = Calendar.getInstance();
 									SimpleDateFormat dateFormatter = new SimpleDateFormat("MM.dd.yy", Locale.US);
-									transaction.setDate(dateFormatter.format(c.getTime()));
+									buildTransaction.setDate(dateFormatter.format(c.getTime()));
 
 								}
-								if (transaction.isComplete().contains("Time")) {
+								if (buildTransaction.isComplete().contains("Time")) {
 									String am_pm = "";
 									Calendar newTime = Calendar.getInstance();
 
@@ -188,7 +188,7 @@ public class EditTransactionDialogFragment extends DialogFragment {
 									String strHrsToShow = (newTime.get(Calendar.HOUR) == 0) ? "12" : newTime.get(Calendar.HOUR) + "";
 									String strMinToShow = (newTime.get(Calendar.MINUTE) < 10) ? "0" + newTime.get(Calendar.MINUTE) : newTime.get(Calendar.MINUTE) + "";
 
-									transaction.setTime(strHrsToShow + ":" + strMinToShow + " " + am_pm);
+									buildTransaction.setTime(strHrsToShow + ":" + strMinToShow + " " + am_pm);
 								}
 
 							} else if (transactionState.equals(Transaction.COMPLETE)) {

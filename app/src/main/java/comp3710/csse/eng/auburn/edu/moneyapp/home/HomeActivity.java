@@ -64,13 +64,13 @@ public class HomeActivity extends ActionBarActivity
 			Log.d("db", String.valueOf(t.getId()));
 		}
 		else {
-			Log.d("db", "no transaction found");
+			Log.d("db", "no buildTransaction found");
 		}
 
 		ArrayList<Transaction> transactions = help.getAllTransactions();
 
-		for (Transaction transaction : transactions)
-			Log.d("db6", transaction.toString());*/
+		for (Transaction buildTransaction : transactions)
+			Log.d("db6", buildTransaction.toString());*/
 
 		setBalanceText();
 
@@ -150,7 +150,7 @@ public class HomeActivity extends ActionBarActivity
 
 		/*MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(this);
 
-		helper.updateTransaction(transaction);
+		helper.updateTransaction(buildTransaction);
 
 		ArrayList<Transaction> trans = helper.getAllTransactions();
 
@@ -174,9 +174,14 @@ public class HomeActivity extends ActionBarActivity
 
 	public void editTransaction(Transaction transaction) {
 		/*int i = 0;
-		Transaction t = transaction;
-		DialogFragment newFragment = EditTransactionDialogFragment.newInstance(transaction);
+		Transaction t = buildTransaction;
+		DialogFragment newFragment = EditTransactionDialogFragment.newInstance(buildTransaction);
 		newFragment.show(this.getSupportFragmentManager(), "edit_transaction");*/
+
+		Intent intent = new Intent(HomeActivity.this, BuildTransactionActivity.class);
+
+		intent.putExtra("buildTransaction", transaction);
+		startActivity(intent);
 	}
 
 	public void editTransactionPortion(TransactionPortion transactionPortion) {

@@ -8,23 +8,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
-
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
-import comp3710.csse.eng.auburn.edu.moneyapp.addTransaction.ListTransactionCategoriesFragment;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.TransactionPortion;
-import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.EditTransactionDialogFragment;
 import comp3710.csse.eng.auburn.edu.moneyapp.home.HomeActivity;
-import comp3710.csse.eng.auburn.edu.moneyapp.home.RecentTransactionsFragment;
 
 public class BuildTransactionActivity extends ActionBarActivity
 		implements EditTransactionFragment.OnFragmentInteractionListener,
 				   EditTransactionPortionFragment.OnFragmentInteractionListener{
 
-	public Transaction transaction = new Transaction();
-	public ArrayList<TransactionPortion> transactionPortionArrayList = new ArrayList<>();
+	public Transaction buildTransaction = new Transaction();
+
 
 
 
@@ -35,8 +30,20 @@ public class BuildTransactionActivity extends ActionBarActivity
 
 		Intent intent = getIntent();
 
+		Transaction transaction = intent.getParcelableExtra("buildTransaction");
 		TransactionPortion transactionPortion = intent.getParcelableExtra("transactionPortion");
-		if (transactionPortion != null) {
+		if (transaction != null) {
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+			MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getApplicationContext());
+			buildTransaction = transaction;
+			buildTransaction.setTransactionPortions(helper.getTransactionPortions(buildTransaction.getId()));
+			EditTransactionFragment fragment = new EditTransactionFragment();
+			fragmentTransaction.add(R.id.widget_fragment_container, fragment, "edit_transaction");
+			fragmentTransaction.commit();
+		}
+		else if (transactionPortion != null) {
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -48,7 +55,7 @@ public class BuildTransactionActivity extends ActionBarActivity
 
 
 			String type = intent.getStringExtra("type");
-			transaction.setType(type);
+			buildTransaction.setType(type);
 
 
 			FragmentManager fragmentManager = getSupportFragmentManager();
@@ -102,11 +109,11 @@ public class BuildTransactionActivity extends ActionBarActivity
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
 		// Replace whatever is in the fragment_container view with this fragment,
-		// and add the transaction to the back stack so the user can navigate back
+		// and add the buildTransaction to the back stack so the user can navigate back
 		transaction.replace(R.id.widget_fragment_container, f);
 		transaction.addToBackStack(null);
 
-		// Commit the transaction
+		// Commit the buildTransaction
 		transaction.commit();
 	}
 
@@ -134,11 +141,11 @@ public class BuildTransactionActivity extends ActionBarActivity
 				FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
 				// Replace whatever is in the fragment_container view with this fragment,
-				// and add the transaction to the back stack so the user can navigate back
+				// and add the buildTransaction to the back stack so the user can navigate back
 				transaction.replace(R.id.widget_fragment_container, f);
 				transaction.addToBackStack(null);
 
-				// Commit the transaction
+				// Commit the buildTransaction
 				transaction.commit();
 			}
 		}
@@ -153,11 +160,11 @@ public class BuildTransactionActivity extends ActionBarActivity
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
 		// Replace whatever is in the fragment_container view with this fragment,
-		// and add the transaction to the back stack so the user can navigate back
+		// and add the buildTransaction to the back stack so the user can navigate back
 		transaction.replace(R.id.widget_fragment_container, f);
 		transaction.addToBackStack(null);
 
-		// Commit the transaction
+		// Commit the buildTransaction
 		transaction.commit();
 	}
 }
