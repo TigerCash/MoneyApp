@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TableLayout;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import comp3710.csse.eng.auburn.edu.moneyapp.ExpandableListAdapter;
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
@@ -132,7 +134,8 @@ public class RecentTransactionsFragment extends Fragment {
 		View v = inflater.inflate(R.layout.fragment_recent_transactions, container, false);
 
 		// Each row in the list stores country name, currency and flag
-		List<HashMap<String,String>> aList = new ArrayList<HashMap<String,String>>();
+		ArrayList<HashMap<String,String>> aList = new ArrayList<HashMap<String,String>>();
+
 
 		for(int i=0;i<10;i++){
 			HashMap<String, String> hm = new HashMap<String,String>();
@@ -153,10 +156,72 @@ public class RecentTransactionsFragment extends Fragment {
 		SimpleAdapter adapter = new SimpleAdapter(getActivity().getBaseContext(), aList, R.layout.listview_layout, from, to);
 
 		// Getting a reference to listview of main.xml layout file
-		ListView listView = ( ListView ) v.findViewById(R.id.recent_transactions_list_view);
+		//ListView listView = ( ListView ) v.findViewById(R.id.recent_transactions_list_view);
 
 		// Setting the adapter to the listView
-		listView.setAdapter(adapter);
+		//listView.setAdapter(adapter);
+
+
+		// get the listview
+		ExpandableListView listView = (ExpandableListView) v.findViewById(R.id.recent_transactions_list_view);
+
+		// preparing list data
+		//prepareListData();
+
+		ExpandableListAdapter adapter2;
+
+
+		ArrayList<String> listDataHeader = new ArrayList<String>();
+		HashMap<String, List<String>> listDataChild = new HashMap<String, List<String>>();
+
+		// Adding child data
+		listDataHeader.add("Top 250");
+		listDataHeader.add("Now Showing");
+		listDataHeader.add("Coming Soon..");
+
+		// Adding child data
+		List<String> top250 = new ArrayList<String>();
+		top250.add("The Shawshank Redemption");
+		top250.add("The Godfather");
+		top250.add("The Godfather: Part II");
+		top250.add("Pulp Fiction");
+		top250.add("The Good, the Bad and the Ugly");
+		top250.add("The Dark Knight");
+		top250.add("12 Angry Men");
+
+		List<String> nowShowing = new ArrayList<String>();
+		nowShowing.add("The Conjuring");
+		nowShowing.add("Despicable Me 2");
+		nowShowing.add("Turbo");
+		nowShowing.add("Grown Ups 2");
+		nowShowing.add("Red 2");
+		nowShowing.add("The Wolverine");
+
+		List<String> comingSoon = new ArrayList<String>();
+		comingSoon.add("2 Guns");
+		comingSoon.add("The Smurfs 2");
+		comingSoon.add("The Spectacular Now");
+		comingSoon.add("The Canyons");
+		comingSoon.add("Europa Report");
+
+		listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
+		listDataChild.put(listDataHeader.get(1), nowShowing);
+		listDataChild.put(listDataHeader.get(2), comingSoon);
+
+		//adapter2 = new ExpandableListAdapter(getActivity().getBaseContext(), listDataHeader, listDataChild);
+
+		//ArrayList<HashMap<String,String>>
+		HashMap<HashMap<String,String>, ArrayList<HashMap<String,String>>> aListDataChild = new  HashMap<HashMap<String,String>, ArrayList<HashMap<String,String>>>();
+		aListDataChild.put(aList.get(0), aList);
+
+
+
+
+
+		adapter2 = new ExpandableListAdapter(getActivity().getBaseContext(), aList, aListDataChild);
+
+		// setting list adapter
+		listView.setAdapter(adapter2);
 
 		/*TextView all_transactions_text = (TextView) v.findViewById(R.id.all_transactions_text);
 		all_transactions_text.setOnClickListener(onAllTransactionsListener);

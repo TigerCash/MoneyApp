@@ -31,14 +31,14 @@ public class AllTransactionsActivity extends ActionBarActivity {
 
 		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(this);
 
-		ArrayList<Transaction> allTransactions = helper.getAllTransactions();
+		//ArrayList<Transaction> allTransactions = helper.getAllTransactions();
 
 		mTable = (TableLayout) findViewById(R.id.recent_transactions_table);
 
 		TableRow tableRow;
 		TextView textView;
 
-		for (int i = 0; i < allTransactions.size(); i++) {
+		/*for (int i = 0; i < allTransactions.size(); i++) {
 
 			tableRow = new TableRow(this);
 			tableRow.setTag(i);
@@ -88,7 +88,7 @@ public class AllTransactionsActivity extends ActionBarActivity {
 			});
 
 			mTable.addView(tableRow);
-		}
+		}*/
 
 	}
 

@@ -106,7 +106,7 @@ public class ChooseCategoriesFragment extends Fragment
 					CheckBox cb = (CheckBox) checkboxLinearLayout.getChildAt(i);
 					if (cb.isChecked()) {
 						Transaction t = new Transaction();
-						t.setCategory(new Category(cb.getText().toString()));
+						//t.setCategory(new Category(cb.getText().toString()));
 						t.setType(mType);
 						categoryTransactions.add(t);
 						//chosenCategories.add(cb.getText().toString());

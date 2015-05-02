@@ -64,7 +64,7 @@ public class PopulateTransactionFragment extends Fragment {
 
 	public static PopulateTransactionFragment newInstance(Transaction transaction, int index) {
 		PopulateTransactionFragment fragment = new PopulateTransactionFragment();
-		Bundle args = new Bundle();
+		/*Bundle args = new Bundle();
 		args.putInt("index", index);
 		args.putString("date", transaction.getDate());
 		args.putString("time", transaction.getTime());
@@ -73,7 +73,7 @@ public class PopulateTransactionFragment extends Fragment {
 		args.putString("category", transaction.getCategory().getName());
 		args.putString("type", transaction.getType());
 
-		fragment.setArguments(args);
+		fragment.setArguments(args);*/
 
 		return fragment;
 	}
@@ -96,14 +96,14 @@ public class PopulateTransactionFragment extends Fragment {
 
 		Bundle args = getArguments();
 		if (args != null) {
-			mIndex = args.getInt("index");
+			/*mIndex = args.getInt("index");
 
 			transaction.setDate(args.getString("date"));
 			transaction.setTime(args.getString("time"));
 			transaction.setName(args.getString("name"));
 			transaction.setAmount(args.getInt("amount"));
 			transaction.setCategory(new Category(args.getString("category")));
-			transaction.setType(args.getString("type"));
+			transaction.setType(args.getString("type"));*/
 		}
 
 	}
@@ -114,7 +114,7 @@ public class PopulateTransactionFragment extends Fragment {
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.fragment_populate_transaction, container, false);
 
-		category_name_text = (TextView) v.findViewById(R.id.category_name_text);
+		/*category_name_text = (TextView) v.findViewById(R.id.category_name_text);
 		type_text = (TextView) v.findViewById(R.id.type_text);
 		category_name_text.setText(transaction.getCategory().getName());
 		type_text.setText(transaction.getType());
@@ -136,7 +136,7 @@ public class PopulateTransactionFragment extends Fragment {
 		complete_transaction_button = (Button) v.findViewById(R.id.complete_transaction_button);
 		complete_transaction_button.setOnClickListener(completeTransactionHandler);
 
-		dateFormatter = new SimpleDateFormat("MM.dd.yy", Locale.US);
+		dateFormatter = new SimpleDateFormat("MM.dd.yy", Locale.US);*/
 
 		return v;
 	}
@@ -200,7 +200,7 @@ public class PopulateTransactionFragment extends Fragment {
 
 				t.setName(name_text.getText().toString());
 				try {
-					t.setAmount(Integer.valueOf(amount_text.getText().toString()));
+					//t.setAmount(Integer.valueOf(amount_text.getText().toString()));
 				} catch (Exception e) {
 					Log.d("Ex", "Invalid int");
 				}
@@ -208,7 +208,7 @@ public class PopulateTransactionFragment extends Fragment {
 				t.setTime(time_text.getText().toString());
 
 				t.setType(transaction.getType());
-				t.setCategory(transaction.getCategory());
+				//t.setCategory(transaction.getCategory());
 
 				mListener.onCompleteTransaction(t, mIndex);
 				//mListener.onCompleteTransaction(transaction, mIndex);
