@@ -117,7 +117,7 @@ public final class TransactionHelper {
 
 		return getTransaction(cursor);
 	}
-
+*/
 	private static Transaction getTransaction(Cursor cursor) {
 		Transaction transaction = new Transaction();
 
@@ -125,13 +125,11 @@ public final class TransactionHelper {
 		transaction.setDate(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_DATE)));
 		transaction.setTime(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_TIME)));
 		transaction.setName(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_NAME)));
-		transaction.setAmount(cursor.getInt(cursor.getColumnIndex(TransactionTable.COLUMN_AMOUNT)));
-		transaction.setCategory(new Category(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_CATEGORY_NAME))));
 		transaction.setType(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_TYPE)));
 
 		return transaction;
 	}
-
+/*
 	public static ArrayList<Transaction> getAllTransactions(ContentResolver contentResolver) {
 		String[] projection = {TransactionTable.COLUMN_ID, TransactionTable.COLUMN_DATE,
 				TransactionTable.COLUMN_TIME,
@@ -152,12 +150,11 @@ public final class TransactionHelper {
 		cursor.close();
 		return transactionList;
 	}
-
+*/
 	public static ArrayList<Transaction> getRecentTransactions(int numberOfTransactions, ContentResolver contentResolver) {
 		String[] projection = {TransactionTable.COLUMN_ID, TransactionTable.COLUMN_DATE,
-				TransactionTable.COLUMN_TIME,
-				TransactionTable.COLUMN_NAME, TransactionTable.COLUMN_AMOUNT,
-				TransactionTable.COLUMN_CATEGORY_NAME, TransactionTable.COLUMN_TYPE};
+		TransactionTable.COLUMN_TIME, TransactionTable.COLUMN_NAME,
+		TransactionTable.COLUMN_TYPE};
 
 		String selection = null;
 		String sortOrder = TransactionTable.COLUMN_DATE + " DESC, "
@@ -178,7 +175,7 @@ public final class TransactionHelper {
 		return transactionList;
 
 	}
-
+/*
 	public static boolean deleteTransaction(int id, ContentResolver contentResolver) {
 		boolean result = false;
 

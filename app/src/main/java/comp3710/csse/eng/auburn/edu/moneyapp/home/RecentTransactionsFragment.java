@@ -33,6 +33,7 @@ import java.util.List;
 import comp3710.csse.eng.auburn.edu.moneyapp.ExpandableListAdapter;
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.ValidateDeleteDialogFragment;
 
@@ -133,6 +134,44 @@ public class RecentTransactionsFragment extends Fragment {
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.fragment_recent_transactions, container, false);
 
+		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity());
+
+		ArrayList<Transaction> recentTransactions = helper.getRecentTransactions(NUMBER_OF_TRANSACTIONS);
+
+
+		// Each row in the list stores date, time, name, totaled amount
+		ArrayList<HashMap<String,String>> transactionList = new ArrayList<HashMap<String,String>>();
+
+		for (int i = 0; i < transactionList.size(); i++) {
+			HashMap<String,String> hm = new HashMap<String,String>();
+			hm.put("date", "Date: " + recentTransactions.get(i).getDate());
+			hm.put("time", "Time: " + recentTransactions.get(i).getTime());
+			hm.put("name", "Name: " + recentTransactions.get(i).getName());
+			hm.put("total", "Total: " + recentTransactions.get(i).getTotal());
+			transactionList.add(hm);
+		}
+
+		HashMap<HashMap<String,String>, ArrayList<HashMap<String,String>>> transactionListPortion = new  HashMap<HashMap<String,String>, ArrayList<HashMap<String,String>>>();
+
+
+		for (int i = 0; i < transactionList.size(); i++) {
+
+			ArrayList<HashMap<String,String>> al = new ArrayList<HashMap<String,String>>();
+			for (int j = 0; j < recentTransactions.size(); j++) {
+				HashMap<String,String> hm = new HashMap<String,String>();
+				hm.put("desc", "Description: " + recentTransactions.get(i).getTransactionPortions().get(j).getDescription());
+				hm.put("amount", "Amount: " + recentTransactions.get(i).getTransactionPortions().get(j).getAmount());
+				Category category = helper.getCategory(recentTransactions.get(i).getTransactionPortions().get(j).getCategoryId());
+				hm.put("category", "Category: " + category.getName());
+				al.add(hm);
+			}
+			transactionListPortion.put(transactionList.get(i), al);
+
+		}
+
+
+
+
 		// Each row in the list stores country name, currency and flag
 		ArrayList<HashMap<String,String>> aList = new ArrayList<HashMap<String,String>>();
 
@@ -218,7 +257,7 @@ public class RecentTransactionsFragment extends Fragment {
 
 
 
-		adapter2 = new ExpandableListAdapter(getActivity().getBaseContext(), aList, aListDataChild);
+		adapter2 = new ExpandableListAdapter(getActivity().getBaseContext(), transactionList, transactionListPortion);
 
 		// setting list adapter
 		listView.setAdapter(adapter2);
