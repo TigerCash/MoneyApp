@@ -163,6 +163,28 @@ public class EditTransactionFragment extends Fragment {
 						// Populate Transaction
 						if (mListener != null) {
 							//mListener.onEditTransaction(transactionRowIndex);
+
+							// Delete this transactionPortion object from BuildTransaction transaction's transactionPortions
+							// It will be re-added when it is updated in the editTransactionPortionFragment
+							// Build transactionPortion
+							TransactionPortion transactionPortion = new TransactionPortion();
+
+							String description = ((TextView) tableRow.getChildAt(0)).getText().toString();
+							String amount = ((TextView) tableRow.getChildAt(1)).getText().toString();
+							String category = ((TextView) tableRow.getChildAt(2)).getText().toString();
+							MoneyAppDatabaseHelper helper1 = new MoneyAppDatabaseHelper(getActivity().getBaseContext());
+							int category_id = helper1.getCategory(category).getId();
+							transactionPortion.setDescription(description);
+							transactionPortion.setAmount(amount);
+							transactionPortion.setCategoryId(category_id);
+
+							ArrayList<TransactionPortion> transactionPortions1 = ((BuildTransactionActivity)getActivity()).transaction.getTransactionPortions();
+							transactionPortions1.remove(transactionPortion);
+							((BuildTransactionActivity)getActivity()).transaction.setTransactionPortions(transactionPortions1);
+
+							// Edit this transactionPortion
+							mListener.onEditTransactionPortion(transactionPortion);
+
 						}
 					}
 				});
@@ -262,6 +284,7 @@ public class EditTransactionFragment extends Fragment {
 		// TODO: Update argument type and name
 		public void onCompleteTransaction(Transaction transaction);
 		public void onAddTransactionPortion();
+		public void onEditTransactionPortion(TransactionPortion transactionPortion);
 	}
 
 }
