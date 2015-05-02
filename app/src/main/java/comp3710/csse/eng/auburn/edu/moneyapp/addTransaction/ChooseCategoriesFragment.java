@@ -29,7 +29,7 @@ import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.AddNewCategoryDialo
  * create an instance of this fragment.
  */
 public class ChooseCategoriesFragment extends Fragment
-		implements AddNewCategoryDialogFragment.OnAddCategoryListener {
+		 {
 	// TODO: Rename parameter arguments, choose names that match
 	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 	private static final String TYPE_PARAM = "type";

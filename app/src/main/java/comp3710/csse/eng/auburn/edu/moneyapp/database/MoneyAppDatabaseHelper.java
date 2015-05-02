@@ -145,6 +145,8 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 		return CategoryHelper.getCategory(id, contentResolver);
 	}
 
+	public Category getCategory(String name) { return CategoryHelper.getCategory(name, contentResolver); }
+
 	public ArrayList<Category> getAllCategories() {
 		return CategoryHelper.getAllCategories(contentResolver);
 	}

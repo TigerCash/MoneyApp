@@ -132,12 +132,14 @@ public class EditTransactionFragment extends Fragment {
 
 			//validate fields
 
+
 			//if valid
 			// put together transaction
 			Transaction transaction = ((BuildTransactionActivity)getActivity()).transaction;
-			transaction.setName(((EditText)v.findViewById(R.id.name_edit_text)).getText().toString());
-			transaction.setDate(((EditText)v.findViewById(R.id.date_edit_text)).getText().toString());
-			transaction.setTime(((EditText)v.findViewById(R.id.time_edit_text)).getText().toString());
+			View view = v.getRootView();
+			transaction.setName(((EditText)view.findViewById(R.id.name_edit_text)).getText().toString());
+			transaction.setDate(((EditText)view.findViewById(R.id.date_edit_text)).getText().toString());
+			transaction.setTime(((EditText)view.findViewById(R.id.time_edit_text)).getText().toString());
 			// transaction portions should already be added in this transaction
 
 			// Call listener out

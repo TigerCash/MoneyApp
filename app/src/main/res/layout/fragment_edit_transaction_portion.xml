@@ -28,6 +28,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"></Spinner>
 
+    <TextView
+        android:id="@+id/add_new_category_button"
+        android:text="Add New Category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <Button
         android:id="@+id/accept_button"
         android:text="Accept"

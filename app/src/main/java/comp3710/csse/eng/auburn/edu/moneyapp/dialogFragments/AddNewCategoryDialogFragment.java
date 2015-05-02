@@ -15,6 +15,8 @@ import java.util.ArrayList;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.buildTransaction.EditTransactionPortionFragment;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
 
 
 public class AddNewCategoryDialogFragment extends DialogFragment {
@@ -28,8 +30,8 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 	private String mParam1;
 	private String mParam2;
 
-	private OnFragmentInteractionListener mListener;
-	private OnAddCategoryListener mAddListener;
+	/*private OnFragmentInteractionListener mListener;
+	private OnAddCategoryListener mAddListener;*/
 	private EditText mNameEditText;
 
 	/**
@@ -63,7 +65,7 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 		}
 
 		try {
-			mAddListener = (OnAddCategoryListener) getTargetFragment();
+			//mAddListener = (OnAddCategoryListener) getTargetFragment();
 		} catch (ClassCastException e) {
 			throw new ClassCastException("Calling Fragment must implement OnAddCategoryListener");
 		}
@@ -94,8 +96,10 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 
 						// If valid
 						// Add category to db
+						MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
+						helper.addCategory(new Category(name));
 						// Call onAddNewCategory on EditTransactionPortionFragment
-						((EditTransactionPortionFragment)getTargetFragment()).onAddNewCategory();
+						((EditTransactionPortionFragment) getTargetFragment()).onAddNewCategory();
 
 
 						/*if (name.equals("")) {
@@ -133,7 +137,7 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			mListener = (OnFragmentInteractionListener) activity;
+			//mListener = (OnFragmentInteractionListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnFragmentInteractionListener");
@@ -143,17 +147,17 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		mListener = null;
+		//mListener = null;
 	}
 
 
-	public interface OnFragmentInteractionListener {
+	/*public interface OnFragmentInteractionListener {
 		public void addNewCategory(String name);
 	}
 
 	public interface OnAddCategoryListener {
 		public void refresh();
-	}
+	}*/
 
 	private void warnDialogEmptyName() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
