@@ -21,7 +21,6 @@ import comp3710.csse.eng.auburn.edu.moneyapp.home.HomeActivity;
 
 public class AddTransactionActivity extends ActionBarActivity
 		implements ChooseCategoriesFragment.OnFragmentInteractionListener,
-		AddNewCategoryDialogFragment.OnFragmentInteractionListener,
 		ListTransactionCategoriesFragment.OnFragmentInteractionListener,
 		PopulateTransactionFragment.OnFragmentInteractionListener {
 

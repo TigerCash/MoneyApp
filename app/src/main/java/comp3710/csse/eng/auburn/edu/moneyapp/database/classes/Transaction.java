@@ -58,6 +58,8 @@ public class Transaction {
 	}
 
 	public void addTransactionPortion(TransactionPortion transactionPortion) {
+		if (this._transaction_portions == null)
+			this._transaction_portions = new ArrayList<TransactionPortion>();
 		this._transaction_portions.add(transactionPortion);
 	}
 

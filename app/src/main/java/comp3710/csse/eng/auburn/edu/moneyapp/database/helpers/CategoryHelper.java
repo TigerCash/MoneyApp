@@ -37,6 +37,21 @@ public final class CategoryHelper {
 		return new Category();
 	}
 
+	public static Category getCategory(String name, ContentResolver contentResolver) {
+
+		String[] projection = {CategoryTable.COLUMN_ID, CategoryTable.COLUMN_NAME};
+
+		String selection = CategoryTable.COLUMN_NAME+ "='" + name + "'";
+
+		Cursor cursor = contentResolver.query(CONTENT_URI,
+				projection, selection, null,
+				null);
+
+		cursor.moveToFirst();
+
+		return getCategory(cursor);
+	}
+
 	private static Category getCategory(Cursor cursor) {
 		Category category = new Category();
 

@@ -94,32 +94,34 @@ public class BuildTransactionActivity extends ActionBarActivity
 
 	public void onCompleteTransactionPortion(TransactionPortion transactionPortion) {
 
-		if (transactionPortion.getId() != 0) {
-			// If transactionPortion has ID, then we update transactionPortion in DB
+		if (transactionPortion != null) {
+			if (transactionPortion.getId() != 0) {
+				// If transactionPortion has ID, then we update transactionPortion in DB
 
 
-			// and MUST return to Home Activity
-			Intent intent = new Intent(BuildTransactionActivity.this, HomeActivity.class);
-			startActivity(intent);
+				// and MUST return to Home Activity
+				Intent intent = new Intent(BuildTransactionActivity.this, HomeActivity.class);
+				startActivity(intent);
 
 
-		} else {
-			// If transactionPortion doesn't have ID, then return to EditTransactionFragment
+			} else {
+				// If transactionPortion doesn't have ID, then return to EditTransactionFragment
 
-			// Launch EditTransactionFragment and pass transactionPortion
+				// Launch EditTransactionFragment and pass transactionPortion
 
-			// Create fragment and give it an argument specifying the article it should show
-			EditTransactionFragment f = EditTransactionFragment.newInstance(transactionPortion);
+				// Create fragment and give it an argument specifying the article it should show
+				EditTransactionFragment f = EditTransactionFragment.newInstance(transactionPortion);
 
-			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+				FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-			// Replace whatever is in the fragment_container view with this fragment,
-			// and add the transaction to the back stack so the user can navigate back
-			transaction.replace(R.id.widget_fragment_container, f);
-			transaction.addToBackStack(null);
+				// Replace whatever is in the fragment_container view with this fragment,
+				// and add the transaction to the back stack so the user can navigate back
+				transaction.replace(R.id.widget_fragment_container, f);
+				transaction.addToBackStack(null);
 
-			// Commit the transaction
-			transaction.commit();
+				// Commit the transaction
+				transaction.commit();
+			}
 		}
 	}
 }

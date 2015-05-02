@@ -1,19 +1,23 @@
 package comp3710.csse.eng.auburn.edu.moneyapp.buildTransaction;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.TransactionPortion;
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.AddNewCategoryDialogFragment;
 
@@ -42,6 +46,9 @@ public class EditTransactionPortionFragment extends Fragment {
 	private EditText mDescriptionEditText;
 	private EditText mAmountEditText;
 	private Spinner mCategorySpinner;
+
+	private ArrayAdapter<String> mAdapter;
+	private ArrayList<String> mCategoryNames;
 
 	private TransactionPortion mTransactionPortion;
 
@@ -93,15 +100,22 @@ public class EditTransactionPortionFragment extends Fragment {
 		mAddNewCategoryText = (TextView) v.findViewById(R.id.add_new_category_button);
 		mAddNewCategoryText.setOnClickListener(addNewCategoryListener);
 
+		mDescriptionEditText = (EditText) v.findViewById(R.id.description_edit_text);
+		mAmountEditText = (EditText) v.findViewById(R.id.amount_edit_text);
+
+		mCategorySpinner = (Spinner) v.findViewById(R.id.category_spinner);
+		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
+		ArrayList<Category> categories = helper.getAllCategories();
+		mCategoryNames = new ArrayList<String>();
+		for (int i = 0; i < categories.size(); i++) {
+			mCategoryNames.add(categories.get(i).getName());
+		}
+		mAdapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_spinner_item, mCategoryNames);
+		mCategorySpinner.setAdapter(mAdapter);
+
 		if (mTransactionPortion != null) {
-			mDescriptionEditText = (EditText) v.findViewById(R.id.description_edit_text);
 			mDescriptionEditText.setText(mTransactionPortion.getDescription());
-
-			mAmountEditText = (EditText) v.findViewById(R.id.amount_edit_text);
 			mAmountEditText.setText(mTransactionPortion.getAmount());
-
-			mCategorySpinner = (Spinner) v.findViewById(R.id.category_spinner);
-			// TODO: Set selected category
 		}
 
 		return v;
@@ -113,6 +127,16 @@ public class EditTransactionPortionFragment extends Fragment {
 			// validate
 
 			// if valid
+			// put together transactionportion
+			if (mTransactionPortion == null)
+				mTransactionPortion = new TransactionPortion();
+			View view = v.getRootView();
+			mTransactionPortion.setDescription(((EditText)view.findViewById(R.id.description_edit_text)).getText().toString());
+			mTransactionPortion.setAmount(((EditText)view.findViewById(R.id.amount_edit_text)).getText().toString());
+			String categoryName = ((Spinner)view.findViewById(R.id.category_spinner)).getSelectedItem().toString();
+			MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
+			int categoryId = helper.getCategory(categoryName).getId();
+			mTransactionPortion.setCategoryId(categoryId);
 			if (mListener != null) {
 				mListener.onCompleteTransactionPortion(mTransactionPortion);
 			}
@@ -132,6 +156,20 @@ public class EditTransactionPortionFragment extends Fragment {
 
 	public void onAddNewCategory() {
 		// Refresh category spinner
+		ArrayAdapter<String> aa = mAdapter;
+		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
+		ArrayList<Category> categories = helper.getAllCategories();
+		mCategoryNames = new ArrayList<String>();
+		mAdapter.clear();
+		for (int i = 0; i < categories.size(); i++) {
+			mAdapter.add(categories.get(i).getName());
+		}
+		//mAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, mCategoryNames);
+		//mAdapter.notifyDataSetInvalidated();
+
+		//mAdapter.add(mCategoryNames);
+		mAdapter.notifyDataSetChanged();
+
 	}
 
 	@Override
