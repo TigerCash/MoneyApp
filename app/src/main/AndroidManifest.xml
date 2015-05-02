@@ -34,6 +34,10 @@
             android:name=".allTransactions.AllTransactionsActivity"
             android:label="@string/title_activity_all_transactions" >
         </activity>
+        <activity
+            android:name=".buildTransaction.BuildTransactionActivity"
+            android:label="@string/title_activity_build_transaction" >
+        </activity>
     </application>
 
 </manifest>

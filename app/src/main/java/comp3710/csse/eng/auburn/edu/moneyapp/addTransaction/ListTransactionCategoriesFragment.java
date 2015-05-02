@@ -21,7 +21,9 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.TransactionPortion;
 
 
 /**

@@ -1,6 +1,5 @@
 package comp3710.csse.eng.auburn.edu.moneyapp.home;
 
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
@@ -14,25 +13,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
-import comp3710.csse.eng.auburn.edu.moneyapp.addTransaction.AddTransactionActivity;
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.allTransactions.AllTransactionsActivity;
+import comp3710.csse.eng.auburn.edu.moneyapp.buildTransaction.BuildTransactionActivity;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
+import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.ChooseTransactionTypeDialogFragment;
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.EditTransactionDialogFragment;
-import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.ValidateDeleteDialogFragment;
 
 
 public class HomeActivity extends ActionBarActivity
 		implements RecentTransactionsFragment.OnFragmentInteractionListener,
-		EditTransactionDialogFragment.OnEditTransactionListener {
+		EditTransactionDialogFragment.OnEditTransactionListener,
+		ChooseTransactionTypeDialogFragment.OnNewTransactionListener {
 
 	TextView balance_text;
-	Button withdrawal_button;
-	Button deposit_button;
+	Button add_transaction_button;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,30 +65,23 @@ public class HomeActivity extends ActionBarActivity
 
 		setBalanceText();
 
-		withdrawal_button = (Button) findViewById(R.id.withdrawal_button);
-		deposit_button = (Button) findViewById(R.id.deposit_button);
-		withdrawal_button.setOnClickListener(withdrawalTransactionHandler);
-		deposit_button.setOnClickListener(depositTransactionHandler);
+		add_transaction_button = (Button) findViewById(R.id.add_transaction_button);
+		add_transaction_button.setOnClickListener(addTransactionButtonHandler);
 
 	}
 
-	View.OnClickListener withdrawalTransactionHandler = new View.OnClickListener() {
+	View.OnClickListener addTransactionButtonHandler = new View.OnClickListener() {
 		public void onClick(View v) {
-			Intent intent = new Intent(HomeActivity.this, AddTransactionActivity.class);
+			/*Intent intent = new Intent(HomeActivity.this, AddTransactionActivity.class);
 
 			intent.putExtra("type", "withdrawal");
-			startActivity(intent);
+			startActivity(intent);*/
+
+
 		}
 	};
 
-	View.OnClickListener depositTransactionHandler = new View.OnClickListener() {
-		public void onClick(View v) {
-			Intent intent = new Intent(HomeActivity.this, AddTransactionActivity.class);
 
-			intent.putExtra("type", "deposit");
-			startActivity(intent);
-		}
-	};
 
 
 	@Override
@@ -119,7 +109,8 @@ public class HomeActivity extends ActionBarActivity
 	public void setBalanceText() {
 		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getApplicationContext());
 		balance_text = (TextView) findViewById(R.id.balance_text);
-		balance_text.setText(Integer.toString(helper.getBalance()));
+		//balance_text.setText(Integer.toString(helper.getBalance()));
+		balance_text.setText("$999");
 	}
 
 	public void onDeleteTransaction() {
@@ -132,21 +123,7 @@ public class HomeActivity extends ActionBarActivity
 		setBalanceText();
 	}
 
-	/*public void onFragmentInteraction2(ArrayList<String> chosenCategories, String type) {
-		ArrayList<String> names = new ArrayList<String>();
 
-		for (int i = 0; i < chosenCategories.size(); i++) {
-			names.add(chosenCategories.get(i));
-		}
-
-		Intent intent = new Intent(this, ScreenSlidePagerActivity.class);
-		intent.putExtra(ScreenSlidePagerActivity.NUM_PAGES, chosenCategories.size());
-		intent.putExtra(ScreenSlidePagerActivity.TYPE, type);
-
-		intent.putStringArrayListExtra(ScreenSlidePagerActivity.NAMES, names);
-
-		startActivity(intent);
-	}*/
 
 	public void onFragmentInteraction3(Uri uri) {
 
@@ -160,7 +137,7 @@ public class HomeActivity extends ActionBarActivity
 
 	public void onEditTransaction(Transaction transaction) {
 
-		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(this);
+		/*MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(this);
 
 		helper.updateTransaction(transaction);
 
@@ -172,15 +149,23 @@ public class HomeActivity extends ActionBarActivity
 		fragTransaction.attach(currentFragment);
 		fragTransaction.commit();
 
-		setBalanceText();
+		setBalanceText();*/
 	}
 
 	public void editTransaction(Transaction transaction) {
-		int i = 0;
+		/*int i = 0;
 		Transaction t = transaction;
 		DialogFragment newFragment = EditTransactionDialogFragment.newInstance(transaction);
-		newFragment.show(this.getSupportFragmentManager(), "edit_transaction");
+		newFragment.show(this.getSupportFragmentManager(), "edit_transaction");*/
 	}
 
+	public void newTransaction(String type) {
+		Intent intent = new Intent(HomeActivity.this, BuildTransactionActivity.class);
 
+		intent.putExtra("type", type);
+		startActivity(intent);
+	}
 }
+
+
+

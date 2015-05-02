@@ -44,14 +44,8 @@
             android:textSize="20sp"/>
 
         <Button
-            android:id="@+id/withdrawal_button"
-            android:text="@string/withdrawal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/deposit_button"
-            android:text="@string/deposit"
+            android:id="@+id/add_transaction_button"
+            android:text="Add Transaction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

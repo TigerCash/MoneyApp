@@ -27,5 +27,6 @@
     <string name="accept_transaction">Accept Transaction</string>
     <string name="title_activity_add_transaction">AddTransactionActivity</string>
     <string name="title_activity_all_transactions">AllTransactionsActivity</string>
+    <string name="title_activity_build_transaction">BuildTransactionActivity</string>
 
 </resources>
