@@ -7,6 +7,7 @@ import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.util.Log;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppContentProvider;
@@ -48,7 +49,8 @@ public final class TransactionPortionHelper {
 		return transactionPortion.getId();
 	}
 
-	public static TransactionPortion getTransaction(int id, ContentResolver contentResolver) {
+
+	public static TransactionPortion getTransactionPortion(int id, ContentResolver contentResolver) {
 
 		String[] projection = {TransactionPortionTable.COLUMN_ID, TransactionPortionTable.COLUMN_DESCRIPTION,
 				TransactionPortionTable.COLUMN_AMOUNT, TransactionPortionTable.COLUMN_CATEGORY_ID,
@@ -66,11 +68,10 @@ public final class TransactionPortionHelper {
 
 		Log.d("db5", DatabaseUtils.dumpCursorToString(cursor));
 
-		TransactionPortion transactionPortion = new TransactionPortion();
-
 
 		return getTransactionPortion(cursor);
 	}
+
 
 	private static TransactionPortion getTransactionPortion(Cursor cursor) {
 		TransactionPortion transactionPortion = new TransactionPortion();
@@ -198,7 +199,9 @@ public final class TransactionPortionHelper {
 		values.put(TransactionPortionTable.COLUMN_CATEGORY_ID, transactionPortion.getCategoryId());
 		values.put(TransactionPortionTable.COLUMN_TRANSACTION_ID, transactionPortion.getTransactionId());
 
-		String selection = TransactionTable.COLUMN_ID + " = " + transactionPortion.getId();
+		String selection = TransactionPortionTable.COLUMN_ID + " = " + transactionPortion.getId();
+		
+		Uri test = CONTENT_URI;
 
 		numReplacedRows = contentResolver.update(CONTENT_URI, values, selection, null);
 

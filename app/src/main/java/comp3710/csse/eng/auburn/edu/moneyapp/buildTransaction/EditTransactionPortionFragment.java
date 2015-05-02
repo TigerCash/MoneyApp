@@ -131,9 +131,9 @@ public class EditTransactionPortionFragment extends Fragment {
 			if (mTransactionPortion == null)
 				mTransactionPortion = new TransactionPortion();
 			View view = v.getRootView();
-			mTransactionPortion.setDescription(((EditText)view.findViewById(R.id.description_edit_text)).getText().toString());
-			mTransactionPortion.setAmount(((EditText)view.findViewById(R.id.amount_edit_text)).getText().toString());
-			String categoryName = ((Spinner)view.findViewById(R.id.category_spinner)).getSelectedItem().toString();
+			mTransactionPortion.setDescription(((EditText) view.findViewById(R.id.description_edit_text)).getText().toString());
+			mTransactionPortion.setAmount(((EditText) view.findViewById(R.id.amount_edit_text)).getText().toString());
+			String categoryName = ((Spinner) view.findViewById(R.id.category_spinner)).getSelectedItem().toString();
 			MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
 			int categoryId = helper.getCategory(categoryName).getId();
 			mTransactionPortion.setCategoryId(categoryId);
@@ -143,6 +143,7 @@ public class EditTransactionPortionFragment extends Fragment {
 				mListener.onCompleteTransactionPortion(mTransactionPortion);
 			}
 		}
+
 	};
 
 	View.OnClickListener addNewCategoryListener = new View.OnClickListener() {

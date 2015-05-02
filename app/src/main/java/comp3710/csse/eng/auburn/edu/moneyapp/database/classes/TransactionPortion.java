@@ -1,8 +1,11 @@
 package comp3710.csse.eng.auburn.edu.moneyapp.database.classes;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
-public class TransactionPortion {
+public class TransactionPortion implements Parcelable {
 
 	private int _id;
 
@@ -139,6 +142,40 @@ public class TransactionPortion {
 				+ "\nAmt: " + _amount
 				+ "\nCatId: " + _category_id
 				+ "\nTransId: " + _transaction_id;
+	}
+
+
+
+	// Parcelable Methods
+	public int describeContents() {
+		return 0;
+	}
+
+	public void writeToParcel(Parcel out, int flags) {
+		out.writeInt(_id);
+		out.writeString(_description);
+		out.writeString(_amount);
+		out.writeInt(_category_id);
+		out.writeInt(_transaction_id);
+	}
+
+	public static final Parcelable.Creator<TransactionPortion> CREATOR
+			= new Parcelable.Creator<TransactionPortion>() {
+		public TransactionPortion createFromParcel(Parcel in) {
+			return new TransactionPortion(in);
+		}
+
+		public TransactionPortion[] newArray(int size) {
+			return new TransactionPortion[size];
+		}
+	};
+
+	private TransactionPortion(Parcel in) {
+		_id = in.readInt();
+		_description = in.readString();
+		_amount = in.readString();
+		_category_id = in.readInt();
+		_transaction_id = in.readInt();
 	}
 
 }

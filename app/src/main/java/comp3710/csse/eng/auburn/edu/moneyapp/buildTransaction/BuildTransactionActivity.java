@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.addTransaction.ListTransactionCategoriesFragment;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.TransactionPortion;
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.EditTransactionDialogFragment;
@@ -33,15 +34,30 @@ public class BuildTransactionActivity extends ActionBarActivity
 		setContentView(R.layout.activity_build_transaction);
 
 		Intent intent = getIntent();
-		String type = intent.getStringExtra("type");
-		transaction.setType(type);
 
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		TransactionPortion transactionPortion = intent.getParcelableExtra("transactionPortion");
+		if (transactionPortion != null) {
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-		EditTransactionFragment fragment = new EditTransactionFragment();
-		fragmentTransaction.add(R.id.widget_fragment_container, fragment, "edit_transaction");
-		fragmentTransaction.commit();
+			EditTransactionPortionFragment fragment = EditTransactionPortionFragment.newInstance(transactionPortion);
+			fragmentTransaction.add(R.id.widget_fragment_container, fragment, "edit_transaction_portion");
+			fragmentTransaction.commit();
+		}
+		else {
+
+
+			String type = intent.getStringExtra("type");
+			transaction.setType(type);
+
+
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+			EditTransactionFragment fragment = new EditTransactionFragment();
+			fragmentTransaction.add(R.id.widget_fragment_container, fragment, "edit_transaction");
+			fragmentTransaction.commit();
+		}
 	}
 
 
@@ -99,7 +115,8 @@ public class BuildTransactionActivity extends ActionBarActivity
 		if (transactionPortion != null) {
 			if (transactionPortion.getId() != 0) {
 				// If transactionPortion has ID, then we update transactionPortion in DB
-
+				MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getApplicationContext());
+				helper.updateTransactionPortion(transactionPortion);
 
 				// and MUST return to Home Activity
 				Intent intent = new Intent(BuildTransactionActivity.this, HomeActivity.class);
