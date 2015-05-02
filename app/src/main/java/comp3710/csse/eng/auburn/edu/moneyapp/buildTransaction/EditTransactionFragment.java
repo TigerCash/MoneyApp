@@ -130,14 +130,19 @@ public class EditTransactionFragment extends Fragment {
 	View.OnClickListener completeTransactionListener = new View.OnClickListener() {
 		public void onClick(View v) {
 
-			//put together transaction
-
-			//validate
+			//validate fields
 
 			//if valid
+			// put together transaction
+			Transaction transaction = ((BuildTransactionActivity)getActivity()).transaction;
+			transaction.setName(((EditText)v.findViewById(R.id.name_edit_text)).getText().toString());
+			transaction.setDate(((EditText)v.findViewById(R.id.date_edit_text)).getText().toString());
+			transaction.setTime(((EditText)v.findViewById(R.id.time_edit_text)).getText().toString());
+			// transaction portions should already be added in this transaction
 
+			// Call listener out
 			if (mListener != null) {
-				//mListener.onCompleteTransaction(transaction);
+				mListener.onCompleteTransaction(transaction);
 			}
 		}
 	};

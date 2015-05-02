@@ -110,8 +110,6 @@ public class EditTransactionPortionFragment extends Fragment {
 	View.OnClickListener acceptTransactionPortionListener = new View.OnClickListener() {
 		public void onClick(View v) {
 
-
-
 			// validate
 
 			// if valid
