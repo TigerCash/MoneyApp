@@ -138,6 +138,7 @@ public class EditTransactionPortionFragment extends Fragment {
 			int categoryId = helper.getCategory(categoryName).getId();
 			mTransactionPortion.setCategoryId(categoryId);
 			if (mListener != null) {
+				//((BuildTransactionActivity)getActivity()).transaction.addTransactionPortion(mTransactionPortion);
 				mListener.onCompleteTransactionPortion(mTransactionPortion);
 			}
 		}
