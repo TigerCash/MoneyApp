@@ -96,7 +96,7 @@ public class ListTransactionCategoriesFragment extends Fragment {
 			//Log.d("listTrans", mListener.onFragmentInteraction8().get(0));
 		}
 
-		mTable = (TableLayout) v.findViewById(R.id.category_table);
+		/*mTable = (TableLayout) v.findViewById(R.id.category_table);
 
 		TableRow tableRow;
 		TextView textView;
@@ -127,11 +127,11 @@ public class ListTransactionCategoriesFragment extends Fragment {
 			textView.setText(mTransactionCategories.get(i).getCategory().getName());
 			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
 
-			/*String transactionName = mTransactionCategories.get(i).getName();
+			*//*String transactionName = mTransactionCategories.get(i).getName();
 			int transactionAmount = mTransactionCategories.get(i).getAmount();
 
 			String transactionDate = mTransactionCategories.get(i).getDate();
-			String transactionTime = mTransactionCategories.get(i).getTime();*/
+			String transactionTime = mTransactionCategories.get(i).getTime();*//*
 
 			Resources res = getResources();
 			String isComplete = mTransactionCategories.get(i).isComplete().get(0);
@@ -150,7 +150,7 @@ public class ListTransactionCategoriesFragment extends Fragment {
 				}
 			}
 
-			/*if (transactionName == null || transactionName.equals("")
+			*//*if (transactionName == null || transactionName.equals("")
 			 || transactionAmount == 0) {
 				tableRow.setBackgroundColor(res.getColor(R.color.translucent_red));
 			}
@@ -162,7 +162,7 @@ public class ListTransactionCategoriesFragment extends Fragment {
 				else {
 					tableRow.setBackgroundColor(res.getColor(R.color.translucent_green));
 				}
-			}*/
+			}*//*
 
 
 			tableRow.setOnClickListener(new View.OnClickListener() {
@@ -186,7 +186,7 @@ public class ListTransactionCategoriesFragment extends Fragment {
 
 
 
-		/*if(checkboxLinearLayout.getChildCount() > 0)
+		*//*if(checkboxLinearLayout.getChildCount() > 0)
 			checkboxLinearLayout.removeAllViews();
 
 		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
@@ -207,7 +207,7 @@ public class ListTransactionCategoriesFragment extends Fragment {
 	View.OnClickListener completeTransactionsHandler = new View.OnClickListener() {
 		public void onClick(View v) {
 			// it was the 1st button
-			if (mListener != null) {
+			/*if (mListener != null) {
 
 				boolean transactionsComplete = true;
 
@@ -251,7 +251,7 @@ public class ListTransactionCategoriesFragment extends Fragment {
 
 				if (transactionsComplete)
 					mListener.onCompleteTransactions();
-			}
+			}*/
 		}
 	};
 

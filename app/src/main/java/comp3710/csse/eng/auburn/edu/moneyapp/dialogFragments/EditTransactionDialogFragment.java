@@ -65,8 +65,8 @@ public class EditTransactionDialogFragment extends DialogFragment {
 		args.putString("date", transaction.getDate());
 		args.putString("time", transaction.getTime());
 		args.putString("name", transaction.getName());
-		args.putInt("amount", transaction.getAmount());
-		args.putString("category", transaction.getCategory().getName());
+		//args.putInt("amount", transaction.getAmount());
+		//args.putString("category", transaction.getCategory().getName());
 		args.putString("type", transaction.getType());
 
 		fragment.setArguments(args);
@@ -90,8 +90,8 @@ public class EditTransactionDialogFragment extends DialogFragment {
 			mTransaction.setDate(args.getString("date"));
 			mTransaction.setTime(args.getString("time"));
 			mTransaction.setName(args.getString("name"));
-			mTransaction.setAmount(args.getInt("amount"));
-			mTransaction.setCategory(new Category(args.getString("category")));
+			//mTransaction.setAmount(args.getInt("amount"));
+			//mTransaction.setCategory(new Category(args.getString("category")));
 			mTransaction.setType(args.getString("type"));
 		}
 
@@ -113,7 +113,7 @@ public class EditTransactionDialogFragment extends DialogFragment {
 		// Inflate and set the layout for the dialog
 		View v = inflater.inflate(R.layout.fragment_edit_transaction_dialog, null);
 
-		category_name_text = (TextView) v.findViewById(R.id.category_name_text);
+		/*category_name_text = (TextView) v.findViewById(R.id.category_name_text);
 		type_text = (TextView) v.findViewById(R.id.type_text);
 		category_name_text.setText(mTransaction.getCategory().getName());
 		type_text.setText(mTransaction.getType());
@@ -207,7 +207,7 @@ public class EditTransactionDialogFragment extends DialogFragment {
 					public void onClick(DialogInterface dialog, int id) {
 						EditTransactionDialogFragment.this.getDialog().cancel();
 					}
-				});
+				});*/
 		return builder.create();
 	}
 

@@ -146,13 +146,13 @@ public class AddTransactionActivity extends ActionBarActivity
 		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getApplicationContext());
 
 		for (int i = 0; i < transactionCategories.size(); i++) {
-			helper.addTransaction(transactionCategories.get(i));
+			//helper.addTransaction(transactionCategories.get(i));
 		}
 
-		ArrayList<Transaction> transactions = helper.getAllTransactions();
+		//ArrayList<Transaction> transactions = helper.getAllTransactions();
 
-		for (Transaction transaction : transactions)
-			Log.d("db9", transaction.toString());
+		//for (Transaction transaction : transactions)
+		//	Log.d("db9", transaction.toString());
 
 		Intent intent = new Intent(AddTransactionActivity.this, HomeActivity.class);
 
