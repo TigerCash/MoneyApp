@@ -1,6 +1,7 @@
 package comp3710.csse.eng.auburn.edu.moneyapp.buildTransaction;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.TransactionPortion;
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.EditTransactionDialogFragment;
 import comp3710.csse.eng.auburn.edu.moneyapp.home.HomeActivity;
+import comp3710.csse.eng.auburn.edu.moneyapp.home.RecentTransactionsFragment;
 
 public class BuildTransactionActivity extends ActionBarActivity
 		implements EditTransactionFragment.OnFragmentInteractionListener,
@@ -29,6 +31,13 @@ public class BuildTransactionActivity extends ActionBarActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_build_transaction);
+
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+		EditTransactionFragment fragment = new EditTransactionFragment();
+		fragmentTransaction.add(R.id.widget_fragment_container, fragment, "edit_transaction");
+		fragmentTransaction.commit();
 	}
 
 
