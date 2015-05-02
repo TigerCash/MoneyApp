@@ -52,7 +52,7 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 		CategoryTable.onUpgrade(database, oldVersion, newVersion);
 	}
 
-	public int getBalance() {
+	/*public int getBalance() {
 		return TransactionHelper.getBalance(contentResolver);
 	}
 
@@ -85,7 +85,7 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 
 	public int updateTransaction(Transaction transaction) {
 		return TransactionHelper.updateTransaction(transaction, contentResolver);
-	}
+	}*/
 
 
 	// Budget CRUD

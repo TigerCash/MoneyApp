@@ -13,9 +13,11 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.TransactionPortion;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.BudgetPortionTable;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.BudgetTable;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.CategoryTable;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.TransactionPortionTable;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.TransactionTable;
 
 public class MoneyAppContentProvider extends ContentProvider {
@@ -32,16 +34,21 @@ public class MoneyAppContentProvider extends ContentProvider {
 	private static final int BUDGET_PORTION_ID = 6;
 	private static final int CATEGORIES = 7;
 	private static final int CATEGORY_ID = 8;
+	private static final int TRANSACTION_PORTIONS = 9;
+	private static final int TRANSACTION_PORTION_ID = 10;
 
 	private static final String AUTHORITY = "comp3710.csse.eng.auburn.edu.moneyapp.provider";
 
 	private static final String BASE_PATH_TRANSACTION = TransactionTable.TABLE_TRANSACTION;
+	private static final String BASE_PATH_TRANSACTION_PORTION = TransactionPortionTable.TABLE_TRANSACTION_PORTION;
 	private static final String BASE_PATH_BUDGET = BudgetTable.TABLE_BUDGET;
 	private static final String BASE_PATH_BUDGET_PORTION = BudgetPortionTable.TABLE_BUDGET_PORTION;
 	private static final String BASE_PATH_CATEGORY = CategoryTable.TABLE_CATEGORY;
 
 	public static final Uri CONTENT_URI_TRANSACTION = Uri.parse("content://" + AUTHORITY
 			+ "/" + BASE_PATH_TRANSACTION);
+	public static final Uri CONTENT_URI_TRANSACTION_PORTION = Uri.parse("content://" + AUTHORITY
+			+ "/" + BASE_PATH_TRANSACTION_PORTION);
 	public static final Uri CONTENT_URI_BUDGET = Uri.parse("content://" + AUTHORITY
 			+ "/" + BASE_PATH_BUDGET);
 	public static final Uri CONTENT_URI_BUDGET_PORTION = Uri.parse("content://" + AUTHORITY
@@ -49,15 +56,13 @@ public class MoneyAppContentProvider extends ContentProvider {
 	public static final Uri CONTENT_URI_CATEGORY = Uri.parse("content://" + AUTHORITY
 			+ "/" + BASE_PATH_CATEGORY);
 
-	//public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
-	//		+ "/" + TransactionTable.TABLE_TRANSACTION;
-	//public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
-	//		+ "/" + TransactionTable.TABLE_TRANSACTION;
 
 	private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	static {
 		sURIMatcher.addURI(AUTHORITY, BASE_PATH_TRANSACTION, TRANSACTIONS);
 		sURIMatcher.addURI(AUTHORITY, BASE_PATH_TRANSACTION + "/#", TRANSACTION_ID);
+		sURIMatcher.addURI(AUTHORITY, BASE_PATH_TRANSACTION, TRANSACTION_PORTIONS);
+		sURIMatcher.addURI(AUTHORITY, BASE_PATH_TRANSACTION + "/#", TRANSACTION_PORTION_ID);
 		sURIMatcher.addURI(AUTHORITY, BASE_PATH_BUDGET, BUDGETS);
 		sURIMatcher.addURI(AUTHORITY, BASE_PATH_BUDGET + "/#", BUDGET_ID);
 		sURIMatcher.addURI(AUTHORITY, BASE_PATH_BUDGET_PORTION, BUDGET_PORTIONS);
@@ -88,6 +93,15 @@ public class MoneyAppContentProvider extends ContentProvider {
 			case TRANSACTION_ID:
 				// adding the ID to the original query
 				queryBuilder.appendWhere(TransactionTable.COLUMN_ID + "="
+						+ uri.getLastPathSegment());
+				break;
+
+			case TRANSACTION_PORTIONS:
+				queryBuilder.setTables(TransactionPortionTable.TABLE_TRANSACTION_PORTION);
+				break;
+			case TRANSACTION_PORTION_ID:
+				// adding the ID to the original query
+				queryBuilder.appendWhere(TransactionPortionTable.COLUMN_ID + "="
 						+ uri.getLastPathSegment());
 				break;
 
@@ -144,6 +158,10 @@ public class MoneyAppContentProvider extends ContentProvider {
 				id = sqlDB.insert(TransactionTable.TABLE_TRANSACTION, null, values);
 				new_row = Uri.parse(BASE_PATH_TRANSACTION + "/" + id);
 				break;
+			case TRANSACTION_PORTIONS:
+				id = sqlDB.insert(TransactionPortionTable.TABLE_TRANSACTION_PORTION, null, values);
+				new_row = Uri.parse(BASE_PATH_TRANSACTION_PORTION + "/" + id);
+				break;
 			case BUDGETS:
 				id = sqlDB.insert(BudgetTable.TABLE_BUDGET, null, values);
 				new_row = Uri.parse(BASE_PATH_BUDGET + "/" + id);
@@ -185,6 +203,24 @@ public class MoneyAppContentProvider extends ContentProvider {
 				} else {
 					rowsDeleted = sqlDB.delete(TransactionTable.TABLE_TRANSACTION,
 							TransactionTable.COLUMN_ID + "=" + id
+									+ " and " + selection,
+							selectionArgs);
+				}
+				break;
+
+			case TRANSACTION_PORTIONS:
+				rowsDeleted = sqlDB.delete(TransactionPortionTable.TABLE_TRANSACTION_PORTION, selection,
+						selectionArgs);
+				break;
+			case TRANSACTION_PORTION_ID:
+				id = uri.getLastPathSegment();
+				if (TextUtils.isEmpty(selection)) {
+					rowsDeleted = sqlDB.delete(TransactionPortionTable.TABLE_TRANSACTION_PORTION,
+							TransactionPortionTable.COLUMN_ID + "=" + id,
+							null);
+				} else {
+					rowsDeleted = sqlDB.delete(TransactionPortionTable.TABLE_TRANSACTION_PORTION,
+							TransactionPortionTable.COLUMN_ID + "=" + id
 									+ " and " + selection,
 							selectionArgs);
 				}
@@ -276,6 +312,29 @@ public class MoneyAppContentProvider extends ContentProvider {
 					rowsUpdated = sqlDB.update(TransactionTable.TABLE_TRANSACTION,
 							values,
 							TransactionTable.COLUMN_ID + "=" + id
+									+ " and "
+									+ selection,
+							selectionArgs);
+				}
+				break;
+
+			case TRANSACTION_PORTIONS:
+				rowsUpdated = sqlDB.update(TransactionTable.TABLE_TRANSACTION,
+						values,
+						selection,
+						selectionArgs);
+				break;
+			case TRANSACTION_PORTION_ID:
+				id = uri.getLastPathSegment();
+				if (TextUtils.isEmpty(selection)) {
+					rowsUpdated = sqlDB.update(TransactionPortionTable.TABLE_TRANSACTION_PORTION,
+							values,
+							TransactionPortionTable.COLUMN_ID + "=" + id,
+							null);
+				} else {
+					rowsUpdated = sqlDB.update(TransactionPortionTable.TABLE_TRANSACTION_PORTION,
+							values,
+							TransactionPortionTable.COLUMN_ID + "=" + id
 									+ " and "
 									+ selection,
 							selectionArgs);

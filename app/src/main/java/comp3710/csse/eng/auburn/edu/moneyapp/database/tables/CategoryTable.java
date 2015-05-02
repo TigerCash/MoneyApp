@@ -8,13 +8,15 @@ public class CategoryTable {
 
 	// Database table
 	public static final String TABLE_CATEGORY = "category";
+	public static final String COLUMN_ID = "_id";
 	public static final String COLUMN_NAME = "name";
 
 	// Database creation SQL statement
 	private static final String TABLE_CREATE = "create table "
 			+ TABLE_CATEGORY
 			+ "("
-			+ COLUMN_NAME + " text primary key"
+			+ COLUMN_ID + " integer primary key, "
+			+ COLUMN_NAME + " text not null"
 			+ ");";
 
 	public static void onCreate(SQLiteDatabase database) {
