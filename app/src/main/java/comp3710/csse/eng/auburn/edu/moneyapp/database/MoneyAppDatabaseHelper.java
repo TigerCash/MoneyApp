@@ -66,7 +66,7 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 		CategoryTable.onUpgrade(database, oldVersion, newVersion);
 	}
 
-	public Double getBalance() {
+	public String getBalance() {
 
 		double balance = 0;
 
@@ -78,10 +78,11 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 			balance += Double.parseDouble(transaction.getTotal());
 		}
 
+		NumberFormat formatter = new DecimalFormat("#0.00");
+		String balanceString = formatter.format(balance);
 
 
-
-		return balance;
+		return balanceString;
 
 	}
 

@@ -104,13 +104,13 @@ public class RecentTransactionsFragment extends Fragment {
 			hm.put("time", recentTransactions.get(i).getTime());
 			hm.put("name", recentTransactions.get(i).getName());
 			//hm.put("total", recentTransactions.get(i).getTotal());
-			Double total = Double.parseDouble(recentTransactions.get(i).getTotal());
+			String total = recentTransactions.get(i).getTotal();
 
-			if (total < 0) {
-				hm.put("total", "(" + Double.toString(total).substring(1) + ")");
+			if (Double.parseDouble(total) < 0) {
+				hm.put("total", "(" + total.substring(1) + ")");
 			}
 			else {
-				hm.put("total", Double.toString(total));
+				hm.put("total", total);
 			}
 
 			hm.put("id", String.valueOf(recentTransactions.get(i).getId()));
