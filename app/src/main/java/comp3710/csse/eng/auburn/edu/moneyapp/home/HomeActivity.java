@@ -20,6 +20,7 @@ import java.text.NumberFormat;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 
+import comp3710.csse.eng.auburn.edu.moneyapp.allCategories.AllCategoriesActivity;
 import comp3710.csse.eng.auburn.edu.moneyapp.allTransactions.AllTransactionsActivity;
 import comp3710.csse.eng.auburn.edu.moneyapp.buildTransaction.BuildTransactionActivity;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
@@ -118,6 +119,12 @@ public class HomeActivity extends ActionBarActivity
 
 	public void onAllTransactions() {
 		Intent intent = new Intent(HomeActivity.this, AllTransactionsActivity.class);
+
+		startActivity(intent);
+	}
+
+	public void onAllCategories() {
+		Intent intent = new Intent(HomeActivity.this, AllCategoriesActivity.class);
 
 		startActivity(intent);
 	}

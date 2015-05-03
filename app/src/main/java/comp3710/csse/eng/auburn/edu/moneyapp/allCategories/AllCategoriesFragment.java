@@ -1,4 +1,4 @@
-package comp3710.csse.eng.auburn.edu.moneyapp.home;
+package comp3710.csse.eng.auburn.edu.moneyapp.allCategories;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -8,26 +8,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.TopCategoriesListAdapter;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
-import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TopCategoriesFragment.OnFragmentInteractionListener} interface
+ * {@link AllCategoriesFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TopCategoriesFragment#newInstance} factory method to
+ * Use the {@link AllCategoriesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TopCategoriesFragment extends Fragment {
+public class AllCategoriesFragment extends Fragment {
 	// TODO: Rename parameter arguments, choose names that match
 	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 	private static final String ARG_PARAM1 = "param1";
@@ -37,11 +34,8 @@ public class TopCategoriesFragment extends Fragment {
 	private String mParam1;
 	private String mParam2;
 
-	private static final int NUMBER_OF_CATEGORIES = 5;
-
-	TextView mAllCategoriesText;
-
 	private OnFragmentInteractionListener mListener;
+
 
 	/**
 	 * Use this factory method to create a new instance of
@@ -49,11 +43,11 @@ public class TopCategoriesFragment extends Fragment {
 	 *
 	 * @param param1 Parameter 1.
 	 * @param param2 Parameter 2.
-	 * @return A new instance of fragment TopCategoriesFragment.
+	 * @return A new instance of fragment AllCategoriesFragment.
 	 */
 	// TODO: Rename and change types and number of parameters
-	public static TopCategoriesFragment newInstance(String param1, String param2) {
-		TopCategoriesFragment fragment = new TopCategoriesFragment();
+	public static AllCategoriesFragment newInstance(String param1, String param2) {
+		AllCategoriesFragment fragment = new AllCategoriesFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_PARAM1, param1);
 		args.putString(ARG_PARAM2, param2);
@@ -61,7 +55,7 @@ public class TopCategoriesFragment extends Fragment {
 		return fragment;
 	}
 
-	public TopCategoriesFragment() {
+	public AllCategoriesFragment() {
 		// Required empty public constructor
 	}
 
@@ -77,12 +71,12 @@ public class TopCategoriesFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-		View v = inflater.inflate(R.layout.fragment_top_categories, container, false);
+		View v = inflater.inflate(R.layout.fragment_all_categories, container, false);
 
 		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
 
-		ArrayList<Category> topCategories = helper.getTopCategories(NUMBER_OF_CATEGORIES);
+		ArrayList<Category> allCategories = helper.getAllCategories();
+		ArrayList<Category> topCategories = helper.getTopCategories(allCategories.size());
 		ArrayList<Double> totals = new ArrayList<>();
 
 
@@ -92,9 +86,6 @@ public class TopCategoriesFragment extends Fragment {
 
 		ListView lv=(ListView) v.findViewById(R.id.category_list_view);
 		lv.setAdapter(new TopCategoriesListAdapter(getActivity().getBaseContext(), topCategories, totals));
-
-		mAllCategoriesText = (TextView) v.findViewById(R.id.all_categories_text);
-		mAllCategoriesText.setOnClickListener(onAllCategoriesListener);
 
 		return v;
 	}
@@ -128,16 +119,8 @@ public class TopCategoriesFragment extends Fragment {
 	 * >Communicating with Other Fragments</a> for more information.
 	 */
 	public interface OnFragmentInteractionListener {
-		public void onAllCategories();
+		// TODO: Update argument type and name
+		public void onFragmentInteraction(Uri uri);
 	}
-
-	View.OnClickListener onAllCategoriesListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			if (mListener != null) {
-				mListener.onAllCategories();
-			}
-		}
-	};
 
 }
