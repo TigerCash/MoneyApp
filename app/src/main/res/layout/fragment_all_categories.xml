@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+             tools:context="comp3710.csse.eng.auburn.edu.moneyapp.allCategories.AllCategoriesFragment">
+
+        <LinearLayout
+            android:id="@+id/LL"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:weightSum="1" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="All Categories"
+                android:textSize="24sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:gravity="center_horizontal"
+                android:paddingBottom="10dp"/>
+
+            <ScrollView
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fillViewport="true">
+
+                <ListView
+                    android:id="@+id/category_list_view"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"></ListView>
+
+            </ScrollView>
+
+        </LinearLayout>
+
+    </RelativeLayout>
