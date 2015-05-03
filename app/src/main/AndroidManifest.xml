@@ -12,12 +12,8 @@
 
         <activity
             android:name=".home.HomeActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:label="TigerCash" >
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <provider
@@ -28,19 +24,32 @@
 
         <activity
             android:name=".addTransaction.AddTransactionActivity"
-            android:label="@string/title_activity_add_transaction" >
+            android:label="Add a Transaction" >
         </activity>
         <activity
             android:name=".allTransactions.AllTransactionsActivity"
-            android:label="@string/title_activity_all_transactions" >
+            android:label="All Transactions" >
         </activity>
         <activity
             android:name=".buildTransaction.BuildTransactionActivity"
-            android:label="@string/title_activity_build_transaction" >
+            android:label="Build the Transaction" >
         </activity>
         <activity
             android:name=".allCategories.AllCategoriesActivity"
-            android:label="@string/title_activity_all_categories" >
+            android:label="All Categories" >
+        </activity>
+        <activity
+            android:name=".splashScreen.SplashScreenActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_splash_screen"
+            android:icon="@drawable/tigercash"
+             >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
         </activity>
     </application>
 
