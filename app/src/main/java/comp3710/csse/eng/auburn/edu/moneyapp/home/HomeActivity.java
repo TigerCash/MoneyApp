@@ -33,7 +33,8 @@ import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.EditTransactionDial
 public class HomeActivity extends ActionBarActivity
 		implements RecentTransactionsFragment.OnFragmentInteractionListener,
 		EditTransactionDialogFragment.OnEditTransactionListener,
-		ChooseTransactionTypeDialogFragment.OnNewTransactionListener {
+		ChooseTransactionTypeDialogFragment.OnNewTransactionListener,
+		TopCategoriesFragment.OnFragmentInteractionListener {
 
 	TextView balance_text;
 	Button add_transaction_button;
@@ -55,6 +56,13 @@ public class HomeActivity extends ActionBarActivity
 
 			RecentTransactionsFragment fragment = new RecentTransactionsFragment();
 			fragmentTransaction.add(R.id.widget_fragment_container, fragment, "recent_transactions");
+			fragmentTransaction.commit();
+
+			fragmentManager = getSupportFragmentManager();
+			fragmentTransaction = fragmentManager.beginTransaction();
+
+			TopCategoriesFragment fragment2 = new TopCategoriesFragment();
+			fragmentTransaction.add(R.id.widget_fragment_container2, fragment2, "top_categories");
 			fragmentTransaction.commit();
 
 		}
@@ -143,6 +151,10 @@ public class HomeActivity extends ActionBarActivity
 
 		intent.putExtra("transactionPortion", transactionPortion);
 		startActivity(intent);
+	}
+
+	public void onFragmentInteraction(Uri uri) {
+
 	}
 }
 
