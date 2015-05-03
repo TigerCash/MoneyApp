@@ -1,10 +1,14 @@
-package comp3710.csse.eng.auburn.edu.moneyapp.home;
+package comp3710.csse.eng.auburn.edu.moneyapp.allTransactions;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.internal.widget.AdapterViewCompat;
 import android.support.v7.view.ActionMode;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,12 +21,17 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.ExpandableListAdapter;
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
@@ -33,18 +42,19 @@ import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.TransactionPortion
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.ValidateDeleteDialogFragment;
 
 
-
-public class RecentTransactionsFragment extends Fragment {
+public class AllTransactionsFragment extends Fragment {
 	private static final String ARG_PARAM1 = "param1";
 	private static final String ARG_PARAM2 = "param2";
 
 	private static final int NUMBER_OF_TRANSACTIONS = 5;
 
+	// TODO: Rename and change types of parameters
+	private String mParam1;
+	private String mParam2;
+
 	private OnFragmentInteractionListener mListener;
 	private TableLayout mTable;
 	private TableRow mSelectedTableRow;
-
-	private TextView mAllTransactionsText;
 
 	private LinearLayout mChildView;
 	private LinearLayout mParentView;
@@ -55,8 +65,10 @@ public class RecentTransactionsFragment extends Fragment {
 	ExpandableListView listView;
 
 
-	public static RecentTransactionsFragment newInstance(String param1, String param2) {
-		RecentTransactionsFragment fragment = new RecentTransactionsFragment();
+
+
+	public static AllTransactionsFragment newInstance(String param1, String param2) {
+		AllTransactionsFragment fragment = new AllTransactionsFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_PARAM1, param1);
 		args.putString(ARG_PARAM2, param2);
@@ -64,25 +76,26 @@ public class RecentTransactionsFragment extends Fragment {
 		return fragment;
 	}
 
-	public RecentTransactionsFragment() {
+	public AllTransactionsFragment() {
 		// Required empty public constructor
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (getArguments() != null) {
+			mParam1 = getArguments().getString(ARG_PARAM1);
+			mParam2 = getArguments().getString(ARG_PARAM2);
+		}
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View v = inflater.inflate(R.layout.fragment_recent_transactions, container, false);
+		View v = inflater.inflate(R.layout.fragment_all_transactions, container, false);
 
 		setupExpandableListView(v);
-
-		mAllTransactionsText = (TextView) v.findViewById(R.id.all_transactions_text);
-		mAllTransactionsText.setOnClickListener(onAllTransactionsListener);
 
 		return v;
 	}
@@ -90,20 +103,20 @@ public class RecentTransactionsFragment extends Fragment {
 	public void setupExpandableListView(View v) {
 		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity());
 
-		ArrayList<Transaction> recentTransactions = helper.getRecentTransactions(NUMBER_OF_TRANSACTIONS);
+		ArrayList<Transaction> allTransactions = helper.getAllTransactions();
 
 
 		// Each row in the list stores date, time, name, totaled amount
 		ArrayList<HashMap<String,String>> transactionList = new ArrayList<HashMap<String,String>>();
 
 
-		for (int i = 0; i < recentTransactions.size(); i++) {
+		for (int i = 0; i < allTransactions.size(); i++) {
 			HashMap<String,String> hm = new HashMap<String,String>();
-			hm.put("date", recentTransactions.get(i).getDate());
-			hm.put("time", recentTransactions.get(i).getTime());
-			hm.put("name", recentTransactions.get(i).getName());
-			//hm.put("total", recentTransactions.get(i).getTotal());
-			Double total = Double.parseDouble(recentTransactions.get(i).getTotal());
+			hm.put("date", allTransactions.get(i).getDate());
+			hm.put("time", allTransactions.get(i).getTime());
+			hm.put("name", allTransactions.get(i).getName());
+
+			Double total = Double.parseDouble(allTransactions.get(i).getTotal());
 
 			if (total < 0) {
 				hm.put("total", "(" + Double.toString(total).substring(1) + ")");
@@ -112,22 +125,21 @@ public class RecentTransactionsFragment extends Fragment {
 				hm.put("total", Double.toString(total));
 			}
 
-			hm.put("id", String.valueOf(recentTransactions.get(i).getId()));
+			hm.put("id", String.valueOf(allTransactions.get(i).getId()));
 			transactionList.add(hm);
 		}
 
 		HashMap<HashMap<String,String>, ArrayList<HashMap<String,String>>> transactionListPortion = new  HashMap<HashMap<String,String>, ArrayList<HashMap<String,String>>>();
 
 
-
 		for (int i = 0; i < transactionList.size(); i++) {
 
 			ArrayList<HashMap<String,String>> al = new ArrayList<HashMap<String,String>>();
-			ArrayList<TransactionPortion> transactionPortions = recentTransactions.get(i).getTransactionPortions();
+			ArrayList<TransactionPortion> transactionPortions = allTransactions.get(i).getTransactionPortions();
 			for (int j = 0; j < transactionPortions.size(); j++) {
 				HashMap<String,String> hm = new HashMap<String,String>();
 				hm.put("desc", transactionPortions.get(j).getDescription());
-				if (recentTransactions.get(i).getType().equals("Withdrawal")) {
+				if (allTransactions.get(i).getType().equals("Withdrawal")) {
 					hm.put("amount", "(" + transactionPortions.get(j).getAmount() + ")");
 				}
 				else {
@@ -142,8 +154,15 @@ public class RecentTransactionsFragment extends Fragment {
 
 		}
 
+
+
+		// Each row in the list stores country name, currency and flag
+		ArrayList<HashMap<String,String>> aList = new ArrayList<HashMap<String,String>>();
+
+
+
 		// get the listview
-		listView = (ExpandableListView) v.findViewById(R.id.recent_transactions_list_view);
+		listView = (ExpandableListView) v.findViewById(R.id.all_transactions_list_view);
 
 
 		adapter2 = new ExpandableListAdapter(getActivity().getBaseContext(), transactionList, transactionListPortion);
@@ -218,35 +237,6 @@ public class RecentTransactionsFragment extends Fragment {
 		}
 	};
 
-	View.OnClickListener onAllTransactionsListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			if (mListener != null) {
-				mListener.onAllTransactions();
-			}
-		}
-	};
-
-	View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
-		@Override
-		public boolean onLongClick(View v) {
-
-			if (mActionMode != null) {
-				return false;
-			}
-
-			// Start the CAB using the ActionMode.Callback defined above
-			ActionBarActivity activity=(ActionBarActivity)getActivity();
-			activity.startSupportActionMode(mActionModeCallback);
-			//mActionMode = getActivity().startSupportActionMode(mActionModeCallback);
-
-			mSelectedTableRow = (TableRow) v;
-
-			v.setSelected(true);
-
-			return true;
-		}
-	};
 
 	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
@@ -320,21 +310,8 @@ public class RecentTransactionsFragment extends Fragment {
 		mListener = null;
 	}
 
-	/*@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
-		// Save the user's current game state
-		savedInstanceState.putInt(STATE_SCORE, mCurrentScore);
-		savedInstanceState.putInt(STATE_LEVEL, mCurrentLevel);
-
-		// Always call the superclass so it can save the view hierarchy state
-		super.onSaveInstanceState(savedInstanceState);
-	}*/
-
-
 	public interface OnFragmentInteractionListener {
 		// TODO: Update argument type and name
-		/*public void onDeleteTransaction();*/
-		public void onAllTransactions();
 		public void editTransaction(Transaction transaction);
 		public void editTransactionPortion(TransactionPortion transactionPortion);
 		public void balanceChanged();
@@ -381,38 +358,5 @@ public class RecentTransactionsFragment extends Fragment {
 		setupExpandableListView(parentView.getRootView());
 		adapter2.notifyDataSetChanged();
 		mListener.balanceChanged();
-	}
-
-	public void editTransaction(TableRow selectedTableRow) {
-
-		int transactionId = (int)selectedTableRow.getTag(R.id.transaction_id);
-		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity());
-
-		//Transaction buildTransaction = helper.getTransaction(transactionId);
-
-		//mListener.editTransaction(buildTransaction);
-	}
-
-	public void deleteTransaction(TableRow selectedTableRow) {
-		promptUserValidation();
-	}
-
-	public void promptUserValidation() {
-		DialogFragment newFragment = new ValidateDeleteDialogFragment();
-		//newFragment.setTargetFragment(this, 1);
-		newFragment.show(getActivity().getSupportFragmentManager(), "validate");
-	}
-
-	public void onValidateDeleteDialogPositiveClick() {
-		int transactionId = (int)mSelectedTableRow.getTag(R.id.transaction_id);
-		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity());
-
-		//helper.deleteTransaction(transactionId);
-
-		//mListener.onDeleteTransaction();
-	}
-
-	public void onValidateDeleteDialogNegativeClick() {
-		return;
 	}
 }

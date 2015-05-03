@@ -2,65 +2,37 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:paddingTop="?attr/actionBarSize"
+              android:paddingTop="@dimen/activity_vertical_margin"
+              android:paddingBottom="@dimen/activity_vertical_margin"
               android:orientation="vertical"
-              tools:context="comp3710.csse.eng.auburn.edu.moneyapp.home.RecentTransactionsFragment">
+              tools:context=".AllTransactionsActivity">
 
-    <TextView
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="@string/current_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/balance_text"
+            android:text="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"/>
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/widget_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/recent_transactions"
-        android:textSize="24sp"
-        android:gravity="center_horizontal"
-        android:paddingBottom="10dp"/>
+        android:background="@drawable/customborder">
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:scrollbars="none"
-        android:layout_weight="1">
-
-        <TableLayout
-            android:id="@+id/recent_transactions_table"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TableRow>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Date"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Time"/>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Name"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Amount"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Category"/>
-
-
-            </TableRow>
-        </TableLayout>
-
-    </ScrollView>
+    </FrameLayout>
 
 </LinearLayout>

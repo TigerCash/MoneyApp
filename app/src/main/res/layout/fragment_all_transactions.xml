@@ -3,26 +3,20 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:orientation="vertical"
-             tools:context="comp3710.csse.eng.auburn.edu.moneyapp.home.RecentTransactionsFragment">
+             tools:context="comp3710.csse.eng.auburn.edu.moneyapp.allTransactions.AllTransactionsFragment">
+
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/recent_transactions"
+        android:text="@string/all_transactions"
         android:textSize="24sp"
         android:gravity="center_horizontal"
         android:paddingBottom="10dp"/>
 
     <ExpandableListView
-        android:id="@+id/recent_transactions_list_view"
+        android:id="@+id/all_transactions_list_view"
         android:layout_height="match_parent"
         android:layout_width="match_parent"/>
-
-    <TextView
-        android:id="@+id/all_transactions_text"
-        android:text="@string/all_transactions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"/>
 
 </LinearLayout>

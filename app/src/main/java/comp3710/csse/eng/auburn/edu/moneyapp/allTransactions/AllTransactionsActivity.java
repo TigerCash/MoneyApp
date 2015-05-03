@@ -1,156 +1,101 @@
 package comp3710.csse.eng.auburn.edu.moneyapp.allTransactions;
 
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
+import comp3710.csse.eng.auburn.edu.moneyapp.buildTransaction.BuildTransactionActivity;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.TransactionPortion;
+import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.ChooseTransactionTypeDialogFragment;
+import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.EditTransactionDialogFragment;
+import comp3710.csse.eng.auburn.edu.moneyapp.home.RecentTransactionsFragment;
 
-public class AllTransactionsActivity extends ActionBarActivity {
+public class AllTransactionsActivity extends ActionBarActivity
+		implements AllTransactionsFragment.OnFragmentInteractionListener {
 
-	private TableLayout mTable;
-	private ActionMode mActionMode;
+	TextView balance_text;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_all_transactions);
 
+		/*MoneyAppDatabaseHelper help = new MoneyAppDatabaseHelper(getApplicationContext());
+		help.onUpgrade(help.getWritableDatabase(), 1, 1);*/
+		/*CategoryTable t = new CategoryTable();
+		t.onUpgrade(help.getWritableDatabase(), 1, 1);*/
 
-		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(this);
+		if (savedInstanceState == null) {
+			
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-		//ArrayList<Transaction> allTransactions = helper.getAllTransactions();
+			AllTransactionsFragment fragment = new AllTransactionsFragment();
+			fragmentTransaction.add(R.id.widget_fragment_container, fragment, "all_transactions");
+			fragmentTransaction.commit();
+		}
 
-		mTable = (TableLayout) findViewById(R.id.recent_transactions_table);
+		//MoneyAppDatabaseHelper help = new MoneyAppDatabaseHelper(getApplicationContext());
+		//help.onUpgrade(help.getWritableDatabase(), 1, 1);
+		/*Transaction t = new Transaction("date", "time", "na3", 5, new Category("cat"), "type");
+		help.addTransaction(t);
 
-		TableRow tableRow;
-		TextView textView;
+		Transaction newt = help.getTransaction(t.getId());
+		if (newt != null) {
+			Log.d("db", newt.getName());
+			Log.d("db", String.valueOf(t.getId()));
+		}
+		else {
+			Log.d("db", "no buildTransaction found");
+		}
 
-		/*for (int i = 0; i < allTransactions.size(); i++) {
+		ArrayList<Transaction> transactions = help.getAllTransactions();
 
-			tableRow = new TableRow(this);
-			tableRow.setTag(i);
+		for (Transaction buildTransaction : transactions)
+			Log.d("db6", buildTransaction.toString());*/
 
-			textView = new TextView(this);
-			textView.setText(allTransactions.get(i).getDate());
-			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
-
-			textView = new TextView(this);
-			textView.setText(allTransactions.get(i).getTime());
-			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
-
-			textView = new TextView(this);
-			textView.setText(allTransactions.get(i).getName());
-			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
-
-
-			textView = new TextView(this);
-			int amount = allTransactions.get(i).getAmount();
-			String amountString = "";
-			String type = allTransactions.get(i).getType();
-			if (type.equals("withdrawal")) {
-				amountString = "-" + Integer.toString(amount);
-			}
-			else if (type.equals("deposit")) {
-				amountString = "+" + Integer.toString(amount);
-			}
-			textView.setText(amountString);
-			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
-
-			textView = new TextView(this);
-			textView.setText(allTransactions.get(i).getCategory().getName());
-			tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
-
-			tableRow.setOnLongClickListener(onLongClickListener);
-
-			tableRow.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					TableRow tableRow = ((TableRow) v);
-					TextView nameTextView = (TextView) tableRow.getChildAt(0);
-					Log.d("list", "The name is" + nameTextView.getText().toString());
-					int transactionRowIndex = (int) tableRow.getTag();
-					Log.d("list", Integer.toString(transactionRowIndex));
-
-				}
-			});
-
-			mTable.addView(tableRow);
-		}*/
+		setBalanceText();
 
 	}
 
-	View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
-		@Override
-		public boolean onLongClick(View v) {
+	View.OnClickListener addTransactionButtonHandler = new View.OnClickListener() {
+		public void onClick(View v) {
+			/*Intent intent = new Intent(HomeActivity.this, AddTransactionActivity.class);
 
-			if (mActionMode != null) {
-				return false;
-			}
+			intent.putExtra("type", "withdrawal");
+			startActivity(intent);*/
 
-			// Start the CAB using the ActionMode.Callback defined above
-			mActionMode = startActionMode(mActionModeCallback);
-			v.setSelected(true);
+			DialogFragment newFragment = new ChooseTransactionTypeDialogFragment();
+			newFragment.show(getSupportFragmentManager(), "chooseTransactionType");
 
-			return true;
 		}
 	};
 
-	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
-		// Called when the action mode is created; startActionMode() was called
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			// Inflate a menu resource providing context menu items
-			MenuInflater inflater = mode.getMenuInflater();
-			inflater.inflate(R.menu.action_bar, menu);
-			return true;
-		}
-
-		// Called each time the action mode is shown. Always called after onCreateActionMode, but
-		// may be called multiple times if the mode is invalidated.
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false; // Return false if nothing is done
-		}
-
-		// Called when the user selects a contextual menu item
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			switch (item.getItemId()) {
-				/*case R.id.menu_share:
-					shareCurrentItem();
-					mode.finish(); // Action picked, so close the CAB
-					return true;*/
-				default:
-					return false;
-			}
-		}
-
-		// Called when the user exits the action mode
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			mActionMode = null;
-		}
-	};
 
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu_all_transactions, menu);
+		getMenuInflater().inflate(R.menu.menu_home, menu);
 		return true;
 	}
 
@@ -167,5 +112,73 @@ public class AllTransactionsActivity extends ActionBarActivity {
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	public void setBalanceText() {
+		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getApplicationContext());
+		balance_text = (TextView) findViewById(R.id.balance_text);
+		NumberFormat formatter = new DecimalFormat("#0.00");
+		balance_text.setText(formatter.format(helper.getBalance()));
+		//balance_text.setText("$999");
+	}
+
+	public void onDeleteTransaction() {
+		Fragment currentFragment = getSupportFragmentManager().findFragmentByTag("recent_transactions");
+		FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+		fragTransaction.detach(currentFragment);
+		fragTransaction.attach(currentFragment);
+		fragTransaction.commit();
+
+		setBalanceText();
+	}
+
+
+
+	public void onFragmentInteraction3(Uri uri) {
+
+	}
+
+
+	public void onEditTransaction(Transaction transaction) {
+
+		/*MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(this);
+
+		helper.updateTransaction(buildTransaction);
+
+		ArrayList<Transaction> trans = helper.getAllTransactions();
+
+		Fragment currentFragment = getSupportFragmentManager().findFragmentByTag("recent_transactions");
+		FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+		fragTransaction.detach(currentFragment);
+		fragTransaction.attach(currentFragment);
+		fragTransaction.commit();
+
+		setBalanceText();*/
+	}
+
+
+	public void balanceChanged() {
+		setBalanceText();
+	}
+
+
+
+	public void editTransaction(Transaction transaction) {
+		/*int i = 0;
+		Transaction t = buildTransaction;
+		DialogFragment newFragment = EditTransactionDialogFragment.newInstance(buildTransaction);
+		newFragment.show(this.getSupportFragmentManager(), "edit_transaction");*/
+
+		Intent intent = new Intent(AllTransactionsActivity.this, BuildTransactionActivity.class);
+
+		intent.putExtra("transaction", transaction);
+		startActivity(intent);
+	}
+
+	public void editTransactionPortion(TransactionPortion transactionPortion) {
+		Intent intent = new Intent(AllTransactionsActivity.this, BuildTransactionActivity.class);
+
+		intent.putExtra("transactionPortion", transactionPortion);
+		startActivity(intent);
 	}
 }

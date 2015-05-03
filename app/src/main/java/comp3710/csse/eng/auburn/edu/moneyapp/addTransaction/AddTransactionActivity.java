@@ -35,12 +35,15 @@ public class AddTransactionActivity extends ActionBarActivity
 		Intent intent = getIntent();
 		mType = intent.getStringExtra("type");
 
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		if (savedInstanceState == null) {
 
-		ChooseCategoriesFragment fragment = ChooseCategoriesFragment.newInstance(mType);
-		fragmentTransaction.add(R.id.fragment_container, fragment);
-		fragmentTransaction.commit();
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+			ChooseCategoriesFragment fragment = ChooseCategoriesFragment.newInstance(mType);
+			fragmentTransaction.add(R.id.fragment_container, fragment);
+			fragmentTransaction.commit();
+		}
 	}
 
 
