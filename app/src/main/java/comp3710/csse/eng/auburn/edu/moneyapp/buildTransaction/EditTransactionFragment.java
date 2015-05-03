@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -171,17 +172,20 @@ public class EditTransactionFragment extends Fragment {
 
 				textView = new TextView(getActivity());
 				textView.setText(transactionPortions.get(i).getDescription());
-				tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+				tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1f));
 
 				textView = new TextView(getActivity());
 				textView.setText(transactionPortions.get(i).getAmount());
-				tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+				textView.setGravity(Gravity.CENTER_HORIZONTAL);
+				tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1f));
 
 				textView = new TextView(getActivity());
 				final MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getBaseContext());
 				Category category = helper.getCategory(transactionPortions.get(i).getCategoryId());
 				textView.setText(category.getName());
-				tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+				textView.setGravity(Gravity.RIGHT);
+				tableRow.addView(textView, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+
 
 				tableRow.setTag(transaction.getTransactionPortions().get(i).getId());
 
