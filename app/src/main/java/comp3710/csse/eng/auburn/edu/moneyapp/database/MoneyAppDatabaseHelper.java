@@ -5,9 +5,15 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Budget;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.BudgetPortion;
@@ -149,6 +155,10 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 		return TransactionPortionHelper.getTransactionPortions(transactionId, contentResolver);
 	}
 
+	public ArrayList<TransactionPortion> getTransactionPortionsCategoryId(int categoryId) {
+		return TransactionPortionHelper.getTransactionPortionsCategoryId(categoryId, contentResolver);
+	}
+
 	public TransactionPortion getTransactionPortion(int transactionPortionId) {
 		return TransactionPortionHelper.getTransactionPortion(transactionPortionId, contentResolver);
 	}
@@ -219,6 +229,49 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 
 	public ArrayList<Category> getAllCategories() {
 		return CategoryHelper.getAllCategories(contentResolver);
+	}
+
+	public ArrayList<Category> getTopCategories(int numberCategories) {
+
+		HashMap<Double, Category> hm = new HashMap<>();
+		ArrayList<Category> allCategories = getAllCategories();
+
+		for (Category c : allCategories) {
+			ArrayList<TransactionPortion> transactionPortions = getTransactionPortionsCategoryId(c.getId());
+
+			double total = 0;
+			for (TransactionPortion t : transactionPortions) {
+				total += Double.parseDouble(t.getAmount());
+			}
+			hm.put(total, c);
+		}
+
+		Map<Double, Category> map = new TreeMap<Double, Category>(hm);
+
+		ArrayList<Category> topCategories = new ArrayList<>();
+
+		Set set = map.entrySet();
+		Iterator iterator = set.iterator();
+		int i = 0;
+		while(iterator.hasNext() && i < numberCategories) {
+			Map.Entry me2 = (Map.Entry)iterator.next();
+			topCategories.add((Category)me2.getValue());
+		}
+
+		return topCategories;
+	}
+
+	public double getCategoryAmount(int id) {
+		Category category = getCategory(id);
+
+		ArrayList<TransactionPortion> transactionPortions = getTransactionPortionsCategoryId(category.getId());
+
+		double total = 0;
+		for (TransactionPortion t : transactionPortions) {
+			total += Double.parseDouble(t.getAmount());
+		}
+
+		return total;
 	}
 
 	public void deleteCategory(int id) {

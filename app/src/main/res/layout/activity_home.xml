@@ -57,8 +57,18 @@
         android:id="@+id/widget_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/customborder">
+        android:background="@drawable/customborder"
+        android:layout_weight="1">
 
         </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/widget_fragment_container2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/customborder"
+        android:layout_weight="1">
+
+    </FrameLayout>
 
 </LinearLayout>

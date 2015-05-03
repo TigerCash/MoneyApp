@@ -89,6 +89,7 @@ public final class CategoryHelper {
 		return categoryList;
 	}
 
+
 	public static void deleteCategory(int id, ContentResolver contentResolver) {
 
 	}

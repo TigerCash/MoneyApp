@@ -72,6 +72,29 @@ public final class TransactionPortionHelper {
 		return getTransactionPortion(cursor);
 	}
 
+	public static ArrayList<TransactionPortion> getTransactionPortionsCategoryId(int categoryId, ContentResolver contentResolver) {
+		String[] projection = {TransactionPortionTable.COLUMN_ID, TransactionPortionTable.COLUMN_DESCRIPTION,
+				TransactionPortionTable.COLUMN_AMOUNT, TransactionPortionTable.COLUMN_CATEGORY_ID,
+				TransactionPortionTable.COLUMN_TRANSACTION_ID};
+
+		String selection = TransactionPortionTable.COLUMN_CATEGORY_ID + "=" + categoryId;
+
+		Cursor cursor = contentResolver.query(CONTENT_URI,
+				projection, selection, null,
+				null);
+
+		ArrayList<TransactionPortion> transactionPortions = new ArrayList<TransactionPortion>();
+
+		while (cursor.moveToNext()) {
+			TransactionPortion transactionPortion = getTransactionPortion(cursor);
+			transactionPortions.add(transactionPortion);
+		}
+
+		cursor.close();
+
+		return transactionPortions;
+	}
+
 
 	private static TransactionPortion getTransactionPortion(Cursor cursor) {
 		TransactionPortion transactionPortion = new TransactionPortion();
