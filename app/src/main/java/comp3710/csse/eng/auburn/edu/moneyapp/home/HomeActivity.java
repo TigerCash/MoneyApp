@@ -171,7 +171,11 @@ public class HomeActivity extends ActionBarActivity
 	}
 
 	public void onEditCategory() {
+		RecentTransactionsFragment recentTransactionsFragment = (RecentTransactionsFragment) getSupportFragmentManager().findFragmentByTag("recent_transactions");
+		recentTransactionsFragment.dataSetChanged();
 
+		TopCategoriesFragment topCategoriesFragment = (TopCategoriesFragment) getSupportFragmentManager().findFragmentByTag("top_categories");
+		topCategoriesFragment.dataSetChanged();
 	}
 
 
