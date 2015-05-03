@@ -18,9 +18,12 @@ import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.buildTransaction.EditTransactionPortionFragment;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.TransactionPortion;
+import comp3710.csse.eng.auburn.edu.moneyapp.home.TopCategoriesFragment;
 
 
-public class AddNewCategoryDialogFragment extends DialogFragment {
+public class EditCategoryDialogFragment extends DialogFragment {
 
 	// TODO: Rename parameter arguments, choose names that match
 	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,29 +34,20 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 	private String mParam1;
 	private String mParam2;
 
-	/*private OnFragmentInteractionListener mListener;
-	private OnAddCategoryListener mAddListener;*/
+	/*private OnFragmentInteractionListener mListener;*/
+	private OnFragmentInteractionListener mListener;
 	private EditText mNameEditText;
 
-	/**
-	 * Use this factory method to create a new instance of
-	 * this fragment using the provided parameters.
-	 *
-	 * @param param1 Parameter 1.
-	 * @param param2 Parameter 2.
-	 * @return A new instance of fragment ChooseCategoriesDialogFragment.
-	 */
-	// TODO: Rename and change types and number of parameters
-	public static AddNewCategoryDialogFragment newInstance(String param1, String param2) {
-		AddNewCategoryDialogFragment fragment = new AddNewCategoryDialogFragment();
+
+	public static EditCategoryDialogFragment newInstance(String name) {
+		EditCategoryDialogFragment fragment = new EditCategoryDialogFragment();
 		Bundle args = new Bundle();
-		args.putString(ARG_PARAM1, param1);
-		args.putString(ARG_PARAM2, param2);
+		args.putString("name", name);
 		fragment.setArguments(args);
 		return fragment;
 	}
 
-	public AddNewCategoryDialogFragment() {
+	public EditCategoryDialogFragment() {
 		// Required empty public constructor
 	}
 
@@ -61,8 +55,7 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null) {
-			mParam1 = getArguments().getString(ARG_PARAM1);
-			mParam2 = getArguments().getString(ARG_PARAM2);
+			mParam1 = getArguments().getString("name");
 		}
 
 		try {
@@ -99,7 +92,7 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 							valid = false;
 							Toast.makeText(getActivity().getApplicationContext(), "Invalid Category Name",
 									Toast.LENGTH_SHORT).show();
-							AddNewCategoryDialogFragment.this.getDialog().cancel();
+							EditCategoryDialogFragment.this.getDialog().cancel();
 						}
 
 						MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
@@ -111,7 +104,7 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 								valid = false;
 								Toast.makeText(getActivity().getApplicationContext(), "Duplicate Category",
 										Toast.LENGTH_SHORT).show();
-								AddNewCategoryDialogFragment.this.getDialog().cancel();
+								EditCategoryDialogFragment.this.getDialog().cancel();
 								break;
 							}
 						}
@@ -119,26 +112,31 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 						// If valid
 						if (valid) {
 							// Add category to db
-							helper.addCategory(new Category(name));
+							Category category = helper.getCategory(mParam1);
+							category.setName(name);
+							helper.updateCategory(category);
 							// Call onAddNewCategory on EditTransactionPortionFragment
-							((EditTransactionPortionFragment) getTargetFragment()).onAddNewCategory();
+							mListener.onEditCategory();
 						}
 					}
 				})
 				.setNegativeButton("negative", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						AddNewCategoryDialogFragment.this.getDialog().cancel();
+						EditCategoryDialogFragment.this.getDialog().cancel();
 					}
 				});
 		return builder.create();
 	}
 
+	public interface OnFragmentInteractionListener {
+		public void onEditCategory();
+	}
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			//mListener = (OnFragmentInteractionListener) activity;
+			mListener = (OnFragmentInteractionListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnFragmentInteractionListener");
@@ -148,7 +146,7 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		//mListener = null;
+		mListener = null;
 	}
 
 }
