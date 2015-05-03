@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -88,7 +89,20 @@ public class ChooseTransactionTypeDialogFragment extends DialogFragment {
 						}
 					}
 				});
-		return builder.create();
+		final AlertDialog alertDialog = builder.create();
+
+		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				Button btnPositive = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+				btnPositive.setTextSize(18);
+
+				Button btnNegative = alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+				btnNegative.setTextSize(18);
+			}
+		});
+
+		return alertDialog;
 	}
 
 

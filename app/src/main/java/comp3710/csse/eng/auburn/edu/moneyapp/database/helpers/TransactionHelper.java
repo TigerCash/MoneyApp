@@ -96,6 +96,7 @@ public final class TransactionHelper {
 
 		Log.d("db5", DatabaseUtils.dumpCursorToString(cursor));
 
+
 		return getTransaction(cursor);
 	}
 
