@@ -17,6 +17,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -242,43 +243,48 @@ public class EditTransactionFragment extends Fragment {
 		public void onClick(View v) {
 
 			//validate fields
+			boolean validFields = checkValidFields(v);
 
+			Transaction transaction = ((BuildTransactionActivity) getActivity()).buildTransaction;
+			boolean validTransaction = checkValidTransaction(transaction);
 
 			//if valid
-			// put together buildTransaction
-			Transaction transaction = ((BuildTransactionActivity)getActivity()).buildTransaction;
-			View view = v.getRootView();
-			transaction.setName(((EditText)view.findViewById(R.id.name_edit_text)).getText().toString());
-			transaction.setDate(((EditText)view.findViewById(R.id.date_edit_text)).getText().toString());
-			transaction.setTime(((EditText)view.findViewById(R.id.time_edit_text)).getText().toString());
+			if (validFields && validTransaction) {
+				// put together buildTransaction
 
-			// buildTransaction portions should already be added in this buildTransaction
+				View view = v.getRootView();
+				transaction.setName(((EditText) view.findViewById(R.id.name_edit_text)).getText().toString());
+				transaction.setDate(((EditText) view.findViewById(R.id.date_edit_text)).getText().toString());
+				transaction.setTime(((EditText) view.findViewById(R.id.time_edit_text)).getText().toString());
 
-			MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
-			// If buildTransaction has id, update buildTransaction and transactionPortions
-			if (transaction.getId() != 0) {
-				helper.updateTransaction(transaction);
-				helper.updateTransactionPortions(transaction.getTransactionPortions());
+				// buildTransaction portions should already be added in this buildTransaction
 
-			}
-			// Else, add buildTransaction and transactionPortions to DB
-			else {
+				MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
+				// If buildTransaction has id, update buildTransaction and transactionPortions
+				if (transaction.getId() != 0) {
+					helper.updateTransaction(transaction);
+					helper.updateTransactionPortions(transaction.getTransactionPortions());
 
-				// Insert buildTransaction and get id of this buildTransaction in the table
-				int transactionId = helper.addTransaction(transaction);
+				}
+				// Else, add buildTransaction and transactionPortions to DB
+				else {
 
-				// Set the transaction_id for each transactionPortion in this buildTransaction
-				ArrayList<TransactionPortion> transactionPortions = transaction.getTransactionPortions();
-				for (int i = 0; i < transactionPortions.size(); i++) {
-					transactionPortions.get(i).setTransactionId(transactionId);
+					// Insert buildTransaction and get id of this buildTransaction in the table
+					int transactionId = helper.addTransaction(transaction);
+
+					// Set the transaction_id for each transactionPortion in this buildTransaction
+					ArrayList<TransactionPortion> transactionPortions = transaction.getTransactionPortions();
+					for (int i = 0; i < transactionPortions.size(); i++) {
+						transactionPortions.get(i).setTransactionId(transactionId);
+					}
+
+					helper.addTransactionPortions(transactionPortions);
 				}
 
-				helper.addTransactionPortions(transactionPortions);
-			}
-
-			// Call listener out
-			if (mListener != null) {
-				mListener.onCompleteTransaction(transaction);
+				// Call listener out
+				if (mListener != null) {
+					mListener.onCompleteTransaction(transaction);
+				}
 			}
 		}
 	};
@@ -380,5 +386,46 @@ public class EditTransactionFragment extends Fragment {
 		public void onAddTransactionPortion();
 		public void onEditTransactionPortion(TransactionPortion transactionPortion);
 	}
+
+
+	public boolean checkValidFields(View v) {
+		boolean valid = true;
+		View view = v.getRootView();
+		String name = ((EditText)view.findViewById(R.id.name_edit_text)).getText().toString();
+		String date = ((EditText)view.findViewById(R.id.date_edit_text)).getText().toString();
+		String time = ((EditText)view.findViewById(R.id.time_edit_text)).getText().toString();
+
+		if (name == null || name.equals("")) {
+			valid = false;
+			Toast.makeText(getActivity().getApplicationContext(), "Invalid Name",
+					Toast.LENGTH_SHORT).show();
+		}
+		else if (date == null || date.equals("")) {
+			valid = false;
+			Toast.makeText(getActivity().getApplicationContext(), "Invalid Date",
+					Toast.LENGTH_SHORT).show();
+		}
+		else if (time == null || time.equals("")) {
+			valid = false;
+			Toast.makeText(getActivity().getApplicationContext(), "Invalid Time",
+					Toast.LENGTH_SHORT).show();
+		}
+
+		return valid;
+	}
+
+	public boolean checkValidTransaction(Transaction transaction) {
+		boolean valid = (boolean)transaction.isValid()[0];
+
+		if (!valid) {
+			String errorMessage = (String)transaction.isValid()[1];
+			Toast.makeText(getActivity().getApplicationContext(), errorMessage,
+					Toast.LENGTH_SHORT).show();
+		}
+
+		return valid;
+	}
+
+
 
 }

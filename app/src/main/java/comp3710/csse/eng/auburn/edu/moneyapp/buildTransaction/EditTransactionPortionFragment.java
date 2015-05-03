@@ -12,12 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.TransactionPortion;
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.AddNewCategoryDialogFragment;
 
@@ -124,23 +126,28 @@ public class EditTransactionPortionFragment extends Fragment {
 	View.OnClickListener acceptTransactionPortionListener = new View.OnClickListener() {
 		public void onClick(View v) {
 
-			// validate
+			//validate fields
+			boolean validFields = checkValidFields(v);
 
-			// if valid
-			// put together transactionportion
-			if (mTransactionPortion == null)
-				mTransactionPortion = new TransactionPortion();
-			View view = v.getRootView();
-			mTransactionPortion.setDescription(((EditText) view.findViewById(R.id.description_edit_text)).getText().toString());
-			mTransactionPortion.setAmount(((EditText) view.findViewById(R.id.amount_edit_text)).getText().toString());
-			String categoryName = ((Spinner) view.findViewById(R.id.category_spinner)).getSelectedItem().toString();
-			MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
-			int categoryId = helper.getCategory(categoryName).getId();
-			mTransactionPortion.setCategoryId(categoryId);
-			//mTransactionPortion.setTransactionId(((BuildTransactionActivity)getActivity()).buildTransaction.getId());
-			if (mListener != null) {
-				//((BuildTransactionActivity)getActivity()).buildTransaction.addTransactionPortion(mTransactionPortion);
-				mListener.onCompleteTransactionPortion(mTransactionPortion);
+			//if valid
+			if (validFields) {
+
+				// if valid
+				// put together transactionportion
+				if (mTransactionPortion == null)
+					mTransactionPortion = new TransactionPortion();
+				View view = v.getRootView();
+				mTransactionPortion.setDescription(((EditText) view.findViewById(R.id.description_edit_text)).getText().toString());
+				mTransactionPortion.setAmount(((EditText) view.findViewById(R.id.amount_edit_text)).getText().toString());
+				String categoryName = ((Spinner) view.findViewById(R.id.category_spinner)).getSelectedItem().toString();
+				MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
+				int categoryId = helper.getCategory(categoryName).getId();
+				mTransactionPortion.setCategoryId(categoryId);
+				//mTransactionPortion.setTransactionId(((BuildTransactionActivity)getActivity()).buildTransaction.getId());
+				if (mListener != null) {
+					//((BuildTransactionActivity)getActivity()).buildTransaction.addTransactionPortion(mTransactionPortion);
+					mListener.onCompleteTransactionPortion(mTransactionPortion);
+				}
 			}
 		}
 
@@ -206,5 +213,44 @@ public class EditTransactionPortionFragment extends Fragment {
 		// TODO: Update argument type and name
 		public void onCompleteTransactionPortion(TransactionPortion transactionPortion);
 	}
+
+		public boolean checkValidFields(View v) {
+			boolean valid = true;
+			View view = v.getRootView();
+
+			String description = ((EditText)view.findViewById(R.id.description_edit_text)).getText().toString();
+			String amount = ((EditText)view.findViewById(R.id.amount_edit_text)).getText().toString();
+
+			Spinner spinner = ((Spinner)view.findViewById(R.id.category_spinner));
+			String spinnerString = (String) spinner.getSelectedItem();
+
+
+			if (description == null || description.equals("")) {
+				valid = false;
+				Toast.makeText(getActivity().getApplicationContext(), "Invalid Description",
+						Toast.LENGTH_SHORT).show();
+			}
+			else if (amount == null || amount.equals("")) {
+				valid = false;
+				Toast.makeText(getActivity().getApplicationContext(), "Invalid Amount",
+						Toast.LENGTH_SHORT).show();
+			}
+			else if (spinnerString == null || spinnerString.equals("")) {
+				valid = false;
+				Toast.makeText(getActivity().getApplicationContext(), "Invalid Spinner Choice",
+						Toast.LENGTH_SHORT).show();
+			}
+
+			try {
+				Double.parseDouble(amount);
+			} catch (Exception e) {
+				valid = false;
+				Toast.makeText(getActivity().getApplicationContext(), "Invalid Amount",
+						Toast.LENGTH_SHORT).show();
+			}
+
+
+			return valid;
+		}
 
 }
