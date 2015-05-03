@@ -4,10 +4,12 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/message_text"
+
+    <EditText
+        android:id="@+id/name_edit_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="What type of Transaction?" />
+        android:hint="@string/name_hint"
+        android:inputType="text" />
 
 </LinearLayout>

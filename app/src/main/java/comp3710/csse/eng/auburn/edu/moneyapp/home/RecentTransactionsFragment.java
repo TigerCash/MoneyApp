@@ -487,6 +487,7 @@ public class RecentTransactionsFragment extends Fragment {
 		public void onAllTransactions();*/
 		public void editTransaction(Transaction transaction);
 		public void editTransactionPortion(TransactionPortion transactionPortion);
+		public void balanceChanged();
 	}
 
 	public void editTransactionPortion(LinearLayout childView, LinearLayout parentView) {
@@ -520,7 +521,7 @@ public class RecentTransactionsFragment extends Fragment {
 
 		setupExpandableListView(parentView.getRootView());
 		adapter2.notifyDataSetChanged();
-		//listView.setAdapter(adapter2);
+		mListener.balanceChanged();
 	}
 
 	public void deleteTransaction(LinearLayout parentView) {
@@ -528,8 +529,8 @@ public class RecentTransactionsFragment extends Fragment {
 		helper.deleteTransaction((int) parentView.getTag());
 
 		setupExpandableListView(parentView.getRootView());
-		//listView.setAdapter(adapter2);
 		adapter2.notifyDataSetChanged();
+		mListener.balanceChanged();
 	}
 
 	public void editTransaction(TableRow selectedTableRow) {

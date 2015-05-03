@@ -68,9 +68,15 @@ public class Transaction implements Parcelable {
 
 	public String getTotal() {
 		int total = 0;
-		for (int i = 0; i < this._transaction_portions.size(); i++) {
-			total += Integer.parseInt(this._transaction_portions.get(i).getAmount());
+		if (this._transaction_portions != null) {
+			for (int i = 0; i < this._transaction_portions.size(); i++) {
+				total += Integer.parseInt(this._transaction_portions.get(i).getAmount());
+			}
+			if (_type.equals("Withdrawal")) {
+				total *= -1;
+			}
 		}
+
 		return Integer.toString(total);
 	}
 /*
