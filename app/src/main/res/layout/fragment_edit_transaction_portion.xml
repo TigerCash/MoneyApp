@@ -8,7 +8,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Edit Transaction Portion"/>
+        android:text="Add Transaction Portion"
+        android:textSize="24sp"
+        android:paddingBottom="10dp"/>
 
     <EditText
         android:id="@+id/description_edit_text"
@@ -32,12 +34,15 @@
     <TextView
         android:id="@+id/add_new_category_button"
         android:text="Add New Category"
+        android:textColor="@color/translucent_blue"
+        android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/accept_button"
         android:text="Accept"
+        android:layout_gravity="bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

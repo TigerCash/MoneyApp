@@ -6,11 +6,10 @@
              tools:context="comp3710.csse.eng.auburn.edu.moneyapp.allTransactions.AllTransactionsFragment">
 
 
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/recent_transactions"
+                android:text="All Transactions"
                 android:textSize="24sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:gravity="center_horizontal"
