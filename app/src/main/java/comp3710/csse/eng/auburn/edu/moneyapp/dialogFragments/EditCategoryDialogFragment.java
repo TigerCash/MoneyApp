@@ -57,12 +57,6 @@ public class EditCategoryDialogFragment extends DialogFragment {
 		if (getArguments() != null) {
 			mParam1 = getArguments().getString("name");
 		}
-
-		try {
-			//mAddListener = (OnAddCategoryListener) getTargetFragment();
-		} catch (ClassCastException e) {
-			throw new ClassCastException("Calling Fragment must implement OnAddCategoryListener");
-		}
 	}
 
 
@@ -76,6 +70,7 @@ public class EditCategoryDialogFragment extends DialogFragment {
 		View v = inflater.inflate(R.layout.fragment_add_new_category_dialog, null);
 
 		mNameEditText = (EditText) v.findViewById(R.id.name_edit_text);
+		mNameEditText.setText(mParam1);
 
 		// Pass null as the parent view because its going in the dialog layout
 		builder.setView(v)
