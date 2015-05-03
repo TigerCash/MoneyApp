@@ -69,8 +69,7 @@ public class AllCategoriesActivity extends ActionBarActivity
 	public void setBalanceText() {
 		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getApplicationContext());
 		balance_text = (TextView) findViewById(R.id.balance_text);
-		NumberFormat formatter = new DecimalFormat("#0.00");
-		balance_text.setText(formatter.format(helper.getBalance()));
+		balance_text.setText(helper.getBalance());
 		//balance_text.setText("$999");
 	}
 

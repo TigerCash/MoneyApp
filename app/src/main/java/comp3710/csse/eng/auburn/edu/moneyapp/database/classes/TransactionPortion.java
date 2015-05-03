@@ -3,6 +3,8 @@ package comp3710.csse.eng.auburn.edu.moneyapp.database.classes;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class TransactionPortion implements Parcelable {
@@ -55,7 +57,8 @@ public class TransactionPortion implements Parcelable {
 	}
 
 	public void setAmount(String _amount) {
-		this._amount = _amount;
+		NumberFormat formatter = new DecimalFormat("#0.00");
+		this._amount = formatter.format(Double.parseDouble(_amount));
 	}
 
 	public int getCategoryId() {

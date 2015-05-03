@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
@@ -65,7 +67,8 @@ public class TopCategoriesListAdapter extends BaseAdapter {
 		holder.tv=(TextView) rowView.findViewById(R.id.category_name_text);
 		holder.tv2=(TextView) rowView.findViewById(R.id.total_text);
 		holder.tv.setText(mCategories.get(position).getName());
-		holder.tv2.setText(Double.toString(mTotals.get(position)));
+		NumberFormat formatter = new DecimalFormat("#0.00");
+		holder.tv2.setText(formatter.format(mTotals.get(position)));
 		rowView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
