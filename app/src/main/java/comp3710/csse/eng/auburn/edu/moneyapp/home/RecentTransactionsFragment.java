@@ -172,7 +172,16 @@ public class RecentTransactionsFragment extends Fragment {
 			hm.put("date", recentTransactions.get(i).getDate());
 			hm.put("time", recentTransactions.get(i).getTime());
 			hm.put("name", recentTransactions.get(i).getName());
-			hm.put("total", recentTransactions.get(i).getTotal());
+			//hm.put("total", recentTransactions.get(i).getTotal());
+			Double total = Double.parseDouble(recentTransactions.get(i).getTotal());
+
+			if (total < 0) {
+				hm.put("total", "(" + Double.toString(total).substring(1) + ")");
+			}
+			else {
+				hm.put("total", Double.toString(total));
+			}
+
 			hm.put("id", String.valueOf(recentTransactions.get(i).getId()));
 			transactionList.add(hm);
 		}
@@ -203,7 +212,12 @@ public class RecentTransactionsFragment extends Fragment {
 			for (int j = 0; j < transactionPortions.size(); j++) {
 				HashMap<String,String> hm = new HashMap<String,String>();
 				hm.put("desc", transactionPortions.get(j).getDescription());
-				hm.put("amount", transactionPortions.get(j).getAmount());
+				if (recentTransactions.get(i).getType().equals("Withdrawal")) {
+					hm.put("amount", "(" + transactionPortions.get(j).getAmount() + ")");
+				}
+				else {
+					hm.put("amount", transactionPortions.get(j).getAmount());
+				}
 				Category category = helper.getCategory(transactionPortions.get(j).getCategoryId());
 				hm.put("category", category.getName());
 				hm.put("id", String.valueOf(transactionPortions.get(j).getId()));

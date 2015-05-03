@@ -2,8 +2,12 @@ package comp3710.csse.eng.auburn.edu.moneyapp.database.classes;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.Toast;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Transaction implements Parcelable {
@@ -67,17 +71,23 @@ public class Transaction implements Parcelable {
 	}
 
 	public String getTotal() {
-		int total = 0;
+		double total = 0;
 		if (this._transaction_portions != null) {
 			for (int i = 0; i < this._transaction_portions.size(); i++) {
-				total += Integer.parseInt(this._transaction_portions.get(i).getAmount());
-			}
-			if (_type.equals("Withdrawal")) {
-				total *= -1;
+				total += Double.parseDouble(this._transaction_portions.get(i).getAmount());
 			}
 		}
+		if (_type.equals("Withdrawal")) {
+			total *= -1;
+		}
 
-		return Integer.toString(total);
+		NumberFormat formatter = new DecimalFormat("#0.00");
+
+		String output = formatter.format(total);
+
+
+
+		return output;
 	}
 /*
 	public static final String COMPLETE = "complete";
@@ -116,6 +126,30 @@ public class Transaction implements Parcelable {
 
 		return attributeStatus;
 	}*/
+
+	public Object[] isValid() {
+		Object[] values = new Object[2];
+
+		boolean valid = true;
+
+		ArrayList<TransactionPortion> transactionPortions = this.getTransactionPortions();
+
+		if (transactionPortions == null || transactionPortions.size() == 0) {
+			valid = false;
+			values[1] = "No Transaction Portions";
+		}
+		else {
+			for (int i = 0; i < transactionPortions.size(); i++) {
+				if (!(boolean) (transactionPortions.get(i).isValid())[0]) {
+					valid = false;
+					values[1] = "Invalid Transaction Portion";
+				}
+			}
+		}
+		values[0] = valid;
+
+		return values;
+	}
 
 	@Override
 	public String toString() {

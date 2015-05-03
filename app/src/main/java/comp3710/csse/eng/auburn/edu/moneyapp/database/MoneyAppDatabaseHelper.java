@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Budget;
@@ -57,18 +59,22 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 		CategoryTable.onUpgrade(database, oldVersion, newVersion);
 	}
 
-	public String getBalance() {
+	public Double getBalance() {
 
-		int balance = 0;
+		double balance = 0;
 
 		ArrayList<Transaction> transactions = TransactionHelper.getAllTransactions(contentResolver);
 		Transaction transaction;
 		for (int i = 0; i < transactions.size(); i++) {
 			transaction = transactions.get(i);
 			transaction.setTransactionPortions(TransactionPortionHelper.getTransactionPortions(transaction.getId(), contentResolver));
-			balance += Integer.parseInt(transaction.getTotal());
+			balance += Double.parseDouble(transaction.getTotal());
 		}
-		return Integer.toString(balance);
+
+
+
+
+		return balance;
 
 	}
 /*

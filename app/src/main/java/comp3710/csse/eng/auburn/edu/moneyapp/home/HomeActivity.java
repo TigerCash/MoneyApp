@@ -15,6 +15,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.allTransactions.AllTransactionsActivity;
@@ -42,8 +45,8 @@ public class HomeActivity extends ActionBarActivity
 
 		/*MoneyAppDatabaseHelper help = new MoneyAppDatabaseHelper(getApplicationContext());
 		help.onUpgrade(help.getWritableDatabase(), 1, 1);*/
-		//CategoryTable t = new CategoryTable();
-		//t.onUpgrade(help.getWritableDatabase(), 1, 1);
+		/*CategoryTable t = new CategoryTable();
+		t.onUpgrade(help.getWritableDatabase(), 1, 1);*/
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -120,7 +123,8 @@ public class HomeActivity extends ActionBarActivity
 	public void setBalanceText() {
 		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getApplicationContext());
 		balance_text = (TextView) findViewById(R.id.balance_text);
-		balance_text.setText(helper.getBalance());
+		NumberFormat formatter = new DecimalFormat("#0.00");
+		balance_text.setText(formatter.format(helper.getBalance()));
 		//balance_text.setText("$999");
 	}
 

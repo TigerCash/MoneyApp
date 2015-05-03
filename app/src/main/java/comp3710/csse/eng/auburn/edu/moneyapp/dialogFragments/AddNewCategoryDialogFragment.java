@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -93,35 +94,35 @@ public class AddNewCategoryDialogFragment extends DialogFragment {
 						String name = mNameEditText.getText().toString();
 
 						// Validate
+						boolean valid = true;
+						if (name == null || name.equals("")) {
+							valid = false;
+							Toast.makeText(getActivity().getApplicationContext(), "Invalid Category Name",
+									Toast.LENGTH_SHORT).show();
+							AddNewCategoryDialogFragment.this.getDialog().cancel();
+						}
+
+						MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
+						ArrayList<Category> categories = helper.getAllCategories();
+						for (Category c : categories) {
+							String t = name.toLowerCase();
+							String t2 = c.getName().toLowerCase();
+							if (name.toLowerCase().equals(c.getName().toLowerCase())) {
+								valid = false;
+								Toast.makeText(getActivity().getApplicationContext(), "Duplicate Category",
+										Toast.LENGTH_SHORT).show();
+								AddNewCategoryDialogFragment.this.getDialog().cancel();
+								break;
+							}
+						}
 
 						// If valid
-						// Add category to db
-						MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
-						helper.addCategory(new Category(name));
-						// Call onAddNewCategory on EditTransactionPortionFragment
-						((EditTransactionPortionFragment) getTargetFragment()).onAddNewCategory();
-
-
-						/*if (name.equals("")) {
-							warnDialogEmptyName();
-							// TODO: Shouldn't close addNewCategoryDialogFragment after warning
+						if (valid) {
+							// Add category to db
+							helper.addCategory(new Category(name));
+							// Call onAddNewCategory on EditTransactionPortionFragment
+							((EditTransactionPortionFragment) getTargetFragment()).onAddNewCategory();
 						}
-						*//*
-						// TODO: Reject duplicate category name
-						// Duplicate Category Name.
-						// Add method that queries database (category table) and checks if category
-						// name (case insensitive) already exists
-						else if () {
-							// Reject because duplicate category name
-						}*//*
-						else {
-							if (mListener != null) {
-								mListener.addNewCategory(name);
-							}
-							if (mAddListener != null) {
-								mAddListener.refresh();
-							}
-						}*/
 					}
 				})
 				.setNegativeButton("negative", new DialogInterface.OnClickListener() {

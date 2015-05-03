@@ -112,6 +112,30 @@ public class TransactionPortion implements Parcelable {
 		return attributeStatus;
 	}*/
 
+	public Object[] isValid() {
+		Object[] values = new Object[2];
+
+		boolean valid = true;
+
+
+		if (_description == null || _description.equals("")) {
+			valid = false;
+			values[1] = "Description Invalid";
+		}
+		else if (_amount == null || _amount.equals("")) {
+			valid = false;
+			values[1] = "Amount Invalid";
+		}
+		else if (_category_id == 0) {
+			valid = false;
+			values[1] = "Category Invalid";
+		}
+
+		values[0] = valid;
+
+		return values;
+	}
+
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
