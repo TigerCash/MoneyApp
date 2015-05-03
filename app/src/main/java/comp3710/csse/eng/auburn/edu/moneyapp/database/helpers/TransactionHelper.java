@@ -118,15 +118,18 @@ public final class TransactionHelper {
 				TransactionTable.COLUMN_TIME, TransactionTable.COLUMN_NAME,
 				TransactionTable.COLUMN_TYPE};
 
+		String selection = null;
+		String sortOrder = TransactionTable.COLUMN_DATE + " DESC, "
+				+ TransactionTable.COLUMN_TIME + " DESC ";
+
 		Cursor cursor = contentResolver.query(CONTENT_URI,
-				projection, null, null,
-				null);
+				projection, selection, null, sortOrder);
 
 		ArrayList<Transaction> transactionList = new ArrayList<Transaction>();
 
 		while (cursor.moveToNext()) {
-			Transaction buildTransaction = getTransaction(cursor);
-			transactionList.add(buildTransaction);
+			Transaction transaction = getTransaction(cursor);
+			transactionList.add(transaction);
 		}
 
 		cursor.close();

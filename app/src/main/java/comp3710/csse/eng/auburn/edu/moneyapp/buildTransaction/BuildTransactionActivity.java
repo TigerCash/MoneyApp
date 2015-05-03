@@ -28,49 +28,50 @@ public class BuildTransactionActivity extends ActionBarActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_build_transaction);
 
-		Intent intent = getIntent();
+		if (savedInstanceState == null) {
 
-		Transaction transaction = intent.getParcelableExtra("transaction");
-		TransactionPortion transactionPortion = intent.getParcelableExtra("transactionPortion");
-		if (transaction != null) {
-			FragmentManager fragmentManager = getSupportFragmentManager();
-			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			Intent intent = getIntent();
 
-			MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getApplicationContext());
+			Transaction transaction = intent.getParcelableExtra("transaction");
+			TransactionPortion transactionPortion = intent.getParcelableExtra("transactionPortion");
+			if (transaction != null) {
+				FragmentManager fragmentManager = getSupportFragmentManager();
+				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-			buildTransaction = transaction;
-			buildTransaction.setTransactionPortions(helper.getTransactionPortions(buildTransaction.getId()));
-			helper.deleteTransaction(buildTransaction.getId());
-			helper.deleteTransactionPortions(buildTransaction.getId());
-			buildTransaction.setId(0);
-			for (int i = 0; i < buildTransaction.getTransactionPortions().size(); i++) {
-				buildTransaction.getTransactionPortions().get(i).setId(0);
+				MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getApplicationContext());
+
+				buildTransaction = transaction;
+				buildTransaction.setTransactionPortions(helper.getTransactionPortions(buildTransaction.getId()));
+				helper.deleteTransaction(buildTransaction.getId());
+				helper.deleteTransactionPortions(buildTransaction.getId());
+				buildTransaction.setId(0);
+				for (int i = 0; i < buildTransaction.getTransactionPortions().size(); i++) {
+					buildTransaction.getTransactionPortions().get(i).setId(0);
+				}
+				EditTransactionFragment fragment = new EditTransactionFragment();
+				fragmentTransaction.add(R.id.widget_fragment_container, fragment, "edit_transaction");
+				fragmentTransaction.commit();
+			} else if (transactionPortion != null) {
+				FragmentManager fragmentManager = getSupportFragmentManager();
+				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+				EditTransactionPortionFragment fragment = EditTransactionPortionFragment.newInstance(transactionPortion);
+				fragmentTransaction.add(R.id.widget_fragment_container, fragment, "edit_transaction_portion");
+				fragmentTransaction.commit();
+			} else {
+
+
+				String type = intent.getStringExtra("type");
+				buildTransaction.setType(type);
+
+
+				FragmentManager fragmentManager = getSupportFragmentManager();
+				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+				EditTransactionFragment fragment = new EditTransactionFragment();
+				fragmentTransaction.add(R.id.widget_fragment_container, fragment, "edit_transaction");
+				fragmentTransaction.commit();
 			}
-			EditTransactionFragment fragment = new EditTransactionFragment();
-			fragmentTransaction.add(R.id.widget_fragment_container, fragment, "edit_transaction");
-			fragmentTransaction.commit();
-		}
-		else if (transactionPortion != null) {
-			FragmentManager fragmentManager = getSupportFragmentManager();
-			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-			EditTransactionPortionFragment fragment = EditTransactionPortionFragment.newInstance(transactionPortion);
-			fragmentTransaction.add(R.id.widget_fragment_container, fragment, "edit_transaction_portion");
-			fragmentTransaction.commit();
-		}
-		else {
-
-
-			String type = intent.getStringExtra("type");
-			buildTransaction.setType(type);
-
-
-			FragmentManager fragmentManager = getSupportFragmentManager();
-			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-			EditTransactionFragment fragment = new EditTransactionFragment();
-			fragmentTransaction.add(R.id.widget_fragment_container, fragment, "edit_transaction");
-			fragmentTransaction.commit();
 		}
 	}
 

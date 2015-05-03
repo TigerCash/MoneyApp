@@ -77,13 +77,20 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 		return balance;
 
 	}
-/*
+
 	// CRUD methods - stub here and call external helper file per table
 
 	public ArrayList<Transaction> getAllTransactions() {
-		return TransactionHelper.getAllTransactions(contentResolver);
+		ArrayList<Transaction> transactions = TransactionHelper.getAllTransactions(contentResolver);
+
+		for (int i = 0; i < transactions.size(); i++) {
+			ArrayList<TransactionPortion> transactionPortions = getTransactionPortions(transactions.get(i).getId());
+			transactions.get(i).setTransactionPortions(transactionPortions);
+		}
+
+		return transactions;
 	}
-	*/
+
 	public ArrayList<Transaction> getRecentTransactions(int numberOfTransactions) {
 		ArrayList<Transaction> transactions = TransactionHelper.getRecentTransactions(numberOfTransactions, contentResolver);
 

@@ -48,33 +48,16 @@ public class HomeActivity extends ActionBarActivity
 		/*CategoryTable t = new CategoryTable();
 		t.onUpgrade(help.getWritableDatabase(), 1, 1);*/
 
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		if (savedInstanceState == null) {
 
-		RecentTransactionsFragment fragment = new RecentTransactionsFragment();
-		fragmentTransaction.add(R.id.widget_fragment_container, fragment, "recent_transactions");
-		fragmentTransaction.commit();
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+			RecentTransactionsFragment fragment = new RecentTransactionsFragment();
+			fragmentTransaction.add(R.id.widget_fragment_container, fragment, "recent_transactions");
+			fragmentTransaction.commit();
 
-		//MoneyAppDatabaseHelper help = new MoneyAppDatabaseHelper(getApplicationContext());
-		//help.onUpgrade(help.getWritableDatabase(), 1, 1);
-		/*Transaction t = new Transaction("date", "time", "na3", 5, new Category("cat"), "type");
-		help.addTransaction(t);
-
-		Transaction newt = help.getTransaction(t.getId());
-		if (newt != null) {
-			Log.d("db", newt.getName());
-			Log.d("db", String.valueOf(t.getId()));
 		}
-		else {
-			Log.d("db", "no buildTransaction found");
-		}
-
-		ArrayList<Transaction> transactions = help.getAllTransactions();
-
-		for (Transaction buildTransaction : transactions)
-			Log.d("db6", buildTransaction.toString());*/
-
 		setBalanceText();
 
 		add_transaction_button = (Button) findViewById(R.id.add_transaction_button);
@@ -84,17 +67,12 @@ public class HomeActivity extends ActionBarActivity
 
 	View.OnClickListener addTransactionButtonHandler = new View.OnClickListener() {
 		public void onClick(View v) {
-			/*Intent intent = new Intent(HomeActivity.this, AddTransactionActivity.class);
-
-			intent.putExtra("type", "withdrawal");
-			startActivity(intent);*/
 
 			DialogFragment newFragment = new ChooseTransactionTypeDialogFragment();
 			newFragment.show(getSupportFragmentManager(), "chooseTransactionType");
 
 		}
 	};
-
 
 
 
@@ -125,24 +103,10 @@ public class HomeActivity extends ActionBarActivity
 		balance_text = (TextView) findViewById(R.id.balance_text);
 		NumberFormat formatter = new DecimalFormat("#0.00");
 		balance_text.setText(formatter.format(helper.getBalance()));
-		//balance_text.setText("$999");
-	}
-
-	public void onDeleteTransaction() {
-		Fragment currentFragment = getSupportFragmentManager().findFragmentByTag("recent_transactions");
-		FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
-		fragTransaction.detach(currentFragment);
-		fragTransaction.attach(currentFragment);
-		fragTransaction.commit();
-
-		setBalanceText();
 	}
 
 
 
-	public void onFragmentInteraction3(Uri uri) {
-
-	}
 
 	public void onAllTransactions() {
 		Intent intent = new Intent(HomeActivity.this, AllTransactionsActivity.class);
@@ -152,19 +116,6 @@ public class HomeActivity extends ActionBarActivity
 
 	public void onEditTransaction(Transaction transaction) {
 
-		/*MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(this);
-
-		helper.updateTransaction(buildTransaction);
-
-		ArrayList<Transaction> trans = helper.getAllTransactions();
-
-		Fragment currentFragment = getSupportFragmentManager().findFragmentByTag("recent_transactions");
-		FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
-		fragTransaction.detach(currentFragment);
-		fragTransaction.attach(currentFragment);
-		fragTransaction.commit();
-
-		setBalanceText();*/
 	}
 
 
@@ -181,11 +132,6 @@ public class HomeActivity extends ActionBarActivity
 	}
 
 	public void editTransaction(Transaction transaction) {
-		/*int i = 0;
-		Transaction t = buildTransaction;
-		DialogFragment newFragment = EditTransactionDialogFragment.newInstance(buildTransaction);
-		newFragment.show(this.getSupportFragmentManager(), "edit_transaction");*/
-
 		Intent intent = new Intent(HomeActivity.this, BuildTransactionActivity.class);
 
 		intent.putExtra("transaction", transaction);
