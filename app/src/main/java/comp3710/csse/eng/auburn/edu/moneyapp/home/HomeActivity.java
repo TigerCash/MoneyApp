@@ -120,8 +120,8 @@ public class HomeActivity extends ActionBarActivity
 	public void setBalanceText() {
 		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getApplicationContext());
 		balance_text = (TextView) findViewById(R.id.balance_text);
-		//balance_text.setText(Integer.toString(helper.getBalance()));
-		balance_text.setText("$999");
+		balance_text.setText(helper.getBalance());
+		//balance_text.setText("$999");
 	}
 
 	public void onDeleteTransaction() {
@@ -163,6 +163,10 @@ public class HomeActivity extends ActionBarActivity
 		setBalanceText();*/
 	}
 
+
+	public void balanceChanged() {
+		setBalanceText();
+	}
 
 
 	public void newTransaction(String type) {

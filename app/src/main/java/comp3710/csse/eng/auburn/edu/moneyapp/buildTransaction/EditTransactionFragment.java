@@ -1,19 +1,27 @@
 package comp3710.csse.eng.auburn.edu.moneyapp.buildTransaction;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
@@ -40,7 +48,10 @@ public class EditTransactionFragment extends Fragment {
 	private EditText mTimeEditText;
 	private TableLayout mTransactionPortionsTable;
 
-	private Transaction savedTransaction;
+	private SimpleDateFormat dateFormatter;
+	private DatePickerDialog datePickerDialog;
+	private TimePickerDialog timePickerDialog;
+
 
 
 
@@ -132,11 +143,15 @@ public class EditTransactionFragment extends Fragment {
 
 		// Fill Date and Time
 		mDateEditText = (EditText) v.findViewById(R.id.date_edit_text);
-		String date = transaction.getDate();
 		mDateEditText.setText(transaction.getDate());
+		mDateEditText.setOnClickListener(datePickerHandler);
+
 		mTimeEditText = (EditText) v.findViewById(R.id.time_edit_text);
-		String time = transaction.getTime();
 		mTimeEditText.setText(transaction.getTime());
+		mTimeEditText.setOnClickListener(timePickerHandler);
+
+		dateFormatter = new SimpleDateFormat("MM.dd.yy", Locale.US);
+
 
 		// Fill tablelayout with transactionPortions
 		mTransactionPortionsTable = (TableLayout) v.findViewById(R.id.transaction_portions_table);
@@ -272,13 +287,63 @@ public class EditTransactionFragment extends Fragment {
 		public void onClick(View v) {
 
 			View view = v.getRootView();
-			((BuildTransactionActivity)getActivity()).buildTransaction.setName(((EditText)view.findViewById(R.id.name_edit_text)).getText().toString());
+			((BuildTransactionActivity)getActivity()).buildTransaction.setName(((EditText) view.findViewById(R.id.name_edit_text)).getText().toString());
 			((BuildTransactionActivity)getActivity()).buildTransaction.setDate(((EditText)view.findViewById(R.id.date_edit_text)).getText().toString());
 			((BuildTransactionActivity)getActivity()).buildTransaction.setTime(((EditText)view.findViewById(R.id.time_edit_text)).getText().toString());
 
 			if (mListener != null) {
 				mListener.onAddTransactionPortion();
 			}
+		}
+	};
+
+	View.OnClickListener timePickerHandler = new View.OnClickListener() {
+		public void onClick(View v) {
+			// it was the 1st button
+			// Create an instance of the dialog fragment and show it
+
+			Calendar newCalendar = Calendar.getInstance();
+			timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+
+				public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+					String am_pm = "";
+					Calendar newTime = Calendar.getInstance();
+					newTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+					newTime.set(Calendar.MINUTE, minute);
+
+					if (newTime.get(Calendar.AM_PM) == Calendar.AM)
+						am_pm = "AM";
+					else if (newTime.get(Calendar.AM_PM) == Calendar.PM)
+						am_pm = "PM";
+
+					String strHrsToShow = (newTime.get(Calendar.HOUR) == 0) ?"12":newTime.get(Calendar.HOUR)+"";
+					String strMinToShow = (newTime.get(Calendar.MINUTE) < 10) ? "0"+newTime.get(Calendar.MINUTE):newTime.get(Calendar.MINUTE)+"";
+
+					mTimeEditText.setText(strHrsToShow+":"+strMinToShow+" "+am_pm);
+				}
+			},newCalendar.get(Calendar.HOUR_OF_DAY), newCalendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(getActivity()));
+
+			timePickerDialog.show();
+		}
+	};
+
+	View.OnClickListener datePickerHandler = new View.OnClickListener() {
+		public void onClick(View v) {
+			// it was the 1st button
+			// Create an instance of the dialog fragment and show it
+
+			Calendar newCalendar = Calendar.getInstance();
+			datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+
+				public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+					Calendar newDate = Calendar.getInstance();
+					newDate.set(year, monthOfYear, dayOfMonth);
+					mDateEditText.setText(dateFormatter.format(newDate.getTime()));
+				}
+
+			},newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+			datePickerDialog.show();
 		}
 	};
 

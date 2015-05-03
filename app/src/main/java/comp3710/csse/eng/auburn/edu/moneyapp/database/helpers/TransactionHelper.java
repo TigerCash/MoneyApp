@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppContentProvider;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.TransactionPortion;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.TransactionTable;
 
 
@@ -25,28 +26,30 @@ public final class TransactionHelper {
 	private TransactionHelper() {
 	}
 
-	/*public static int getBalance(ContentResolver contentResolver) {
-		ArrayList<Transaction> withdrawalTransactions = getAllTransactionsOfType(contentResolver, "withdrawal");
-		ArrayList<Transaction> depositTransactions = getAllTransactionsOfType(contentResolver, "deposit");
-
+/*	public static String getBalance(ContentResolver contentResolver) {
 		int balance = 0;
-
+		*//*ArrayList<Transaction> withdrawalTransactions = getAllTransactionsOfType(contentResolver, "withdrawal");
 		for (int i = 0; i < withdrawalTransactions.size(); i++) {
-			balance -= withdrawalTransactions.get(i).getAmount();
+			balance -= Integer.parseInt(withdrawalTransactions.get(i).getTotal());
 		}
-
+		ArrayList<Transaction> depositTransactions = getAllTransactionsOfType(contentResolver, "deposit");
 		for (int i = 0; i < depositTransactions.size(); i++) {
-			balance += depositTransactions.get(i).getAmount();
+			balance += Integer.parseInt(depositTransactions.get(i).getTotal());
+		}*//*
+
+		ArrayList<Transaction> transactions = getAllTransactions(contentResolver);
+		for (int i = 0; i < transactions.size(); i++) {
+
+			balance += Integer.parseInt(transactions.get(i).getTotal());
 		}
 
-		return balance;
-	}
+		return Integer.toString(balance);
+	}*/
 
 	public static ArrayList<Transaction> getAllTransactionsOfType(ContentResolver contentResolver, String type) {
 		String[] projection = {TransactionTable.COLUMN_ID, TransactionTable.COLUMN_DATE,
-				TransactionTable.COLUMN_TIME,
-				TransactionTable.COLUMN_NAME, TransactionTable.COLUMN_AMOUNT,
-				TransactionTable.COLUMN_CATEGORY_NAME, TransactionTable.COLUMN_TYPE};
+				TransactionTable.COLUMN_TIME, TransactionTable.COLUMN_NAME,
+				TransactionTable.COLUMN_TYPE};
 
 		String selection = TransactionTable.COLUMN_TYPE + " = '" + type + "'";
 
@@ -63,7 +66,7 @@ public final class TransactionHelper {
 		cursor.close();
 		return transactionList;
 	}
-*/
+
 	public static int addTransaction(Transaction transaction, ContentResolver contentResolver) {
 		ContentValues values = new ContentValues();
 
@@ -109,12 +112,11 @@ public final class TransactionHelper {
 
 		return transaction;
 	}
-/*
+
 	public static ArrayList<Transaction> getAllTransactions(ContentResolver contentResolver) {
 		String[] projection = {TransactionTable.COLUMN_ID, TransactionTable.COLUMN_DATE,
-				TransactionTable.COLUMN_TIME,
-				TransactionTable.COLUMN_NAME, TransactionTable.COLUMN_AMOUNT,
-				TransactionTable.COLUMN_CATEGORY_NAME, TransactionTable.COLUMN_TYPE};
+				TransactionTable.COLUMN_TIME, TransactionTable.COLUMN_NAME,
+				TransactionTable.COLUMN_TYPE};
 
 		Cursor cursor = contentResolver.query(CONTENT_URI,
 				projection, null, null,
@@ -130,7 +132,7 @@ public final class TransactionHelper {
 		cursor.close();
 		return transactionList;
 	}
-*/
+
 	public static ArrayList<Transaction> getRecentTransactions(int numberOfTransactions, ContentResolver contentResolver) {
 		String[] projection = {TransactionTable.COLUMN_ID, TransactionTable.COLUMN_DATE,
 		TransactionTable.COLUMN_TIME, TransactionTable.COLUMN_NAME,

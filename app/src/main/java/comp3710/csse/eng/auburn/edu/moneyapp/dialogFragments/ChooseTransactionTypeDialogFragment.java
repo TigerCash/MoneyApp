@@ -67,9 +67,7 @@ public class ChooseTransactionTypeDialogFragment extends DialogFragment {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 
 		// Inflate and set the layout for the dialog
-		View v = inflater.inflate(R.layout.fragment_add_new_category_dialog, null);
-
-		mMessageText = (TextView) v.findViewById(R.id.message_text);
+		View v = inflater.inflate(R.layout.fragment_choose_transaction_type_dialog, null);
 
 
 		// Pass null as the parent view because its going in the dialog layout

@@ -57,10 +57,21 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 		CategoryTable.onUpgrade(database, oldVersion, newVersion);
 	}
 
-	/*public int getBalance() {
-		return TransactionHelper.getBalance(contentResolver);
-	}
+	public String getBalance() {
 
+		int balance = 0;
+
+		ArrayList<Transaction> transactions = TransactionHelper.getAllTransactions(contentResolver);
+		Transaction transaction;
+		for (int i = 0; i < transactions.size(); i++) {
+			transaction = transactions.get(i);
+			transaction.setTransactionPortions(TransactionPortionHelper.getTransactionPortions(transaction.getId(), contentResolver));
+			balance += Integer.parseInt(transaction.getTotal());
+		}
+		return Integer.toString(balance);
+
+	}
+/*
 	// CRUD methods - stub here and call external helper file per table
 
 	public ArrayList<Transaction> getAllTransactions() {

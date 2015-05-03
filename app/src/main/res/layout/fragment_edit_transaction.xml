@@ -17,16 +17,24 @@
         android:layout_height="wrap_content"/>
 
     <EditText
-        android:id="@+id/date_edit_text"
-        android:hint="Date"
+        android:id="@+id/time_edit_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="@string/pick_time"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
 
     <EditText
-        android:id="@+id/time_edit_text"
-        android:hint="Time"
+        android:id="@+id/date_edit_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="@string/pick_date"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
 
     <TableLayout
         android:id="@+id/transaction_portions_table"
