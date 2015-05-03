@@ -9,6 +9,7 @@ import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -239,6 +240,7 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 		for (Category c : allCategories) {
 			ArrayList<TransactionPortion> transactionPortions = getTransactionPortionsCategoryId(c.getId());
 
+
 			double total = 0;
 			for (TransactionPortion t : transactionPortions) {
 				total += Double.parseDouble(t.getAmount());
@@ -246,7 +248,8 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 			hm.put(total, c);
 		}
 
-		Map<Double, Category> map = new TreeMap<Double, Category>(hm);
+		Map<Double, Category> map = new TreeMap<Double, Category>(Collections.reverseOrder());
+		map.putAll(hm);
 
 		ArrayList<Category> topCategories = new ArrayList<>();
 
@@ -268,7 +271,14 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 
 		double total = 0;
 		for (TransactionPortion t : transactionPortions) {
-			total += Double.parseDouble(t.getAmount());
+			int transactionId = t.getTransactionId();
+			if (transactionId > 0) {
+				String type = getTransaction(transactionId).getType();
+				if (type.equals("Withdrawal"))
+					total -= Double.parseDouble(t.getAmount());
+				else
+					total += Double.parseDouble(t.getAmount());
+			}
 		}
 
 		return total;
