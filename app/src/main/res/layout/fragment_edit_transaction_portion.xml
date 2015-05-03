@@ -5,10 +5,9 @@
              android:orientation="vertical"
              tools:context="comp3710.csse.eng.auburn.edu.moneyapp.buildTransaction.EditTransactionPortionFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="Edit Transaction Portion"/>
 
     <EditText

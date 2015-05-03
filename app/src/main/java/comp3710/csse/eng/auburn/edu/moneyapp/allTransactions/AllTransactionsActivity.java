@@ -44,7 +44,7 @@ public class AllTransactionsActivity extends ActionBarActivity
 		t.onUpgrade(help.getWritableDatabase(), 1, 1);*/
 
 		if (savedInstanceState == null) {
-			
+
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 

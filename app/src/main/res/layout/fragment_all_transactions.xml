@@ -1,22 +1,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:orientation="vertical"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
              tools:context="comp3710.csse.eng.auburn.edu.moneyapp.allTransactions.AllTransactionsFragment">
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/all_transactions"
-        android:textSize="24sp"
-        android:gravity="center_horizontal"
-        android:paddingBottom="10dp"/>
 
-    <ExpandableListView
-        android:id="@+id/all_transactions_list_view"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/recent_transactions"
+                android:textSize="24sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:gravity="center_horizontal"
+                android:paddingBottom="10dp"/>
 
-</LinearLayout>
+            <ScrollView
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:fillViewport="true">
+
+                <ExpandableListView
+                    android:id="@+id/all_transactions_list_view"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:divider="#00000000"
+                    android:childDivider="#00000000"/>
+
+            </ScrollView>
+
+    </LinearLayout>
+
+

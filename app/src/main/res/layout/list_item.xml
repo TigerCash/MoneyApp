@@ -13,24 +13,33 @@
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft" />-->
-
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft">
     <TextView
         android:id="@+id/description_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:gravity="left"
         android:layout_weight="1"/>
+
 
     <TextView
         android:id="@+id/amount_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:layout_weight="1"/>
 
     <TextView
         android:id="@+id/category_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="right"
         android:layout_weight="1"/>
+
+
+</LinearLayout>
 
 </LinearLayout>

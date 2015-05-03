@@ -1,9 +1,21 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:orientation="vertical"
-             tools:context="comp3710.csse.eng.auburn.edu.moneyapp.buildTransaction.EditTransactionFragment">
+             android:layout_height="fill_parent"
+
+             tools:context="comp3710.csse.eng.auburn.edu.moneyapp.buildTransaction.EditTransactionFragment"
+             android:fillViewport="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
 
     <TextView
         android:layout_width="match_parent"
@@ -36,10 +48,15 @@
         android:focusable="false"
         android:focusableInTouchMode="false"/>
 
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
     <TableLayout
         android:id="@+id/transaction_portions_table"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp" >
 
         <TableRow>
             <TextView
@@ -67,17 +84,31 @@
         </TableRow>
     </TableLayout>
 
+        </ScrollView>
+
     <TextView
         android:id="@+id/add_transaction_portion_text"
         android:text="Add Transaction Portion"
-        android:layout_width="wrap_content"
+        android:padding="16dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
 
-    <Button
-        android:id="@+id/complete_transaction_button"
-        android:text="Complete Transaction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <Button
+            android:id="@+id/complete_transaction_button"
+            android:text="Complete Transaction"
+            android:layout_gravity="bottom|center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </FrameLayout>
 
 
-</LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
