@@ -1,6 +1,8 @@
 package comp3710.csse.eng.auburn.edu.moneyapp.allCategories;
 
 import android.net.Uri;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
@@ -18,12 +20,14 @@ import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.TopCategoriesListAdapter;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
+import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.EditCategoryDialogFragment;
 import comp3710.csse.eng.auburn.edu.moneyapp.home.RecentTransactionsFragment;
 import comp3710.csse.eng.auburn.edu.moneyapp.home.TopCategoriesFragment;
 
 
 public class AllCategoriesActivity extends ActionBarActivity
-		implements AllCategoriesFragment.OnFragmentInteractionListener {
+		implements AllCategoriesFragment.OnFragmentInteractionListener,
+		EditCategoryDialogFragment.OnFragmentInteractionListener {
 
 	TextView balance_text;
 
@@ -73,7 +77,19 @@ public class AllCategoriesActivity extends ActionBarActivity
 		//balance_text.setText("$999");
 	}
 
-	public void onFragmentInteraction(Uri uri) {
 
+	public void editCategory(Category category) {
+		// Edit Category
+		// Create an instance of the dialog fragment and show it
+		DialogFragment dialog = EditCategoryDialogFragment.newInstance(category.getName());
+		dialog.show(getSupportFragmentManager(), "EditCategoryDialogFragment");
+	}
+
+	public void onEditCategory() {
+		Fragment currentFragment = getSupportFragmentManager().findFragmentByTag("all_categories");
+		FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+		fragTransaction.detach(currentFragment);
+		fragTransaction.attach(currentFragment);
+		fragTransaction.commit();
 	}
 }
