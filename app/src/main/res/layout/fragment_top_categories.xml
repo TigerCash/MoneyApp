@@ -1,12 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
              tools:context="comp3710.csse.eng.auburn.edu.moneyapp.home.TopCategoriesFragment">
 
         <LinearLayout
             android:id="@+id/LL"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_centerVertical="true"
             android:orientation="vertical"
@@ -30,7 +30,7 @@
 
                 <ListView
                     android:id="@+id/category_list_view"
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"></ListView>
 
             </ScrollView>
