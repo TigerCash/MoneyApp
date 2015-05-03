@@ -4,10 +4,19 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.view.ActionMode;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -22,7 +31,7 @@ import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
  * {@link AllCategoriesFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link AllCategoriesFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * create an instance of this fragment.l
  */
 public class AllCategoriesFragment extends Fragment {
 	// TODO: Rename parameter arguments, choose names that match
@@ -34,8 +43,18 @@ public class AllCategoriesFragment extends Fragment {
 	private String mParam1;
 	private String mParam2;
 
-	private OnFragmentInteractionListener mListener;
+	private static final int NUMBER_OF_CATEGORIES = 5;
 
+	TextView mAllCategoriesText;
+
+	TopCategoriesListAdapter adapter2;
+	ListView lv;
+
+	LinearLayout mListViewLayout;
+
+	private ActionMode mActionMode;
+
+	private OnFragmentInteractionListener mListener;
 
 	/**
 	 * Use this factory method to create a new instance of
@@ -43,7 +62,7 @@ public class AllCategoriesFragment extends Fragment {
 	 *
 	 * @param param1 Parameter 1.
 	 * @param param2 Parameter 2.
-	 * @return A new instance of fragment AllCategoriesFragment.
+	 * @return A new instance of fragment TopCategoriesFragment.
 	 */
 	// TODO: Rename and change types and number of parameters
 	public static AllCategoriesFragment newInstance(String param1, String param2) {
@@ -71,12 +90,18 @@ public class AllCategoriesFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_all_categories, container, false);
+		// Inflate the layout for this fragment
+		View v = inflater.inflate(R.layout.fragment_top_categories, container, false);
 
+		setupListView(v);
+
+		return v;
+	}
+
+	public void setupListView(View v) {
 		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
 
-		ArrayList<Category> allCategories = helper.getAllCategories();
-		ArrayList<Category> topCategories = helper.getTopCategories(allCategories.size());
+		ArrayList<Category> topCategories = helper.getTopCategories(NUMBER_OF_CATEGORIES);
 		ArrayList<Double> totals = new ArrayList<>();
 
 
@@ -84,11 +109,86 @@ public class AllCategoriesFragment extends Fragment {
 			totals.add(helper.getCategoryAmount(c.getId()));
 		}
 
-		ListView lv=(ListView) v.findViewById(R.id.category_list_view);
-		lv.setAdapter(new TopCategoriesListAdapter(getActivity().getBaseContext(), topCategories, totals));
+		lv = (ListView) v.findViewById(R.id.category_list_view);
 
-		return v;
+		adapter2 = new TopCategoriesListAdapter(getActivity().getBaseContext(), topCategories, totals);
+		lv.setAdapter(adapter2);
+
+		lv.setOnItemLongClickListener(onItemLongClickListener);
+
+		//lv.setAdapter(new TopCategoriesListAdapter(getActivity().getBaseContext(), topCategories, totals));
 	}
+
+	AdapterView.OnItemLongClickListener onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
+
+		public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+		                               int pos, long id) {
+			// TODO Auto-generated method stub
+
+			Log.v("long clicked", "pos: " + pos);
+
+			if (mActionMode != null) {
+				return false;
+			}
+
+			// Start the CAB using the ActionMode.Callback defined above
+			ActionBarActivity activity = (ActionBarActivity) getActivity();
+			activity.startSupportActionMode(mActionModeCallback);
+
+			mListViewLayout = (LinearLayout) arg1;
+
+			return true;
+		}
+	};
+
+
+	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+		// Called when the action mode is created; startActionMode() was called
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			// Inflate a menu resource providing context menu items
+			MenuInflater inflater = mode.getMenuInflater();
+			inflater.inflate(R.menu.action_bar_category, menu);
+			return true;
+		}
+
+		// Called each time the action mode is shown. Always called after onCreateActionMode, but
+		// may be called multiple times if the mode is invalidated.
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false; // Return false if nothing is done
+		}
+
+		// Called when the user selects a contextual menu item
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			switch (item.getItemId()) {
+				/*case R.id.menu_share:
+					shareCurrentItem();
+					mode.finish(); // Action picked, so close the CAB
+					return true;*/
+				case R.id.action_edit:
+					//editTransaction(mSelectedTableRow);
+					editCategory(mListViewLayout);
+					mode.finish();
+					return true;
+				case R.id.action_delete:
+
+					// Do not allow deletion
+					mode.finish();
+					return true;
+				default:
+					return false;
+			}
+		}
+
+		// Called when the user exits the action mode
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			mActionMode = null;
+		}
+	};
 
 
 	@Override
@@ -119,8 +219,23 @@ public class AllCategoriesFragment extends Fragment {
 	 * >Communicating with Other Fragments</a> for more information.
 	 */
 	public interface OnFragmentInteractionListener {
-		// TODO: Update argument type and name
-		public void onFragmentInteraction(Uri uri);
+		public void editCategory(Category category);
+	}
+
+
+	public void editCategory(LinearLayout view) {
+		// Get buildTransaction so it can be edited
+		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
+
+		Category category = helper.getCategory((int) view.getTag());
+
+		mListener.editCategory(category);
+
+	}
+
+	public void dataSetChanged() {
+		setupListView(getView().findViewById(R.id.category_list_view));
+		adapter2.notifyDataSetChanged();
 	}
 
 }
