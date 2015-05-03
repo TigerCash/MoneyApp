@@ -24,10 +24,13 @@ import comp3710.csse.eng.auburn.edu.moneyapp.allCategories.AllCategoriesActivity
 import comp3710.csse.eng.auburn.edu.moneyapp.allTransactions.AllTransactionsActivity;
 import comp3710.csse.eng.auburn.edu.moneyapp.buildTransaction.BuildTransactionActivity;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.TransactionPortion;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.CategoryTable;
+import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.AddNewCategoryDialogFragment;
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.ChooseTransactionTypeDialogFragment;
+import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.EditCategoryDialogFragment;
 import comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.EditTransactionDialogFragment;
 
 
@@ -35,7 +38,8 @@ public class HomeActivity extends ActionBarActivity
 		implements RecentTransactionsFragment.OnFragmentInteractionListener,
 		EditTransactionDialogFragment.OnEditTransactionListener,
 		ChooseTransactionTypeDialogFragment.OnNewTransactionListener,
-		TopCategoriesFragment.OnFragmentInteractionListener {
+		TopCategoriesFragment.OnFragmentInteractionListener,
+		EditCategoryDialogFragment.OnFragmentInteractionListener {
 
 	TextView balance_text;
 	Button add_transaction_button;
@@ -157,6 +161,17 @@ public class HomeActivity extends ActionBarActivity
 
 		intent.putExtra("transactionPortion", transactionPortion);
 		startActivity(intent);
+	}
+
+	public void editCategory(Category category) {
+		// Edit Category
+		// Create an instance of the dialog fragment and show it
+		DialogFragment dialog = EditCategoryDialogFragment.newInstance(category.getName());
+		dialog.show(getSupportFragmentManager(), "EditCategoryDialogFragment");
+	}
+
+	public void onEditCategory() {
+
 	}
 
 

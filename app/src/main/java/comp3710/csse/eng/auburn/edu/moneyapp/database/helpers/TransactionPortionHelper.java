@@ -245,8 +245,6 @@ public final class TransactionPortionHelper {
 
 		String selection = TransactionPortionTable.COLUMN_ID + " = " + transactionPortion.getId();
 
-		Uri test = CONTENT_URI;
-
 		numReplacedRows = contentResolver.update(CONTENT_URI, values, selection, null);
 
 		return numReplacedRows;

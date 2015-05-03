@@ -69,13 +69,14 @@ public class TopCategoriesListAdapter extends BaseAdapter {
 		holder.tv.setText(mCategories.get(position).getName());
 		NumberFormat formatter = new DecimalFormat("#0.00");
 		holder.tv2.setText(formatter.format(mTotals.get(position)));
-		rowView.setOnClickListener(new OnClickListener() {
+		/*rowView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Toast.makeText(mContext, "You Clicked "+ mCategories.get(position).getName(), Toast.LENGTH_LONG).show();
 			}
-		});
+		});*/
+		rowView.setTag(mCategories.get(position).getId());
 		return rowView;
 	}
 

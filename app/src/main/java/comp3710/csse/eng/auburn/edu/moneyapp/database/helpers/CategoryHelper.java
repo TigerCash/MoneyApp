@@ -12,6 +12,7 @@ import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppContentProvider;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Category;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.classes.Transaction;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.CategoryTable;
+import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.TransactionPortionTable;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.tables.TransactionTable;
 
 
@@ -99,6 +100,18 @@ public final class CategoryHelper {
 	}
 
 	public static int updateCategory(Category category, ContentResolver contentResolver) {
-		return 0;
+		int numReplacedRows;
+
+		ContentValues values = new ContentValues();
+
+		//values.put(TransactionTable.COLUMN_ID, buildTransaction.getId());
+		// Removed above statement because it will always insert a 0 - we dont want this
+		values.put(CategoryTable.COLUMN_NAME, category.getName());
+
+		String selection = CategoryTable.COLUMN_ID + " = " + category.getId();
+
+		numReplacedRows = contentResolver.update(CONTENT_URI, values, selection, null);
+
+		return numReplacedRows;
 	}
 }
