@@ -88,6 +88,7 @@ public class RecentTransactionsFragment extends Fragment {
 	}
 
 	public void setupExpandableListView(View v) {
+
 		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity());
 
 		ArrayList<Transaction> recentTransactions = helper.getRecentTransactions(NUMBER_OF_TRANSACTIONS);
@@ -338,6 +339,7 @@ public class RecentTransactionsFragment extends Fragment {
 		public void editTransaction(Transaction transaction);
 		public void editTransactionPortion(TransactionPortion transactionPortion);
 		public void balanceChanged();
+		public void transactionsChanged();
 	}
 
 	public void editTransactionPortion(LinearLayout childView, LinearLayout parentView) {
@@ -369,33 +371,21 @@ public class RecentTransactionsFragment extends Fragment {
 			helper.deleteTransaction(transactionId);
 		}
 
-		setupExpandableListView(parentView.getRootView());
-		adapter2.notifyDataSetChanged();
+
+		dataSetChanged();
 		mListener.balanceChanged();
+		mListener.transactionsChanged();
 	}
 
 	public void deleteTransaction(LinearLayout parentView) {
 		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
 		helper.deleteTransaction((int) parentView.getTag());
 
-		setupExpandableListView(parentView.getRootView());
-		adapter2.notifyDataSetChanged();
+		dataSetChanged();
 		mListener.balanceChanged();
+		mListener.transactionsChanged();
 	}
 
-	public void editTransaction(TableRow selectedTableRow) {
-
-		int transactionId = (int)selectedTableRow.getTag(R.id.transaction_id);
-		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity());
-
-		//Transaction buildTransaction = helper.getTransaction(transactionId);
-
-		//mListener.editTransaction(buildTransaction);
-	}
-
-	public void deleteTransaction(TableRow selectedTableRow) {
-		promptUserValidation();
-	}
 
 	public void promptUserValidation() {
 		DialogFragment newFragment = new ValidateDeleteDialogFragment();
@@ -414,5 +404,11 @@ public class RecentTransactionsFragment extends Fragment {
 
 	public void onValidateDeleteDialogNegativeClick() {
 		return;
+	}
+
+	public void dataSetChanged() {
+		//setupExpandableListView(parentView.getRootView());
+		setupExpandableListView(getView().findViewById(R.id.recent_transactions_list_view));
+		adapter2.notifyDataSetChanged();
 	}
 }

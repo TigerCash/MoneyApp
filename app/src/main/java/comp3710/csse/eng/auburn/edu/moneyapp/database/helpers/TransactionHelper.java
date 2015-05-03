@@ -101,17 +101,22 @@ public final class TransactionHelper {
 	}
 
 	private static Transaction getTransaction(Cursor cursor) {
-		Transaction transaction = new Transaction();
+		if (cursor.getCount() > 0) {
+			Transaction transaction = new Transaction();
 
-		transaction.setId(cursor.getInt(cursor.getColumnIndex(TransactionTable.COLUMN_ID)));
-		transaction.setDate(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_DATE)));
-		transaction.setTime(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_TIME)));
-		transaction.setName(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_NAME)));
-		transaction.setType(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_TYPE)));
+			transaction.setId(cursor.getInt(cursor.getColumnIndex(TransactionTable.COLUMN_ID)));
+			transaction.setDate(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_DATE)));
+			transaction.setTime(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_TIME)));
+			transaction.setName(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_NAME)));
+			transaction.setType(cursor.getString(cursor.getColumnIndex(TransactionTable.COLUMN_TYPE)));
 
 
-
-		return transaction;
+			return transaction;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	public static ArrayList<Transaction> getAllTransactions(ContentResolver contentResolver) {

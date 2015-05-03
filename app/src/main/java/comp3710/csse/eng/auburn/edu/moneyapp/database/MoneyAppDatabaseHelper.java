@@ -131,6 +131,10 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 	}
 */
 	public boolean deleteTransaction(int transactionId) {
+		ArrayList<TransactionPortion> transactionPortions = TransactionPortionHelper.getTransactionPortions(transactionId, contentResolver);
+		for (TransactionPortion tp : transactionPortions) {
+			TransactionPortionHelper.deleteTransactionPortion(tp.getId(), contentResolver);
+		}
 		return TransactionHelper.deleteTransaction(transactionId, contentResolver);
 	}
 
@@ -273,11 +277,14 @@ public class MoneyAppDatabaseHelper extends SQLiteOpenHelper {
 		for (TransactionPortion t : transactionPortions) {
 			int transactionId = t.getTransactionId();
 			if (transactionId > 0) {
-				String type = getTransaction(transactionId).getType();
-				if (type.equals("Withdrawal"))
-					total -= Double.parseDouble(t.getAmount());
-				else
-					total += Double.parseDouble(t.getAmount());
+				Transaction transaction = getTransaction(transactionId);
+				if (transaction != null) {
+					String type = transaction.getType();
+					if (type.equals("Withdrawal"))
+						total -= Double.parseDouble(t.getAmount());
+					else
+						total += Double.parseDouble(t.getAmount());
+				}
 			}
 		}
 

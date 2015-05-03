@@ -160,10 +160,11 @@ public class HomeActivity extends ActionBarActivity
 		startActivity(intent);
 	}
 
-	public void onFragmentInteraction(Uri uri) {
+
+	public void transactionsChanged() {
+		TopCategoriesFragment topCategoriesFragment = (TopCategoriesFragment) getSupportFragmentManager().findFragmentByTag("top_categories");
+		topCategoriesFragment.dataSetChanged();
+
 
 	}
 }
-
-
-

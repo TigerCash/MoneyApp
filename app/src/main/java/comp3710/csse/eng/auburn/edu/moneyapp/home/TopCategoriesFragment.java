@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import comp3710.csse.eng.auburn.edu.moneyapp.ExpandableListAdapter;
 import comp3710.csse.eng.auburn.edu.moneyapp.R;
 import comp3710.csse.eng.auburn.edu.moneyapp.TopCategoriesListAdapter;
 import comp3710.csse.eng.auburn.edu.moneyapp.database.MoneyAppDatabaseHelper;
@@ -40,6 +41,8 @@ public class TopCategoriesFragment extends Fragment {
 	private static final int NUMBER_OF_CATEGORIES = 5;
 
 	TextView mAllCategoriesText;
+
+	TopCategoriesListAdapter adapter2;
 
 	private OnFragmentInteractionListener mListener;
 
@@ -80,6 +83,15 @@ public class TopCategoriesFragment extends Fragment {
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.fragment_top_categories, container, false);
 
+		setupListView(v);
+
+		mAllCategoriesText = (TextView) v.findViewById(R.id.all_categories_text);
+		mAllCategoriesText.setOnClickListener(onAllCategoriesListener);
+
+		return v;
+	}
+
+	public void setupListView(View v) {
 		MoneyAppDatabaseHelper helper = new MoneyAppDatabaseHelper(getActivity().getApplicationContext());
 
 		ArrayList<Category> topCategories = helper.getTopCategories(NUMBER_OF_CATEGORIES);
@@ -91,12 +103,10 @@ public class TopCategoriesFragment extends Fragment {
 		}
 
 		ListView lv=(ListView) v.findViewById(R.id.category_list_view);
-		lv.setAdapter(new TopCategoriesListAdapter(getActivity().getBaseContext(), topCategories, totals));
 
-		mAllCategoriesText = (TextView) v.findViewById(R.id.all_categories_text);
-		mAllCategoriesText.setOnClickListener(onAllCategoriesListener);
-
-		return v;
+		adapter2 = new TopCategoriesListAdapter(getActivity().getBaseContext(), topCategories, totals);
+		lv.setAdapter(adapter2);
+		//lv.setAdapter(new TopCategoriesListAdapter(getActivity().getBaseContext(), topCategories, totals));
 	}
 
 
@@ -139,5 +149,10 @@ public class TopCategoriesFragment extends Fragment {
 			}
 		}
 	};
+
+	public void dataSetChanged() {
+		setupListView(getView().findViewById(R.id.category_list_view));
+		adapter2.notifyDataSetChanged();
+	}
 
 }
