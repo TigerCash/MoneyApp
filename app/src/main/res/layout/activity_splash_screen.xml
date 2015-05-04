@@ -63,7 +63,7 @@
         android:textColor="#454545"
         android:gravity="center_horizontal"
 
-        android:text="Auburn University COMP 3710" />
+        android:text="Auburn University COMP 3710 Spring 2015" />
 
     </LinearLayout>
 
