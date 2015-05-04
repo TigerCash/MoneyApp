@@ -42,7 +42,7 @@
         <activity
             android:name="edu.auburn.eng.csse.comp3710.team13.splashScreen.SplashScreenActivity"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_splash_screen"
+            android:label="TigerCash"
             android:icon="@drawable/tigercash"
              >
             <intent-filter>
