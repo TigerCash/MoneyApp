@@ -3,7 +3,7 @@
              android:layout_width="fill_parent"
              android:layout_height="fill_parent"
              android:orientation="vertical"
-             tools:context="comp3710.csse.eng.auburn.edu.moneyapp.addTransaction.ListTransactionCategoriesFragment"
+             tools:context="edu.auburn.eng.csse.comp3710.team13.addTransaction.ListTransactionCategoriesFragment"
     >
 
     <TextView

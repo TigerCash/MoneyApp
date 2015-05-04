@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="comp3710.csse.eng.auburn.edu.moneyapp" >
+          package="edu.auburn.eng.csse.comp3710.team13" >
+    <!--package="comp3710.csse.eng.auburn.edu.moneyapp" >-->
 
     <application
         android:allowBackup="true"
@@ -11,35 +12,35 @@
         <!-- android:theme="@style/CustomActionBarTheme" > -->
 
         <activity
-            android:name=".home.HomeActivity"
+            android:name="edu.auburn.eng.csse.comp3710.team13.home.HomeActivity"
             android:label="TigerCash" >
 
         </activity>
 
         <provider
-            android:name=".database.MoneyAppContentProvider"
+            android:name="edu.auburn.eng.csse.comp3710.team13.database.MoneyAppContentProvider"
             android:authorities="comp3710.csse.eng.auburn.edu.moneyapp.provider"
             android:multiprocess="true" >
         </provider>
 
         <activity
-            android:name=".addTransaction.AddTransactionActivity"
+            android:name="edu.auburn.eng.csse.comp3710.team13.addTransaction.AddTransactionActivity"
             android:label="Add a Transaction" >
         </activity>
         <activity
-            android:name=".allTransactions.AllTransactionsActivity"
+            android:name="edu.auburn.eng.csse.comp3710.team13.allTransactions.AllTransactionsActivity"
             android:label="All Transactions" >
         </activity>
         <activity
-            android:name=".buildTransaction.BuildTransactionActivity"
+            android:name="edu.auburn.eng.csse.comp3710.team13.buildTransaction.BuildTransactionActivity"
             android:label="Build the Transaction" >
         </activity>
         <activity
-            android:name=".allCategories.AllCategoriesActivity"
+            android:name="edu.auburn.eng.csse.comp3710.team13.allCategories.AllCategoriesActivity"
             android:label="All Categories" >
         </activity>
         <activity
-            android:name=".splashScreen.SplashScreenActivity"
+            android:name="edu.auburn.eng.csse.comp3710.team13.splashScreen.SplashScreenActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_splash_screen"
             android:icon="@drawable/tigercash"

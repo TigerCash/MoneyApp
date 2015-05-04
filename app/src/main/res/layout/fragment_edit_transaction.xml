@@ -3,7 +3,7 @@
              android:layout_width="match_parent"
              android:layout_height="fill_parent"
 
-             tools:context="comp3710.csse.eng.auburn.edu.moneyapp.buildTransaction.EditTransactionFragment"
+             tools:context="edu.auburn.eng.csse.comp3710.team13.buildTransaction.EditTransactionFragment"
              android:fillViewport="true">
 
     <LinearLayout

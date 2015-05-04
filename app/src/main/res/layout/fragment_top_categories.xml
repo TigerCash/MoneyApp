@@ -2,7 +2,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-             tools:context="comp3710.csse.eng.auburn.edu.moneyapp.home.TopCategoriesFragment">
+             tools:context="edu.auburn.eng.csse.comp3710.team13.home.TopCategoriesFragment">
 
         <LinearLayout
             android:id="@+id/LL"

@@ -2,7 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="comp3710.csse.eng.auburn.edu.moneyapp.dialogFragments.EditTransactionDialogFragment">
+             tools:context="edu.auburn.eng.csse.comp3710.team13.dialogFragments.EditTransactionDialogFragment">
 
     <LinearLayout
         android:layout_width="wrap_content"
